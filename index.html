@@ -85,6 +85,269 @@
         opacity: 1;
       }
 
+      /* DRAG & DROP SCHEDULE REORDER */
+      .drag-handle {
+        cursor: grab;
+        color: #ccc;
+        font-size: 16px;
+        user-select: none;
+        padding: 0 6px 0 0;
+        transition: color 0.15s;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .drag-handle:hover {
+        color: var(--bcg-green);
+      }
+      .drag-handle:active {
+        cursor: grabbing;
+      }
+
+      tr.dragging {
+        opacity: 0.35;
+        background: rgba(0, 166, 81, 0.04) !important;
+      }
+      tr.drag-over-above td {
+        box-shadow: inset 0 3px 0 0 var(--bcg-green);
+      }
+      tr.drag-over-below td {
+        box-shadow: inset 0 -3px 0 0 var(--bcg-green);
+      }
+
+      .overlap-warning {
+        display: inline-block;
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffc107;
+        border-radius: 6px;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: 600;
+        margin-left: 8px;
+        animation: pulse-warn 1.5s infinite;
+      }
+      @keyframes pulse-warn {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.55;
+        }
+      }
+
+      .time-col {
+        cursor: pointer;
+        position: relative;
+      }
+      .time-col:hover::after {
+        content: "";
+        position: absolute;
+        right: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 12px;
+        height: 12px;
+        opacity: 0.35;
+        background: currentColor;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.23 1h-1.46L3.52 9.25l-.16.22L1 13.59 2.41 15l4.12-2.36.22-.16L15 4.23V2.77L13.23 1zM2.41 13.59l1.51-3 1.45 1.45-2.96 1.55zm3.83-2.06L4.47 9.76l8-8 1.77 1.77-8 8z'/%3E%3C/svg%3E")
+          no-repeat center / contain;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.23 1h-1.46L3.52 9.25l-.16.22L1 13.59 2.41 15l4.12-2.36.22-.16L15 4.23V2.77L13.23 1zM2.41 13.59l1.51-3 1.45 1.45-2.96 1.55zm3.83-2.06L4.47 9.76l8-8 1.77 1.77-8 8z'/%3E%3C/svg%3E")
+          no-repeat center / contain;
+      }
+      .time-edit-input {
+        width: 100px;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: inherit;
+        color: var(--bcg-green);
+        border: 2px solid var(--bcg-green);
+        border-radius: 4px;
+        padding: 2px 4px;
+        text-align: center;
+        background: #f0fdf4;
+        outline: none;
+      }
+
+      /* EDITABLE ACTIVITY & DETAIL CELLS */
+      .day-content table tbody tr td:nth-child(3),
+      .day-content table tbody tr td:nth-child(4) {
+        position: relative;
+        cursor: pointer;
+      }
+      .day-content
+        table
+        tbody
+        tr
+        td:nth-child(3):not(.cell-editing):hover::after,
+      .day-content
+        table
+        tbody
+        tr
+        td:nth-child(4):not(.cell-editing):hover::after {
+        content: "";
+        position: absolute;
+        right: 4px;
+        top: 4px;
+        width: 12px;
+        height: 12px;
+        opacity: 0.3;
+        background: #333;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.23 1h-1.46L3.52 9.25l-.16.22L1 13.59 2.41 15l4.12-2.36.22-.16L15 4.23V2.77L13.23 1zM2.41 13.59l1.51-3 1.45 1.45-2.96 1.55zm3.83-2.06L4.47 9.76l8-8 1.77 1.77-8 8z'/%3E%3C/svg%3E")
+          no-repeat center / contain;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.23 1h-1.46L3.52 9.25l-.16.22L1 13.59 2.41 15l4.12-2.36.22-.16L15 4.23V2.77L13.23 1zM2.41 13.59l1.51-3 1.45 1.45-2.96 1.55zm3.83-2.06L4.47 9.76l8-8 1.77 1.77-8 8z'/%3E%3C/svg%3E")
+          no-repeat center / contain;
+        pointer-events: none;
+      }
+      .cell-editing {
+        outline: 2px solid var(--bcg-green) !important;
+        outline-offset: -1px;
+        border-radius: 4px;
+        background: #f0fdf4 !important;
+        cursor: text !important;
+        min-height: 28px;
+      }
+      .cell-editing a {
+        pointer-events: auto;
+        cursor: pointer;
+        position: relative;
+      }
+      .cell-editing a:hover {
+        outline: 1px dashed var(--bcg-green);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+      .cell-edit-hint {
+        display: block;
+        font-size: 9px;
+        color: var(--text-muted);
+        margin-top: 4px;
+        opacity: 0.6;
+      }
+
+      /* LINK POPOVER */
+      .link-popover {
+        position: fixed;
+        background: #1a1a1a;
+        color: #fff;
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-size: 11px;
+        z-index: 10001;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        max-width: 350px;
+        animation: pop-in 0.12s ease;
+      }
+      @keyframes pop-in {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .link-popover-url {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #7defa0;
+        font-family: monospace;
+        font-size: 10px;
+        max-width: 200px;
+      }
+      .link-popover-btn {
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+        cursor: pointer;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        opacity: 0.8;
+        white-space: nowrap;
+        transition: all 0.12s;
+      }
+      .link-popover-btn:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .link-popover-btn.danger {
+        color: #ff6b6b;
+        border-color: rgba(255, 107, 107, 0.3);
+      }
+      .link-popover-btn.danger:hover {
+        background: rgba(255, 107, 107, 0.15);
+      }
+
+      /* CMD+K INLINE URL INPUT */
+      .cmdk-box {
+        position: fixed;
+        background: #fff;
+        border: 2px solid var(--bcg-green);
+        border-radius: 10px;
+        padding: 8px 12px;
+        z-index: 10001;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        animation: pop-in 0.12s ease;
+      }
+      .cmdk-box label {
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .cmdk-box input {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-size: 12px;
+        width: 250px;
+        outline: none;
+        font-family: inherit;
+      }
+      .cmdk-box input:focus {
+        border-color: var(--bcg-green);
+        box-shadow: 0 0 0 2px rgba(0, 166, 81, 0.15);
+      }
+      .cmdk-hint {
+        font-size: 9px;
+        color: var(--text-muted);
+        opacity: 0.6;
+        white-space: nowrap;
+      }
+      .time-edit-input.invalid {
+        border-color: #d32f2f;
+        background: #fff5f5;
+        color: #d32f2f;
+      }
+
+      .schedule-reset-btn {
+        margin-left: 12px;
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: #fff;
+        cursor: pointer;
+        color: var(--text-muted);
+        font-weight: 600;
+        transition: all 0.15s;
+      }
+      .schedule-reset-btn:hover {
+        border-color: var(--bcg-green);
+        color: var(--bcg-green);
+      }
+
       /* SIDEBAR */
       .sidebar {
         width: var(--sidebar-width);
@@ -717,7 +980,7 @@
 
       .back-to-top {
         position: fixed;
-        bottom: 24px;
+        bottom: 80px;
         right: 24px;
         width: 40px;
         height: 40px;
@@ -11221,6 +11484,335 @@
         updateCheckinLine();
       };
       updateCheckinLine();
+
+      // ═══════════════════════════════════════════════════
+      // DRAG/SWAP TASKS + EDITABLE TIMES + OVERLAP DETECT
+      // ═══════════════════════════════════════════════════
+
+      (function initScheduleDragSwap() {
+        // Parse "HH:MM" to minutes
+        function timeToMin(t) {
+          const p = t.split(":").map(Number);
+          return p[0] * 60 + p[1];
+        }
+        function minToTime(m) {
+          const h = Math.floor(m / 60) % 24;
+          const mm = m % 60;
+          return String(h).padStart(2, "0") + ":" + String(mm).padStart(2, "0");
+        }
+
+        // Get all schedule day containers
+        function getAllDayContainers() {
+          return document.querySelectorAll(".day-content");
+        }
+
+        // ── Add drag handles to all schedule rows ──
+        function addDragHandles() {
+          getAllDayContainers().forEach(function(dayEl) {
+            const rows = dayEl.querySelectorAll("table tbody tr");
+            rows.forEach(function(row) {
+              if (row.querySelector(".drag-handle")) return; // Already has handle
+              const firstTd = row.querySelector("td");
+              if (!firstTd) return;
+              // Add drag handle to the checkbox cell
+              const handle = document.createElement("span");
+              handle.className = "drag-handle";
+              handle.textContent = "⠿";
+              handle.title = "Drag to reorder";
+              handle.style.cssText = "cursor:grab;font-size:14px;color:#999;margin-right:4px;user-select:none;";
+              firstTd.insertBefore(handle, firstTd.firstChild);
+              row.setAttribute("draggable", "true");
+            });
+          });
+        }
+
+        // ── Drag & Drop logic ──
+        var dragSrcRow = null;
+        var dragSrcDay = null;
+
+        function getDayId(row) {
+          const dayContent = row.closest(".day-content");
+          return dayContent ? dayContent.id : null;
+        }
+
+        function handleDragStart(e) {
+          dragSrcRow = this;
+          dragSrcDay = getDayId(this);
+          this.style.opacity = "0.4";
+          e.dataTransfer.effectAllowed = "move";
+          e.dataTransfer.setData("text/plain", "");
+        }
+
+        function handleDragOver(e) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+          this.style.borderTop = "3px solid var(--bcg-green)";
+        }
+
+        function handleDragLeave(e) {
+          this.style.borderTop = "";
+        }
+
+        function handleDrop(e) {
+          e.preventDefault();
+          this.style.borderTop = "";
+          if (dragSrcRow === this) return;
+
+          // Only allow swap within same day
+          const targetDay = getDayId(this);
+          if (dragSrcDay !== targetDay) {
+            alert("⚠️ Só podes mover tarefas dentro do mesmo dia!");
+            return;
+          }
+
+          // Swap the content (activity + details) but KEEP times in place
+          // This way reordering changes the task order but times stay sequential
+          swapRowContent(dragSrcRow, this);
+
+          // Save swaps to localStorage
+          saveScheduleSwaps(targetDay);
+
+          // Check for overlaps
+          checkOverlaps(targetDay);
+
+          // Refresh floating timeline if open
+          if (typeof extractSchedule === "function") {
+            extractSchedule();
+            if (typeof renderTimeline === "function") renderTimeline();
+          }
+        }
+
+        function handleDragEnd(e) {
+          this.style.opacity = "1";
+          // Clean up all drag indicators
+          document.querySelectorAll("table tbody tr").forEach(function(r) {
+            r.style.borderTop = "";
+          });
+        }
+
+        // Swap CONTENT between two rows (keep times, swap activities/details)
+        function swapRowContent(rowA, rowB) {
+          const cellsA = rowA.querySelectorAll("td");
+          const cellsB = rowB.querySelectorAll("td");
+          if (cellsA.length < 3 || cellsB.length < 3) return;
+
+          // Swap activity cell (index 2)
+          const actA = cellsA[2].innerHTML;
+          const actB = cellsB[2].innerHTML;
+          cellsA[2].innerHTML = actB;
+          cellsB[2].innerHTML = actA;
+
+          // Swap detail cell (index 3) if exists
+          if (cellsA.length >= 4 && cellsB.length >= 4) {
+            const detA = cellsA[3].innerHTML;
+            const detB = cellsB[3].innerHTML;
+            cellsA[3].innerHTML = detB;
+            cellsB[3].innerHTML = detA;
+          }
+
+          // Re-add "Open All" buttons if needed
+          if (typeof addOpenAllButtons !== "undefined") {
+            try { addOpenAllButtons(); } catch(e) {}
+          }
+        }
+
+        // ── Editable times ──
+        function makeTimesEditable() {
+          document.querySelectorAll(".time-col").forEach(function(td) {
+            if (td.dataset.editable) return; // Already set up
+            td.dataset.editable = "true";
+            td.style.cursor = "pointer";
+            td.title = "Click to edit time";
+            td.addEventListener("click", function() {
+              const current = td.textContent.trim();
+              const match = current.match(/(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/);
+              if (!match) return;
+
+              const startTime = match[1];
+              const endTime = match[2];
+
+              // Create inline editor
+              td.innerHTML = '<div style="display:flex;align-items:center;gap:2px;flex-wrap:nowrap;">' +
+                '<input type="time" value="' + startTime + '" style="width:75px;font-size:0.85em;padding:2px 4px;border:1px solid var(--bcg-green);border-radius:4px;" class="time-edit-start">' +
+                '<span style="font-size:0.8em;">-</span>' +
+                '<input type="time" value="' + endTime + '" style="width:75px;font-size:0.85em;padding:2px 4px;border:1px solid var(--bcg-green);border-radius:4px;" class="time-edit-end">' +
+                '<button style="font-size:0.8em;padding:2px 6px;background:var(--bcg-green);color:#fff;border:none;border-radius:4px;cursor:pointer;" class="time-edit-save">✓</button>' +
+                '<button style="font-size:0.8em;padding:2px 6px;background:#d32f2f;color:#fff;border:none;border-radius:4px;cursor:pointer;" class="time-edit-cancel">✗</button>' +
+                '</div>';
+
+              const saveBtn = td.querySelector(".time-edit-save");
+              const cancelBtn = td.querySelector(".time-edit-cancel");
+              const startInput = td.querySelector(".time-edit-start");
+              const endInput = td.querySelector(".time-edit-end");
+
+              startInput.focus();
+
+              saveBtn.addEventListener("click", function(e) {
+                e.stopPropagation();
+                const newStart = startInput.value;
+                const newEnd = endInput.value;
+                if (!newStart || !newEnd) { alert("Introduz ambos os tempos"); return; }
+                td.textContent = newStart + "-" + newEnd;
+                const dayId = getDayId(td.closest("tr"));
+                saveScheduleSwaps(dayId);
+                checkOverlaps(dayId);
+                if (typeof extractSchedule === "function") {
+                  extractSchedule();
+                  if (typeof renderTimeline === "function") renderTimeline();
+                }
+              });
+
+              cancelBtn.addEventListener("click", function(e) {
+                e.stopPropagation();
+                td.textContent = startTime + "-" + endTime;
+              });
+
+              // Enter key saves
+              [startInput, endInput].forEach(function(inp) {
+                inp.addEventListener("keydown", function(e) {
+                  if (e.key === "Enter") saveBtn.click();
+                  if (e.key === "Escape") cancelBtn.click();
+                });
+              });
+            });
+          });
+        }
+
+        // ── Overlap Detection ──
+        function checkOverlaps(dayId) {
+          const dayEl = document.getElementById(dayId);
+          if (!dayEl) return;
+          const rows = dayEl.querySelectorAll("table tbody tr");
+
+          // Remove existing overlap warnings
+          dayEl.querySelectorAll(".overlap-warning").forEach(function(w) { w.remove(); });
+          rows.forEach(function(r) { r.style.outline = ""; });
+
+          // Collect time ranges
+          var slots = [];
+          rows.forEach(function(row, i) {
+            const timeCell = row.querySelector(".time-col");
+            if (!timeCell) return;
+            const m = timeCell.textContent.trim().match(/(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/);
+            if (!m) return;
+            slots.push({
+              row: row,
+              index: i,
+              start: timeToMin(m[1]),
+              end: timeToMin(m[2]),
+              label: m[1] + "-" + m[2]
+            });
+          });
+
+          // Check each pair for overlap
+          for (var i = 0; i < slots.length; i++) {
+            for (var j = i + 1; j < slots.length; j++) {
+              var a = slots[i], b = slots[j];
+              var aEnd = a.end <= a.start ? a.end + 24*60 : a.end;
+              var bEnd = b.end <= b.start ? b.end + 24*60 : b.end;
+              if (a.start < bEnd && b.start < aEnd) {
+                // OVERLAP!
+                a.row.style.outline = "2px solid #d32f2f";
+                b.row.style.outline = "2px solid #d32f2f";
+
+                // Add warning badge to both rows
+                [a, b].forEach(function(s) {
+                  if (s.row.querySelector(".overlap-warning")) return;
+                  var badge = document.createElement("span");
+                  badge.className = "overlap-warning";
+                  badge.style.cssText = "display:inline-block;background:#d32f2f;color:#fff;font-size:0.7em;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:bold;vertical-align:middle;";
+                  badge.textContent = "⚠️ OVERLAP";
+                  badge.title = "Este bloco sobrepõe-se com " + (s === a ? b.label : a.label);
+                  var actCell = s.row.querySelectorAll("td")[2];
+                  if (actCell) actCell.appendChild(badge);
+                });
+              }
+            }
+          }
+        }
+
+        // ── Save/Load schedule modifications to localStorage ──
+        function saveScheduleSwaps(dayId) {
+          var dayEl = document.getElementById(dayId);
+          if (!dayEl) return;
+          var rows = dayEl.querySelectorAll("table tbody tr");
+          var data = [];
+          rows.forEach(function(row) {
+            var timeCell = row.querySelector(".time-col");
+            var cells = row.querySelectorAll("td");
+            if (!timeCell || cells.length < 3) return;
+            data.push({
+              time: timeCell.textContent.trim(),
+              activity: cells[2].innerHTML,
+              detail: cells.length >= 4 ? cells[3].innerHTML : ""
+            });
+          });
+          localStorage.setItem("bcg-schedule-" + dayId, JSON.stringify(data));
+        }
+
+        function loadScheduleSwaps(dayId) {
+          var saved = localStorage.getItem("bcg-schedule-" + dayId);
+          if (!saved) return;
+          try {
+            var data = JSON.parse(saved);
+            var dayEl = document.getElementById(dayId);
+            if (!dayEl) return;
+            var rows = dayEl.querySelectorAll("table tbody tr");
+            data.forEach(function(d, i) {
+              if (i >= rows.length) return;
+              var cells = rows[i].querySelectorAll("td");
+              var timeCell = rows[i].querySelector(".time-col");
+              if (!timeCell || cells.length < 3) return;
+              timeCell.textContent = d.time;
+              cells[2].innerHTML = d.activity;
+              if (cells.length >= 4) cells[3].innerHTML = d.detail;
+            });
+          } catch(e) { console.warn("Failed to load schedule:", e); }
+        }
+
+        // ── Attach drag listeners to all rows ──
+        function attachScheduleDragListeners() {
+          getAllDayContainers().forEach(function(dayEl) {
+            var rows = dayEl.querySelectorAll("table tbody tr[draggable]");
+            rows.forEach(function(row) {
+              if (row.dataset.dragInit) return;
+              row.dataset.dragInit = "true";
+              row.addEventListener("dragstart", handleDragStart);
+              row.addEventListener("dragover", handleDragOver);
+              row.addEventListener("dragleave", handleDragLeave);
+              row.addEventListener("drop", handleDrop);
+              row.addEventListener("dragend", handleDragEnd);
+            });
+          });
+        }
+
+        // ── Initialize ──
+        // Load saved modifications
+        ["day-sun", "day-mon", "day-tue", "day-wed", "day-thu", "day-fri"].forEach(function(dayId) {
+          loadScheduleSwaps(dayId);
+        });
+
+        // Add drag handles and make times editable
+        addDragHandles();
+        makeTimesEditable();
+        attachScheduleDragListeners();
+
+        // Check overlaps on all days
+        ["day-sun", "day-mon", "day-tue", "day-wed", "day-thu", "day-fri"].forEach(function(dayId) {
+          checkOverlaps(dayId);
+        });
+
+        // Re-init when day tab changes
+        document.querySelectorAll(".day-tab").forEach(function(tab) {
+          tab.addEventListener("click", function() {
+            setTimeout(function() {
+              addDragHandles();
+              makeTimesEditable();
+              attachScheduleDragListeners();
+            }, 100);
+          });
+        });
+      })();
     </script>
 
     <!-- ═══════ FLOATING TIMELINE ═══════ -->
@@ -11440,7 +12032,8 @@
 
           // Render slots
           container.innerHTML = "";
-          slots.forEach((s) => {
+          var tlDragSrc = null;
+          slots.forEach((s, idx) => {
             const startMins = parseTime(s.start);
             let endMins = parseTime(s.end);
             if (endMins <= startMins) endMins += 24 * 60;
@@ -11451,9 +12044,12 @@
             div.className = "tl-slot tl-cat-" + s.cat;
             if (isCurrent) div.className += " current";
             if (s.done) div.className += " done";
+            div.setAttribute("draggable", "true");
+            div.dataset.slotIdx = idx;
+            div.style.cursor = "grab";
 
             div.innerHTML =
-              '<span class="tl-time">' +
+              '<span class="tl-time" style="cursor:pointer;" title="Click to edit">' +
               s.start +
               "</span>" +
               '<span class="tl-dot"></span>' +
@@ -11463,6 +12059,127 @@
               '<div class="tl-detail">' +
               escHtml(s.detail) +
               "</div>";
+
+            // Timeline slot drag handlers
+            div.addEventListener("dragstart", function(e) {
+              tlDragSrc = idx;
+              div.style.opacity = "0.4";
+            });
+            div.addEventListener("dragover", function(e) {
+              e.preventDefault();
+              div.style.borderTop = "3px solid var(--bcg-green)";
+            });
+            div.addEventListener("dragleave", function() {
+              div.style.borderTop = "";
+            });
+            div.addEventListener("drop", function(e) {
+              e.preventDefault();
+              div.style.borderTop = "";
+              if (tlDragSrc === null || tlDragSrc === idx) return;
+              // Swap in underlying DOM table
+              const dayEl = document.getElementById("day-" + currentTLDay);
+              if (dayEl) {
+                const rows = dayEl.querySelectorAll("table tbody tr");
+                const rowA = rows[tlDragSrc];
+                const rowB = rows[idx];
+                if (rowA && rowB) {
+                  // Swap activity + detail cells
+                  const cellsA = rowA.querySelectorAll("td");
+                  const cellsB = rowB.querySelectorAll("td");
+                  if (cellsA.length >= 3 && cellsB.length >= 3) {
+                    const actA = cellsA[2].innerHTML;
+                    cellsA[2].innerHTML = cellsB[2].innerHTML;
+                    cellsB[2].innerHTML = actA;
+                    if (cellsA.length >= 4 && cellsB.length >= 4) {
+                      const detA = cellsA[3].innerHTML;
+                      cellsA[3].innerHTML = cellsB[3].innerHTML;
+                      cellsB[3].innerHTML = detA;
+                    }
+                  }
+                  // Save and re-render
+                  const swapSave = localStorage.getItem("bcg-schedule-day-" + currentTLDay);
+                  if (typeof saveScheduleSwaps !== "undefined") {
+                    // Save via the main function if available
+                  }
+                  // Save schedule state
+                  var schedData = [];
+                  rows.forEach(function(r) {
+                    var tc = r.querySelector(".time-col");
+                    var cs = r.querySelectorAll("td");
+                    if (!tc || cs.length < 3) return;
+                    schedData.push({
+                      time: tc.textContent.trim(),
+                      activity: cs[2].innerHTML,
+                      detail: cs.length >= 4 ? cs[3].innerHTML : ""
+                    });
+                  });
+                  localStorage.setItem("bcg-schedule-day-" + currentTLDay, JSON.stringify(schedData));
+                }
+              }
+              extractSchedule();
+              renderTimeline();
+            });
+            div.addEventListener("dragend", function() {
+              div.style.opacity = "1";
+              container.querySelectorAll(".tl-slot").forEach(function(s) {
+                s.style.borderTop = "";
+              });
+            });
+
+            // Click on time to edit in floating panel
+            const timeSpan = div.querySelector(".tl-time");
+            timeSpan.addEventListener("click", function(e) {
+              e.stopPropagation();
+              const curStart = s.start;
+              const curEnd = s.end;
+              timeSpan.innerHTML = '<input type="time" value="' + curStart + '" style="width:65px;font-size:0.75em;padding:1px 3px;border:1px solid var(--bcg-green);border-radius:3px;" class="tl-time-start">' +
+                '-<input type="time" value="' + curEnd + '" style="width:65px;font-size:0.75em;padding:1px 3px;border:1px solid var(--bcg-green);border-radius:3px;" class="tl-time-end">' +
+                '<button style="font-size:0.7em;padding:1px 4px;margin-left:2px;background:var(--bcg-green);color:#fff;border:none;border-radius:3px;cursor:pointer;">✓</button>';
+              const startInp = timeSpan.querySelector(".tl-time-start");
+              const endInp = timeSpan.querySelector(".tl-time-end");
+              const saveBtn = timeSpan.querySelector("button");
+              startInp.focus();
+              saveBtn.addEventListener("click", function(ev) {
+                ev.stopPropagation();
+                const newStart = startInp.value;
+                const newEnd = endInp.value;
+                if (!newStart || !newEnd) return;
+                // Update underlying DOM
+                const dayEl = document.getElementById("day-" + currentTLDay);
+                if (dayEl) {
+                  const rows = dayEl.querySelectorAll("table tbody tr");
+                  const row = rows[idx];
+                  if (row) {
+                    const tc = row.querySelector(".time-col");
+                    if (tc) tc.textContent = newStart + "-" + newEnd;
+                    // Save
+                    var schedData = [];
+                    rows.forEach(function(r) {
+                      var ttc = r.querySelector(".time-col");
+                      var cs = r.querySelectorAll("td");
+                      if (!ttc || cs.length < 3) return;
+                      schedData.push({
+                        time: ttc.textContent.trim(),
+                        activity: cs[2].innerHTML,
+                        detail: cs.length >= 4 ? cs[3].innerHTML : ""
+                      });
+                    });
+                    localStorage.setItem("bcg-schedule-day-" + currentTLDay, JSON.stringify(schedData));
+                  }
+                }
+                extractSchedule();
+                renderTimeline();
+              });
+              [startInp, endInp].forEach(function(inp) {
+                inp.addEventListener("keydown", function(ev) {
+                  if (ev.key === "Enter") saveBtn.click();
+                  if (ev.key === "Escape") {
+                    extractSchedule();
+                    renderTimeline();
+                  }
+                });
+              });
+            });
 
             // Scroll current into view after append
             container.appendChild(div);
@@ -11556,6 +12273,906 @@
             }
           }
         });
+      })();
+    </script>
+
+    <!-- ═══════ DRAG & DROP SCHEDULE REORDER ═══════ -->
+    <script>
+      (function initScheduleDragDrop() {
+        const STORAGE_KEY = "bcg-schedule-order";
+
+        // ── Helpers ──
+        function parseT(s) {
+          const p = s.split(":").map(Number);
+          return p[0] * 60 + p[1];
+        }
+        function fmtT(mins) {
+          return (
+            String(Math.floor(mins / 60) % 24).padStart(2, "0") +
+            ":" +
+            String(mins % 60).padStart(2, "0")
+          );
+        }
+
+        // ── Save original times from HTML (before any reorder) ──
+        function saveOriginalTimes() {
+          document
+            .querySelectorAll(".day-content table tbody tr")
+            .forEach(function (row) {
+              var tc = row.querySelector(".time-col");
+              if (tc && !row.dataset.origTime) {
+                row.dataset.origTime = tc.textContent.trim();
+              }
+            });
+        }
+
+        // ── Add drag handles to schedule rows ──
+        function addDragHandles() {
+          document
+            .querySelectorAll(".day-content table tbody tr")
+            .forEach(function (row) {
+              if (row.querySelector(".drag-handle")) return;
+              var firstTd = row.querySelector("td");
+              if (!firstTd) return;
+
+              var handle = document.createElement("span");
+              handle.className = "drag-handle";
+              handle.innerHTML = "⠿";
+              handle.title = "Drag to reorder";
+              firstTd.insertBefore(handle, firstTd.firstChild);
+
+              row.draggable = true;
+              row.addEventListener("dragstart", onDragStart);
+              row.addEventListener("dragend", onDragEnd);
+              row.addEventListener("dragover", onDragOver);
+              row.addEventListener("dragenter", function (e) {
+                e.preventDefault();
+              });
+              row.addEventListener("dragleave", onDragLeave);
+              row.addEventListener("drop", onDrop);
+
+              // Touch support via handle
+              handle.addEventListener("touchstart", onTouchStart, {
+                passive: false,
+              });
+            });
+        }
+
+        var draggedRow = null;
+
+        function onDragStart(e) {
+          draggedRow = this;
+          this.classList.add("dragging");
+          e.dataTransfer.effectAllowed = "move";
+          e.dataTransfer.setData("text/plain", "");
+        }
+
+        function onDragEnd() {
+          this.classList.remove("dragging");
+          clearIndicators();
+          draggedRow = null;
+        }
+
+        function onDragOver(e) {
+          if (!draggedRow || draggedRow === this) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+          clearIndicators();
+          var rect = this.getBoundingClientRect();
+          this.classList.add(
+            e.clientY < rect.top + rect.height / 2
+              ? "drag-over-above"
+              : "drag-over-below",
+          );
+        }
+
+        function onDragLeave() {
+          this.classList.remove("drag-over-above", "drag-over-below");
+        }
+
+        function onDrop(e) {
+          e.preventDefault();
+          if (!draggedRow || draggedRow === this) return;
+          var tbody = this.closest("tbody");
+          if (!tbody || draggedRow.closest("tbody") !== tbody) return;
+
+          var rect = this.getBoundingClientRect();
+          if (e.clientY < rect.top + rect.height / 2) {
+            tbody.insertBefore(draggedRow, this);
+          } else {
+            tbody.insertBefore(draggedRow, this.nextSibling);
+          }
+
+          clearIndicators();
+          recalcTimes(tbody);
+          saveOrder(tbody);
+          refreshTimeline();
+        }
+
+        // ── Touch drag (mobile) ──
+        var touchState = null;
+
+        function onTouchStart(e) {
+          e.preventDefault();
+          var row = this.closest("tr");
+          if (!row) return;
+          touchState = { row: row, tbody: row.closest("tbody") };
+          row.classList.add("dragging");
+          document.addEventListener("touchmove", onTouchMove, {
+            passive: false,
+          });
+          document.addEventListener("touchend", onTouchEnd);
+        }
+
+        function onTouchMove(e) {
+          if (!touchState) return;
+          e.preventDefault();
+          var touch = e.touches[0];
+          var target = document.elementFromPoint(touch.clientX, touch.clientY);
+          if (!target) return;
+          var targetRow = target.closest("tr");
+          clearIndicators();
+          if (
+            targetRow &&
+            targetRow !== touchState.row &&
+            targetRow.closest("tbody") === touchState.tbody
+          ) {
+            var rect = targetRow.getBoundingClientRect();
+            targetRow.classList.add(
+              touch.clientY < rect.top + rect.height / 2
+                ? "drag-over-above"
+                : "drag-over-below",
+            );
+          }
+        }
+
+        function onTouchEnd(e) {
+          if (!touchState) return;
+          var touch = e.changedTouches[0];
+          var target = document.elementFromPoint(touch.clientX, touch.clientY);
+          var targetRow = target ? target.closest("tr") : null;
+
+          if (
+            targetRow &&
+            targetRow !== touchState.row &&
+            targetRow.closest("tbody") === touchState.tbody
+          ) {
+            var rect = targetRow.getBoundingClientRect();
+            if (touch.clientY < rect.top + rect.height / 2) {
+              touchState.tbody.insertBefore(touchState.row, targetRow);
+            } else {
+              touchState.tbody.insertBefore(
+                touchState.row,
+                targetRow.nextSibling,
+              );
+            }
+            recalcTimes(touchState.tbody);
+            saveOrder(touchState.tbody);
+            refreshTimeline();
+          }
+
+          touchState.row.classList.remove("dragging");
+          clearIndicators();
+          document.removeEventListener("touchmove", onTouchMove);
+          document.removeEventListener("touchend", onTouchEnd);
+          touchState = null;
+        }
+
+        function clearIndicators() {
+          document
+            .querySelectorAll(".drag-over-above, .drag-over-below")
+            .forEach(function (el) {
+              el.classList.remove("drag-over-above", "drag-over-below");
+            });
+        }
+
+        // ── Recalculate times after reorder ──
+        function recalcTimes(tbody) {
+          var rows = Array.from(tbody.querySelectorAll("tr"));
+
+          // Collect tasks with their original durations
+          var tasks = [];
+          rows.forEach(function (row) {
+            var tc = row.querySelector(".time-col");
+            if (!tc) return;
+            var origTime = row.dataset.origTime || tc.textContent.trim();
+            var match = origTime.match(/(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/);
+            if (!match) return;
+            var s = parseT(match[1]),
+              e = parseT(match[2]);
+            var dur = e > s ? e - s : e + 1440 - s;
+            tasks.push({ row: row, tc: tc, duration: dur });
+          });
+
+          if (tasks.length === 0) return;
+
+          // Find the day's earliest original start time
+          var baseStart = Infinity;
+          rows.forEach(function (row) {
+            var orig = row.dataset.origTime;
+            if (orig) {
+              var m = orig.match(/(\d{1,2}:\d{2})/);
+              if (m) {
+                var t = parseT(m[1]);
+                if (t < baseStart) baseStart = t;
+              }
+            }
+          });
+          if (baseStart === Infinity) return;
+
+          // Sequential time assignment (preserving durations)
+          var currentTime = baseStart;
+
+          // Remove old overlap warnings
+          tbody.querySelectorAll(".overlap-warning").forEach(function (el) {
+            el.remove();
+          });
+
+          tasks.forEach(function (task) {
+            task.newStart = currentTime;
+            task.newEnd = currentTime + task.duration;
+            task.tc.textContent = fmtT(task.newStart) + "-" + fmtT(task.newEnd);
+            currentTime = task.newEnd;
+          });
+
+          // Overlap detection (safety — check all pairs)
+          for (var i = 0; i < tasks.length; i++) {
+            for (var j = i + 1; j < tasks.length; j++) {
+              if (
+                tasks[i].newEnd > tasks[j].newStart &&
+                tasks[i].newStart < tasks[j].newEnd
+              ) {
+                addOverlapWarning(tasks[i].row);
+                addOverlapWarning(tasks[j].row);
+              }
+            }
+          }
+        }
+
+        function addOverlapWarning(row) {
+          if (row.querySelector(".overlap-warning")) return;
+          var cells = row.querySelectorAll("td");
+          var actCell = cells.length >= 3 ? cells[2] : cells[1];
+          if (!actCell) return;
+          var warn = document.createElement("span");
+          warn.className = "overlap-warning";
+          warn.textContent = "⚠️ Fix overlap!";
+          actCell.appendChild(warn);
+        }
+
+        // ── Persistence (saves order + custom times) ──
+        var TIMES_KEY = "bcg-schedule-times";
+
+        function saveOrder(tbody) {
+          var dayDiv = tbody.closest(".day-content");
+          if (!dayDiv) return;
+          var dayId = dayDiv.id;
+
+          var order = [];
+          var times = {};
+          tbody.querySelectorAll("tr").forEach(function (row) {
+            var cb = row.querySelector(".schedule-check");
+            var tc = row.querySelector(".time-col");
+            var key = cb
+              ? cb.id
+              : tc
+                ? "_nocheck_" + (row.dataset.origTime || tc.textContent.trim())
+                : null;
+            if (key) {
+              order.push(key);
+              // Save custom time if it differs from original
+              if (
+                tc &&
+                row.dataset.origTime &&
+                tc.textContent.trim() !== row.dataset.origTime
+              ) {
+                times[key] = tc.textContent.trim();
+              }
+            }
+          });
+
+          var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+          saved[dayId] = order;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+
+          var savedTimes = JSON.parse(localStorage.getItem(TIMES_KEY) || "{}");
+          savedTimes[dayId] = times;
+          localStorage.setItem(TIMES_KEY, JSON.stringify(savedTimes));
+        }
+
+        function restoreOrder() {
+          var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+          var savedTimes = JSON.parse(localStorage.getItem(TIMES_KEY) || "{}");
+          Object.keys(saved).forEach(function (dayId) {
+            var dayDiv = document.getElementById(dayId);
+            if (!dayDiv) return;
+            var tbody = dayDiv.querySelector("table tbody");
+            if (!tbody) return;
+
+            var order = saved[dayId];
+            var times = savedTimes[dayId] || {};
+            var rowMap = new Map();
+
+            tbody.querySelectorAll("tr").forEach(function (row) {
+              var cb = row.querySelector(".schedule-check");
+              var tc = row.querySelector(".time-col");
+              var key = cb
+                ? cb.id
+                : tc
+                  ? "_nocheck_" + tc.textContent.trim()
+                  : null;
+              if (key) rowMap.set(key, row);
+            });
+
+            var changed = false;
+            order.forEach(function (key) {
+              var row = rowMap.get(key);
+              if (row) {
+                tbody.appendChild(row);
+                changed = true;
+                // Restore custom time if saved
+                if (times[key]) {
+                  var tc = row.querySelector(".time-col");
+                  if (tc) {
+                    tc.textContent = times[key];
+                    row.dataset.origTime = times[key];
+                  }
+                }
+              }
+            });
+
+            if (changed) {
+              recalcTimes(tbody);
+              checkOverlaps(tbody);
+            }
+          });
+        }
+
+        // ── Refresh floating timeline ──
+        function refreshTimeline() {
+          var cb = document.querySelector(".schedule-check");
+          if (cb) cb.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+
+        // ── Reset button ──
+        document.querySelectorAll("h2").forEach(function (h) {
+          if (h.textContent.indexOf("Schedule") !== -1) {
+            var btn = document.createElement("button");
+            btn.className = "schedule-reset-btn";
+            btn.textContent = "↺ Reset Order";
+            btn.title = "Reset schedule to original order";
+            btn.onclick = function () {
+              localStorage.removeItem(STORAGE_KEY);
+              localStorage.removeItem(TIMES_KEY);
+              localStorage.removeItem(EDITS_KEY);
+              location.reload();
+            };
+            h.appendChild(btn);
+          }
+        });
+
+        // ── Inline time editing ──
+        function makeTimesEditable() {
+          document
+            .querySelectorAll(".day-content table tbody .time-col")
+            .forEach(function (tc) {
+              if (tc.dataset.editable) return;
+              tc.dataset.editable = "1";
+              tc.addEventListener("click", function (e) {
+                if (tc.querySelector(".time-edit-input")) return; // already editing
+                var currentText = tc.textContent.trim();
+                var input = document.createElement("input");
+                input.type = "text";
+                input.className = "time-edit-input";
+                input.value = currentText;
+                input.placeholder = "HH:MM-HH:MM";
+                tc.textContent = "";
+                tc.appendChild(input);
+                input.focus();
+                input.select();
+
+                function commitEdit() {
+                  var val = input.value.trim();
+                  var match = val.match(
+                    /^(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})$/,
+                  );
+                  if (!match) {
+                    // Invalid — revert
+                    tc.textContent = currentText;
+                    return;
+                  }
+                  var newTime =
+                    fmtT(parseT(match[1])) + "-" + fmtT(parseT(match[2]));
+                  tc.textContent = newTime;
+
+                  // Update origTime so duration is recalculated for future drags
+                  var row = tc.closest("tr");
+                  if (row) row.dataset.origTime = newTime;
+
+                  // Run overlap check on entire day
+                  var tbody = tc.closest("tbody");
+                  if (tbody) {
+                    checkOverlaps(tbody);
+                    saveOrder(tbody);
+                  }
+                  refreshTimeline();
+                }
+
+                input.addEventListener("blur", commitEdit);
+                input.addEventListener("keydown", function (ke) {
+                  if (ke.key === "Enter") {
+                    ke.preventDefault();
+                    input.blur();
+                  }
+                  if (ke.key === "Escape") {
+                    tc.textContent = currentText;
+                  }
+                });
+
+                // Live validation while typing
+                input.addEventListener("input", function () {
+                  var v = input.value.trim();
+                  var ok = /^\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}$/.test(v);
+                  input.classList.toggle("invalid", v.length > 0 && !ok);
+                });
+              });
+            });
+        }
+
+        // ── Overlap detection (without sequential recalc) ──
+        function checkOverlaps(tbody) {
+          var rows = Array.from(tbody.querySelectorAll("tr"));
+          // Remove old warnings
+          tbody.querySelectorAll(".overlap-warning").forEach(function (el) {
+            el.remove();
+          });
+
+          // Collect time ranges
+          var tasks = [];
+          rows.forEach(function (row) {
+            var tc = row.querySelector(".time-col");
+            if (!tc) return;
+            var match = tc.textContent
+              .trim()
+              .match(/(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/);
+            if (!match) return;
+            var s = parseT(match[1]),
+              e = parseT(match[2]);
+            if (e <= s) e += 1440; // handle overnight
+            tasks.push({ row: row, start: s, end: e });
+          });
+
+          // Check all pairs
+          for (var i = 0; i < tasks.length; i++) {
+            for (var j = i + 1; j < tasks.length; j++) {
+              if (
+                tasks[i].end > tasks[j].start &&
+                tasks[i].start < tasks[j].end
+              ) {
+                addOverlapWarning(tasks[i].row);
+                addOverlapWarning(tasks[j].row);
+              }
+            }
+          }
+        }
+
+        // ── Editable activity & detail cells ──
+        var EDITS_KEY = "bcg-schedule-cell-edits";
+
+        function getRowKey(row) {
+          var cb = row.querySelector(".schedule-check");
+          if (cb) return cb.id;
+          var tc = row.querySelector(".time-col");
+          return tc
+            ? "_nocheck_" + (row.dataset.origTime || tc.textContent.trim())
+            : null;
+        }
+
+        function makeCellsEditable() {
+          document
+            .querySelectorAll(".day-content table tbody tr")
+            .forEach(function (row) {
+              var cells = row.querySelectorAll("td");
+              if (cells.length < 3) return;
+
+              [2, 3].forEach(function (idx) {
+                var cell = cells[idx];
+                if (!cell || cell.dataset.cellEditable) return;
+                cell.dataset.cellEditable = "1";
+
+                cell.addEventListener("click", function (e) {
+                  if (
+                    e.target.tagName === "A" ||
+                    e.target.tagName === "BUTTON" ||
+                    e.target.closest("a") ||
+                    e.target.closest("button")
+                  )
+                    return;
+                  if (cell.classList.contains("cell-editing")) return;
+                  startCellEdit(cell, row, idx);
+                });
+              });
+            });
+        }
+
+        function startCellEdit(cell, row, colIdx) {
+          // Store original HTML for cancel (before adding hint)
+          cell.dataset.origHtml = cell.innerHTML;
+
+          cell.classList.add("cell-editing");
+          cell.contentEditable = "true";
+
+          // In edit mode, intercept link clicks to show popover instead of navigating
+          cell.addEventListener("click", cellEditClickHandler);
+
+          // Hide Open All buttons temporarily
+          cell.querySelectorAll(".open-all-btn").forEach(function (b) {
+            b.style.display = "none";
+          });
+
+          // Add hint
+          var hint = document.createElement("span");
+          hint.className = "cell-edit-hint";
+          hint.textContent =
+            "\u2318K to add link \u00b7 Click outside to save \u00b7 Esc to cancel";
+          cell.appendChild(hint);
+
+          cell.focus();
+
+          function onKeyDown(e) {
+            if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+              e.preventDefault();
+              insertLink(cell);
+            }
+            if (e.key === "Escape") {
+              e.preventDefault();
+              cancelCellEdit(cell);
+              cell.removeEventListener("keydown", onKeyDown);
+            }
+          }
+          cell.addEventListener("keydown", onKeyDown);
+
+          cell.addEventListener(
+            "blur",
+            function onBlur() {
+              setTimeout(function () {
+                if (cell.classList.contains("cell-editing")) {
+                  commitCellEdit(cell, row, colIdx);
+                  cell.removeEventListener("keydown", onKeyDown);
+                }
+              }, 150);
+            },
+            { once: true },
+          );
+        }
+
+        function cancelCellEdit(cell) {
+          cell.contentEditable = "false";
+          cell.classList.remove("cell-editing");
+          cell.removeEventListener("click", cellEditClickHandler);
+          dismissPopover();
+          dismissCmdkBox();
+          if (cell.dataset.origHtml) cell.innerHTML = cell.dataset.origHtml;
+          cell.querySelectorAll(".open-all-btn").forEach(function (b) {
+            b.style.display = "";
+          });
+        }
+
+        function commitCellEdit(cell, row, colIdx) {
+          cell.contentEditable = "false";
+          cell.classList.remove("cell-editing");
+          cell.removeEventListener("click", cellEditClickHandler);
+          dismissPopover();
+          dismissCmdkBox();
+          cell.querySelectorAll(".cell-edit-hint").forEach(function (h) {
+            h.remove();
+          });
+
+          autoLinkUrls(cell);
+          updateOpenAllButton(cell);
+          cell.querySelectorAll(".open-all-btn").forEach(function (b) {
+            b.style.display = "";
+          });
+
+          saveCellEdit(row, colIdx, cell.innerHTML);
+          refreshTimeline();
+        }
+
+        // ── Link popover (shown when clicking a link in edit mode) ──
+        var activePopover = null;
+        var activeCmdkBox = null;
+
+        function cellEditClickHandler(e) {
+          var linkEl = e.target.closest("a");
+          if (linkEl && linkEl.closest(".cell-editing")) {
+            e.preventDefault();
+            e.stopPropagation();
+            showLinkPopover(linkEl);
+            return;
+          }
+          // Clicking elsewhere in the cell dismisses popover
+          dismissPopover();
+        }
+
+        function showLinkPopover(linkEl) {
+          dismissPopover();
+          var rect = linkEl.getBoundingClientRect();
+
+          var pop = document.createElement("div");
+          pop.className = "link-popover";
+
+          var urlSpan = document.createElement("span");
+          urlSpan.className = "link-popover-url";
+          urlSpan.textContent = linkEl.href;
+          urlSpan.title = linkEl.href;
+
+          var openBtn = document.createElement("button");
+          openBtn.className = "link-popover-btn";
+          openBtn.textContent = "Open";
+          openBtn.onclick = function (e) {
+            e.stopPropagation();
+            window.open(linkEl.href, "_blank");
+          };
+
+          var editBtn = document.createElement("button");
+          editBtn.className = "link-popover-btn";
+          editBtn.textContent = "\u270f\ufe0f Edit";
+          editBtn.onclick = function (e) {
+            e.stopPropagation();
+            dismissPopover();
+            showCmdkBox(linkEl.closest(".cell-editing"), linkEl);
+          };
+
+          var removeBtn = document.createElement("button");
+          removeBtn.className = "link-popover-btn danger";
+          removeBtn.textContent = "\u2715 Unlink";
+          removeBtn.onclick = function (e) {
+            e.stopPropagation();
+            // Replace <a> with its text content
+            var text = document.createTextNode(linkEl.textContent);
+            linkEl.parentNode.replaceChild(text, linkEl);
+            dismissPopover();
+          };
+
+          pop.appendChild(urlSpan);
+          pop.appendChild(openBtn);
+          pop.appendChild(editBtn);
+          pop.appendChild(removeBtn);
+          document.body.appendChild(pop);
+
+          // Position below the link
+          pop.style.left = Math.min(rect.left, window.innerWidth - 370) + "px";
+          pop.style.top = rect.bottom + 6 + "px";
+
+          activePopover = pop;
+
+          // Close on outside click (delayed to avoid immediate close)
+          setTimeout(function () {
+            document.addEventListener("mousedown", popoverOutsideClick);
+          }, 50);
+        }
+
+        function popoverOutsideClick(e) {
+          if (activePopover && !activePopover.contains(e.target)) {
+            dismissPopover();
+          }
+        }
+
+        function dismissPopover() {
+          if (activePopover) {
+            activePopover.remove();
+            activePopover = null;
+            document.removeEventListener("mousedown", popoverOutsideClick);
+          }
+        }
+
+        // ── Cmd+K inline URL input ──
+        function insertLink(cell) {
+          var sel = window.getSelection();
+          var selectedText = sel.toString().trim();
+          // Save selection range for later insertion
+          var savedRange =
+            sel.rangeCount > 0 ? sel.getRangeAt(0).cloneRange() : null;
+          showCmdkBox(cell, null, selectedText, savedRange);
+        }
+
+        function showCmdkBox(cell, existingLink, selectedText, savedRange) {
+          dismissCmdkBox();
+
+          var box = document.createElement("div");
+          box.className = "cmdk-box";
+
+          var label = document.createElement("label");
+          label.textContent = existingLink ? "Edit URL:" : "\ud83d\udd17 URL:";
+
+          var input = document.createElement("input");
+          input.type = "text";
+          input.placeholder = "https://...";
+          input.value = existingLink ? existingLink.href : "";
+
+          var hint = document.createElement("span");
+          hint.className = "cmdk-hint";
+          hint.textContent = "Enter \u21b5 to save \u00b7 Esc to cancel";
+
+          box.appendChild(label);
+          box.appendChild(input);
+          box.appendChild(hint);
+          document.body.appendChild(box);
+
+          // Position near cursor or cell
+          var cellRect = cell.getBoundingClientRect();
+          box.style.left =
+            Math.min(cellRect.left + 20, window.innerWidth - 400) + "px";
+          box.style.top = cellRect.bottom + 6 + "px";
+
+          activeCmdkBox = box;
+          input.focus();
+
+          input.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              var url = input.value.trim();
+              if (!url) {
+                dismissCmdkBox();
+                cell.focus();
+                return;
+              }
+              if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+
+              if (existingLink) {
+                // Update existing link
+                existingLink.href = url;
+              } else {
+                // Create new link
+                var linkText =
+                  selectedText ||
+                  url.replace(/^https?:\/\/(www\.)?/i, "").split("/")[0];
+                var a = document.createElement("a");
+                a.href = url;
+                a.target = "_blank";
+                a.style.cssText =
+                  "color: var(--highlight); text-decoration: underline; font-size: 0.85em;";
+                a.textContent = linkText;
+
+                if (savedRange && selectedText) {
+                  // Restore selection and replace
+                  var sel = window.getSelection();
+                  sel.removeAllRanges();
+                  sel.addRange(savedRange);
+                  savedRange.deleteContents();
+                  savedRange.insertNode(a);
+                  sel.removeAllRanges();
+                } else {
+                  cell.appendChild(document.createTextNode(" "));
+                  cell.appendChild(a);
+                }
+              }
+
+              dismissCmdkBox();
+              cell.focus();
+            }
+            if (e.key === "Escape") {
+              e.preventDefault();
+              dismissCmdkBox();
+              cell.focus();
+            }
+          });
+
+          // Prevent blur from committing the cell edit while Cmd+K box is open
+          input.addEventListener("blur", function () {
+            setTimeout(function () {
+              dismissCmdkBox();
+            }, 100);
+          });
+        }
+
+        function dismissCmdkBox() {
+          if (activeCmdkBox) {
+            activeCmdkBox.remove();
+            activeCmdkBox = null;
+          }
+        }
+
+        function autoLinkUrls(cell) {
+          var walker = document.createTreeWalker(
+            cell,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false,
+          );
+          var textNodes = [];
+          while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+          var urlRegex = /(https?:\/\/[^\s<>"'\)]+)/gi;
+          textNodes.forEach(function (node) {
+            if (node.parentElement && node.parentElement.tagName === "A")
+              return;
+            var text = node.textContent;
+            if (!urlRegex.test(text)) return;
+            urlRegex.lastIndex = 0;
+
+            var frag = document.createDocumentFragment();
+            var lastIdx = 0;
+            var match;
+            while ((match = urlRegex.exec(text)) !== null) {
+              if (match.index > lastIdx)
+                frag.appendChild(
+                  document.createTextNode(text.substring(lastIdx, match.index)),
+                );
+              var a = document.createElement("a");
+              a.href = match[1];
+              a.target = "_blank";
+              a.style.cssText =
+                "color: var(--highlight); text-decoration: underline; font-size: 0.85em;";
+              a.textContent = match[1];
+              frag.appendChild(a);
+              lastIdx = match.index + match[0].length;
+            }
+            if (lastIdx < text.length)
+              frag.appendChild(
+                document.createTextNode(text.substring(lastIdx)),
+              );
+            node.parentNode.replaceChild(frag, node);
+          });
+        }
+
+        function updateOpenAllButton(cell) {
+          cell.querySelectorAll(".open-all-btn").forEach(function (b) {
+            b.remove();
+          });
+          var links = cell.querySelectorAll("a[href]");
+          if (links.length >= 2) {
+            var btn = document.createElement("button");
+            btn.className = "open-all-btn";
+            btn.textContent = "\u25b6 Open All";
+            btn.onclick = function () {
+              cell.querySelectorAll("a[href]").forEach(function (a) {
+                window.open(a.href, "_blank");
+              });
+            };
+            cell.appendChild(btn);
+          }
+        }
+
+        function saveCellEdit(row, colIdx, html) {
+          var rowKey = getRowKey(row);
+          if (!rowKey) return;
+          var dayDiv = row.closest(".day-content");
+          if (!dayDiv) return;
+          var dayId = dayDiv.id;
+
+          var saved = JSON.parse(localStorage.getItem(EDITS_KEY) || "{}");
+          if (!saved[dayId]) saved[dayId] = {};
+          if (!saved[dayId][rowKey]) saved[dayId][rowKey] = {};
+          saved[dayId][rowKey][colIdx === 2 ? "activity" : "detail"] = html;
+          localStorage.setItem(EDITS_KEY, JSON.stringify(saved));
+        }
+
+        function restoreCellEdits() {
+          var saved = JSON.parse(localStorage.getItem(EDITS_KEY) || "{}");
+          Object.keys(saved).forEach(function (dayId) {
+            var dayDiv = document.getElementById(dayId);
+            if (!dayDiv) return;
+            var dayEdits = saved[dayId];
+            dayDiv.querySelectorAll("table tbody tr").forEach(function (row) {
+              var rowKey = getRowKey(row);
+              if (!rowKey || !dayEdits[rowKey]) return;
+              var cells = row.querySelectorAll("td");
+              if (dayEdits[rowKey].activity && cells[2])
+                cells[2].innerHTML = dayEdits[rowKey].activity;
+              if (dayEdits[rowKey].detail && cells[3])
+                cells[3].innerHTML = dayEdits[rowKey].detail;
+            });
+          });
+        }
+
+        // ── Init ──
+        saveOriginalTimes();
+        restoreOrder();
+        addDragHandles();
+        makeTimesEditable();
+        makeCellsEditable();
+        restoreCellEdits();
       })();
     </script>
   </body>
