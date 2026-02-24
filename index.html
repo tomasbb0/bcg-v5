@@ -47,6 +47,25 @@
         font-size: 14px;
       }
 
+      /* OPEN ALL LINKS BUTTON */
+      .open-all-btn {
+        display: inline-block;
+        margin-left: 6px;
+        padding: 2px 8px;
+        font-size: 0.75em;
+        background: var(--bcg-green);
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        vertical-align: middle;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+      .open-all-btn:hover {
+        opacity: 0.85;
+      }
+
       /* SCHEDULE CHECKBOXES */
       .schedule-check {
         width: 18px;
@@ -777,6 +796,298 @@
           display: none;
         }
       }
+
+      /* ═══════ FLOATING TIMELINE PANEL ═══════ */
+      .timeline-fab {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        height: 48px;
+        border-radius: 24px;
+        background: var(--bcg-green);
+        color: #fff;
+        border: none;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 18px rgba(0, 166, 81, 0.35);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 20px;
+        transition: all 0.2s;
+        letter-spacing: 0.5px;
+      }
+      .timeline-fab:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 24px rgba(0, 166, 81, 0.45);
+      }
+      .timeline-fab .fab-icon {
+        font-size: 18px;
+      }
+      .timeline-fab.open {
+        background: #333;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      }
+
+      .popout-fab {
+        position: fixed;
+        bottom: 24px;
+        right: 190px;
+        height: 48px;
+        border-radius: 24px;
+        background: #1a1a1a;
+        color: #fff;
+        border: 1px solid #444;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 20px;
+        transition: all 0.2s;
+        letter-spacing: 0.5px;
+      }
+      .popout-fab:hover {
+        background: #333;
+        transform: scale(1.05);
+        border-color: var(--bcg-green);
+      }
+
+      .timeline-panel {
+        position: fixed;
+        bottom: 88px;
+        right: 24px;
+        width: 370px;
+        max-height: 80vh;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+        z-index: 9998;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+      }
+      .timeline-panel.open {
+        display: flex;
+        animation: tl-slide-up 0.25s ease;
+      }
+      @keyframes tl-slide-up {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .tl-header {
+        background: var(--bcg-green);
+        color: #fff;
+        padding: 14px 18px 10px;
+      }
+      .tl-header h3 {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+      }
+      .tl-day-tabs {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .tl-day-tab {
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: none;
+        transition: background 0.15s;
+      }
+      .tl-day-tab:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+      .tl-day-tab.active {
+        background: #fff;
+        color: var(--bcg-green);
+      }
+
+      .tl-now-indicator {
+        padding: 6px 18px;
+        background: #f0fdf4;
+        border-bottom: 1px solid #e5e5e5;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--bcg-green);
+      }
+
+      .tl-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0;
+        position: relative;
+      }
+
+      .tl-timeline {
+        position: relative;
+        padding: 12px 14px 12px 58px;
+        min-height: 100px;
+      }
+      .tl-timeline::before {
+        content: "";
+        position: absolute;
+        left: 42px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #e5e5e5;
+      }
+
+      .tl-slot {
+        position: relative;
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 8px;
+        font-size: 12px;
+        line-height: 1.4;
+        cursor: default;
+        transition: background 0.15s;
+        border-left: 3px solid transparent;
+      }
+      .tl-slot:hover {
+        background: #f8f8f8;
+      }
+      .tl-slot.current {
+        background: rgba(0, 166, 81, 0.08);
+        border-left-color: var(--bcg-green);
+      }
+      .tl-slot.done {
+        opacity: 0.45;
+        text-decoration: line-through;
+      }
+
+      .tl-time {
+        position: absolute;
+        left: -46px;
+        top: 8px;
+        font-size: 9px;
+        font-weight: 700;
+        color: var(--text-muted);
+        width: 36px;
+        text-align: right;
+      }
+      .tl-dot {
+        position: absolute;
+        left: -19px;
+        top: 12px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ccc;
+        border: 2px solid #fff;
+        box-shadow: 0 0 0 1px #ccc;
+      }
+      .tl-slot.current .tl-dot {
+        background: var(--bcg-green);
+        box-shadow:
+          0 0 0 1px var(--bcg-green),
+          0 0 6px rgba(0, 166, 81, 0.4);
+      }
+      .tl-slot.done .tl-dot {
+        background: #aaa;
+      }
+
+      .tl-activity {
+        font-weight: 600;
+        color: var(--text);
+      }
+      .tl-detail {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .tl-cat-video {
+        border-left-color: #1976d2;
+      }
+      .tl-cat-video .tl-dot {
+        background: #1976d2;
+        box-shadow: 0 0 0 1px #1976d2;
+      }
+      .tl-cat-drill {
+        border-left-color: #e8a500;
+      }
+      .tl-cat-drill .tl-dot {
+        background: #e8a500;
+        box-shadow: 0 0 0 1px #e8a500;
+      }
+      .tl-cat-practice {
+        border-left-color: #00a651;
+      }
+      .tl-cat-practice .tl-dot {
+        background: #00a651;
+        box-shadow: 0 0 0 1px #00a651;
+      }
+      .tl-cat-solo {
+        border-left-color: #7b1fa2;
+      }
+      .tl-cat-solo .tl-dot {
+        background: #7b1fa2;
+        box-shadow: 0 0 0 1px #7b1fa2;
+      }
+      .tl-cat-break {
+        border-left-color: #ff9800;
+      }
+      .tl-cat-break .tl-dot {
+        background: #ff9800;
+        box-shadow: 0 0 0 1px #ff9800;
+      }
+      .tl-cat-fit {
+        border-left-color: #d32f2f;
+      }
+      .tl-cat-fit .tl-dot {
+        background: #d32f2f;
+        box-shadow: 0 0 0 1px #d32f2f;
+      }
+      .tl-cat-default .tl-dot {
+        background: #999;
+        box-shadow: 0 0 0 1px #999;
+      }
+
+      .tl-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px 14px;
+        border-top: 1px solid #e5e5e5;
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+      .tl-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+      }
+      .tl-legend-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+      }
     </style>
   </head>
   <body>
@@ -789,6 +1100,28 @@
         <h1>BCG PREP</h1>
         <p>Tomás Batalha — 1ª Ronda</p>
         <div class="countdown" id="countdown"></div>
+        <button
+          onclick="popOutSchedule()"
+          style="
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            background: var(--bcg-green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+          "
+        >
+          🪟 Pop Out Schedule
+        </button>
       </div>
       <nav>
         <a
@@ -1019,6 +1352,9 @@
                       "
                       >Logical Frameworks</a
                     >
+                    <button class="open-all-btn" onclick="openAllLinks(this)">
+                      ▶ Open All
+                    </button>
                     <strong
                       >Propranolol ativo — notar: tonto? frio? math ok?</strong
                     >
@@ -1087,6 +1423,9 @@
                       "
                       >Communicate Structure</a
                     >
+                    <button class="open-all-btn" onclick="openAllLinks(this)">
+                      ▶ Open All
+                    </button>
                   </td>
                 </tr>
                 <tr>
@@ -1227,6 +1566,9 @@
                       "
                       >Percentages</a
                     >
+                    <button class="open-all-btn" onclick="openAllLinks(this)">
+                      ▶ Open All
+                    </button>
                   </td>
                 </tr>
                 <tr>
@@ -1419,6 +1761,9 @@
                       "
                       >Judgment & Insights</a
                     >
+                    <button class="open-all-btn" onclick="openAllLinks(this)">
+                      ▶ Open All
+                    </button>
                   </td>
                 </tr>
                 <tr>
@@ -1488,6 +1833,9 @@
                       "
                       >Case Leadership</a
                     >
+                    <button class="open-all-btn" onclick="openAllLinks(this)">
+                      ▶ Open All
+                    </button>
                   </td>
                 </tr>
                 <tr>
@@ -1601,6 +1949,9 @@
                       style="color: var(--highlight); font-size: 0.85em"
                       >🔗 Drills</a
                     >
+                    <button class="open-all-btn" onclick="openAllLinks(this)">
+                      ▶ Open All
+                    </button>
                   </td>
                 </tr>
                 <tr>
@@ -1691,6 +2042,9 @@
                       "
                       >Fraction Values</a
                     >
+                    <button class="open-all-btn" onclick="openAllLinks(this)">
+                      ▶ Open All
+                    </button>
                   </td>
                 </tr>
                 <tr>
@@ -3112,6 +3466,28 @@
                 margin: 4px 0 0;
               "
             ></p>
+          </div>
+
+          <!-- ALWAYS-ACCESSIBLE CHECK-IN BUTTON -->
+          <div style="margin-bottom: 16px; text-align: center;">
+            <button
+              onclick="showCheckinModal()"
+              style="
+                padding: 10px 24px;
+                border-radius: 8px;
+                border: 2px solid #9c27b0;
+                background: #9c27b010;
+                color: #9c27b0;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 0.95em;
+              "
+            >
+              📋 Abrir Check-in Médico
+            </button>
+            <p style="font-size: 0.75em; color: var(--text-muted); margin: 4px 0 0;">
+              Podes responder a qualquer momento — dados salvos para o médico
+            </p>
           </div>
 
           <!-- CHECK-IN MODAL (hidden by default) -->
@@ -9103,6 +9479,13 @@
       }
       loadChecks();
 
+      // Open all links in a cell
+      function openAllLinks(btn) {
+        const td = btn.closest("td");
+        const links = td.querySelectorAll("a[href]");
+        links.forEach((a) => window.open(a.href, "_blank"));
+      }
+
       // Keyboard navigation
       document.addEventListener("keydown", function (e) {
         const sections = [
@@ -9991,7 +10374,11 @@
 
       function scheduleCheckin() {
         const log = getPillLog();
-        if (!isToday(viewDate) || Object.keys(log.pills).length === 0) {
+        const expected = getExpectedForDay();
+        const hasTaken = Object.keys(log.pills).length > 0;
+        const hasExpected = Object.keys(expected).length > 0;
+
+        if (!isToday(viewDate) || (!hasTaken && !hasExpected)) {
           document.getElementById("checkin-section").style.display = "none";
           return;
         }
@@ -10001,19 +10388,37 @@
           return;
         }
 
-        // Find the best check-in time: when the latest pill hits peak
+        // Find the best check-in time: peak of latest SOS med (taken or expected)
         let latestPeakTime = null;
         let reason = "";
-        Object.keys(log.pills).forEach((pillId) => {
-          const pill = log.pills[pillId];
+        const allPills = new Set([...Object.keys(log.pills), ...Object.keys(expected)]);
+
+        allPills.forEach((pillId) => {
           const data = PILL_DATA[pillId];
-          const taken = new Date(pill.time);
-          const peakTime = new Date(taken.getTime() + data.peakMin * 60000);
+          if (!data) return;
+          let takenMs;
+          let isActual = false;
+
+          if (log.pills[pillId]) {
+            takenMs = new Date(log.pills[pillId].time).getTime();
+            isActual = true;
+          } else if (expected[pillId]) {
+            // Calculate expected time as today + HH:MM
+            const parts = expected[pillId].time.split(":");
+            const d = new Date();
+            d.setHours(parseInt(parts[0]), parseInt(parts[1]), 0, 0);
+            takenMs = d.getTime();
+          } else {
+            return;
+          }
+
+          const peakTime = new Date(takenMs + data.peakMin * 60000);
           if (!latestPeakTime || peakTime > latestPeakTime) {
             latestPeakTime = peakTime;
+            const prefix = isActual ? "" : "(esperado) ";
             reason =
-              data.name +
-              " atinge pico às " +
+              prefix + data.name +
+              " pico às " +
               peakTime.toLocaleTimeString("pt-PT", {
                 timeZone: TZ,
                 hour: "2-digit",
@@ -10033,7 +10438,7 @@
         document.getElementById("checkin-reason").textContent =
           "💡 " +
           reason +
-          " — check-in agendado para " +
+          " — check-in às " +
           checkinTargetTime.toLocaleTimeString("pt-PT", {
             timeZone: TZ,
             hour: "2-digit",
@@ -10119,7 +10524,7 @@
         let html = "";
 
         // Per-medication sections with specific side effects
-        allPills.forEach(pillId => {
+        allPills.forEach((pillId) => {
           const se = SIDE_EFFECTS[pillId];
           if (!se) return;
           const data = PILL_DATA[pillId];
@@ -10127,75 +10532,143 @@
           const isTaken = activePills.includes(pillId);
           const statusIcon = isTaken ? "✅" : "⏰";
 
-          html += '<div style="margin-bottom:14px;padding:10px;border:1px solid ' + color + '40;border-radius:8px;background:' + color + '10;">';
-          html += '<h4 style="margin:0 0 8px;color:' + color + ';">' + statusIcon + ' ' + se.name + '</h4>';
+          html +=
+            '<div style="margin-bottom:14px;padding:10px;border:1px solid ' +
+            color +
+            "40;border-radius:8px;background:" +
+            color +
+            '10;">';
+          html +=
+            '<h4 style="margin:0 0 8px;color:' +
+            color +
+            ';">' +
+            statusIcon +
+            " " +
+            se.name +
+            "</h4>";
 
           // Negative effects checkboxes
-          html += '<p style="font-size:0.82em;color:var(--text-muted);margin:0 0 6px;">⚠️ Efeitos negativos sentidos:</p>';
+          html +=
+            '<p style="font-size:0.82em;color:var(--text-muted);margin:0 0 6px;">⚠️ Efeitos negativos sentidos:</p>';
           html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
           se.individual.forEach((effect, i) => {
-            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
-            html += '<input type="checkbox" class="checkin-effect" data-pill="' + pillId + '" data-effect="' + effect + '" data-type="negative" style="accent-color:' + color + ';"> ' + effect;
-            html += '</label>';
+            html +=
+              '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html +=
+              '<input type="checkbox" class="checkin-effect" data-pill="' +
+              pillId +
+              '" data-effect="' +
+              effect +
+              '" data-type="negative" style="accent-color:' +
+              color +
+              ';"> ' +
+              effect;
+            html += "</label>";
           });
-          html += '</div>';
+          html += "</div>";
 
           // Cognitive effects
-          html += '<p style="font-size:0.82em;color:var(--text-muted);margin:8px 0 4px;">🧠 Impacto cognitivo:</p>';
+          html +=
+            '<p style="font-size:0.82em;color:var(--text-muted);margin:8px 0 4px;">🧠 Impacto cognitivo:</p>';
           html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
           se.cognitive.forEach((effect, i) => {
-            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
-            html += '<input type="checkbox" class="checkin-effect" data-pill="' + pillId + '" data-effect="' + effect + '" data-type="cognitive"> ' + effect;
-            html += '</label>';
+            html +=
+              '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html +=
+              '<input type="checkbox" class="checkin-effect" data-pill="' +
+              pillId +
+              '" data-effect="' +
+              effect +
+              '" data-type="cognitive"> ' +
+              effect;
+            html += "</label>";
           });
-          html += '</div>';
+          html += "</div>";
 
           // Positive effects
-          html += '<p style="font-size:0.82em;color:var(--text-muted);margin:8px 0 4px;">✅ Efeitos positivos:</p>';
+          html +=
+            '<p style="font-size:0.82em;color:var(--text-muted);margin:8px 0 4px;">✅ Efeitos positivos:</p>';
           html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
           se.positive.forEach((effect, i) => {
-            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
-            html += '<input type="checkbox" class="checkin-effect" data-pill="' + pillId + '" data-effect="' + effect + '" data-type="positive"> ' + effect;
-            html += '</label>';
+            html +=
+              '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html +=
+              '<input type="checkbox" class="checkin-effect" data-pill="' +
+              pillId +
+              '" data-effect="' +
+              effect +
+              '" data-type="positive"> ' +
+              effect;
+            html += "</label>";
           });
-          html += '</div>';
+          html += "</div>";
 
           // Overall verdict for this med
-          html += '<div style="margin-top:8px;display:flex;align-items:center;gap:8px;">';
-          html += '<span style="font-size:0.85em;font-weight:bold;">Veredicto:</span>';
-          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' + pillId + '" value="positive" style="accent-color:green;"> 👍 OK</label>';
-          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' + pillId + '" value="neutral" style="accent-color:orange;"> 🤷 Neutro</label>';
-          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' + pillId + '" value="negative" style="accent-color:red;"> 👎 Negativo</label>';
-          html += '</div>';
-          html += '</div>';
+          html +=
+            '<div style="margin-top:8px;display:flex;align-items:center;gap:8px;">';
+          html +=
+            '<span style="font-size:0.85em;font-weight:bold;">Veredicto:</span>';
+          html +=
+            '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' +
+            pillId +
+            '" value="positive" style="accent-color:green;"> 👍 OK</label>';
+          html +=
+            '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' +
+            pillId +
+            '" value="neutral" style="accent-color:orange;"> 🤷 Neutro</label>';
+          html +=
+            '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' +
+            pillId +
+            '" value="negative" style="accent-color:red;"> 👎 Negativo</label>';
+          html += "</div>";
+          html += "</div>";
         });
 
         // Combo sections if both SOS meds active
         if (allPills.has("propranolol") && allPills.has("alprazolam")) {
           const combo = SIDE_EFFECTS.combo_prop_alp;
-          html += '<div style="margin-bottom:14px;padding:10px;border:2px solid #ff980060;border-radius:8px;background:#ff980010;">';
-          html += '<h4 style="margin:0 0 8px;color:#ff9800;">⚡ ' + combo.name + '</h4>';
+          html +=
+            '<div style="margin-bottom:14px;padding:10px;border:2px solid #ff980060;border-radius:8px;background:#ff980010;">';
+          html +=
+            '<h4 style="margin:0 0 8px;color:#ff9800;">⚡ ' +
+            combo.name +
+            "</h4>";
           html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
-          combo.individual.concat(combo.cognitive).forEach(effect => {
-            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
-            html += '<input type="checkbox" class="checkin-effect" data-pill="combo_prop_alp" data-effect="' + effect + '" data-type="negative"> ' + effect;
-            html += '</label>';
+          combo.individual.concat(combo.cognitive).forEach((effect) => {
+            html +=
+              '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html +=
+              '<input type="checkbox" class="checkin-effect" data-pill="combo_prop_alp" data-effect="' +
+              effect +
+              '" data-type="negative"> ' +
+              effect;
+            html += "</label>";
           });
-          html += '</div>';
-          html += '<p style="font-size:0.82em;color:var(--text-muted);margin:6px 0 4px;">✅ Positivos:</p>';
+          html += "</div>";
+          html +=
+            '<p style="font-size:0.82em;color:var(--text-muted);margin:6px 0 4px;">✅ Positivos:</p>';
           html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
-          combo.positive.forEach(effect => {
-            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
-            html += '<input type="checkbox" class="checkin-effect" data-pill="combo_prop_alp" data-effect="' + effect + '" data-type="positive"> ' + effect;
-            html += '</label>';
+          combo.positive.forEach((effect) => {
+            html +=
+              '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html +=
+              '<input type="checkbox" class="checkin-effect" data-pill="combo_prop_alp" data-effect="' +
+              effect +
+              '" data-type="positive"> ' +
+              effect;
+            html += "</label>";
           });
-          html += '</div>';
-          html += '<div style="margin-top:8px;display:flex;align-items:center;gap:8px;">';
-          html += '<span style="font-size:0.85em;font-weight:bold;">Veredicto combo:</span>';
-          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-combo" value="positive" style="accent-color:green;"> 👍</label>';
-          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-combo" value="negative" style="accent-color:red;"> 👎</label>';
-          html += '</div>';
-          html += '</div>';
+          html += "</div>";
+          html +=
+            '<div style="margin-top:8px;display:flex;align-items:center;gap:8px;">';
+          html +=
+            '<span style="font-size:0.85em;font-weight:bold;">Veredicto combo:</span>';
+          html +=
+            '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-combo" value="positive" style="accent-color:green;"> 👍</label>';
+          html +=
+            '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-combo" value="negative" style="accent-color:red;"> 👎</label>';
+          html += "</div>";
+          html += "</div>";
         }
 
         container.innerHTML = html;
@@ -10218,15 +10691,16 @@
 
         // Collect all checked effects
         const effectsByPill = {};
-        document.querySelectorAll(".checkin-effect:checked").forEach(cb => {
+        document.querySelectorAll(".checkin-effect:checked").forEach((cb) => {
           const pill = cb.dataset.pill;
-          if (!effectsByPill[pill]) effectsByPill[pill] = { negative: [], cognitive: [], positive: [] };
+          if (!effectsByPill[pill])
+            effectsByPill[pill] = { negative: [], cognitive: [], positive: [] };
           effectsByPill[pill][cb.dataset.type].push(cb.dataset.effect);
         });
 
         // Collect verdicts
         const verdicts = {};
-        document.querySelectorAll('[name^="verdict-"]:checked').forEach(r => {
+        document.querySelectorAll('[name^="verdict-"]:checked').forEach((r) => {
           verdicts[r.name.replace("verdict-", "")] = r.value;
         });
 
@@ -10501,6 +10975,426 @@
         );
       }
       attachDragListeners();
+
+      // ═══════════════════════════════════════════════════
+      // MULTI-VIDEO OPEN ALL BUTTON
+      // Auto-adds "▶ Open All" to schedule cells with 2+ external links
+      // ═══════════════════════════════════════════════════
+      (function addOpenAllButtons() {
+        document.querySelectorAll("td").forEach(td => {
+          const links = td.querySelectorAll('a[href*="casecoach.com"], a[href*="youtube.com"], a[href*="youtu.be"]');
+          if (links.length >= 2) {
+            const btn = document.createElement("button");
+            btn.textContent = "▶ Open All (" + links.length + ")";
+            btn.style.cssText = "display:block;margin-top:6px;padding:3px 10px;font-size:0.75em;border-radius:4px;border:1px solid var(--highlight);background:transparent;color:var(--highlight);cursor:pointer;font-weight:bold;";
+            btn.addEventListener("click", function(e) {
+              e.preventDefault();
+              links.forEach(link => window.open(link.href, "_blank"));
+            });
+            td.appendChild(btn);
+          }
+        });
+      })();
+
+      // ═══════════════════════════════════════════════════
+      // CHECK-IN TIMING: Auto-schedule at pill peak time
+      // Purple line on timeline for expected check-in
+      // ═══════════════════════════════════════════════════
+      function getCheckinTime() {
+        // Calculate optimal check-in: when the latest-peaking SOS med hits peak
+        const log = getPillLog();
+        const expected = getExpectedForDay();
+        const allPills = new Set([...Object.keys(log.pills), ...Object.keys(expected)]);
+
+        let latestPeakH = null;
+        allPills.forEach(pillId => {
+          const data = PILL_DATA[pillId];
+          if (!data) return;
+          let takenH;
+          if (log.pills[pillId]) {
+            const taken = new Date(log.pills[pillId].time);
+            const takenTZ = getTimeInLisbon(taken);
+            takenH = takenTZ.fractionalHours;
+          } else if (expected[pillId]) {
+            const parts = expected[pillId].time.split(":");
+            takenH = parseInt(parts[0]) + parseInt(parts[1]) / 60;
+          }
+          if (takenH !== undefined) {
+            const peakH = takenH + data.peakMin / 60;
+            if (!latestPeakH || peakH > latestPeakH) {
+              latestPeakH = peakH;
+            }
+          }
+        });
+        return latestPeakH; // fractional hours, e.g. 16.75 = 16:45
+      }
+
+      function updateCheckinLine() {
+        // Remove old line
+        const old = document.getElementById("checkin-timeline-line");
+        if (old) old.remove();
+
+        const peakH = getCheckinTime();
+        if (peakH === null) return;
+
+        // Add purple vertical line at peak time
+        const ruler = document.querySelector(".timeline-ruler");
+        if (!ruler) return;
+        const pct = hourToPercent(peakH);
+        if (pct < 0 || pct > 100) return;
+
+        const line = document.createElement("div");
+        line.id = "checkin-timeline-line";
+        line.style.cssText = "position:absolute;left:" + pct + "%;top:0;bottom:0;width:2px;background:#9c27b0;z-index:5;pointer-events:none;";
+        line.innerHTML = '<span style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:0.65em;color:#9c27b0;white-space:nowrap;font-weight:bold;">📋 Check-in</span>';
+        ruler.style.position = "relative";
+        ruler.appendChild(line);
+      }
+
+      // Update check-in line when pills change
+      var origUpdatePillUI = updatePillUI;
+      updatePillUI = function() {
+        origUpdatePillUI();
+        updateCheckinLine();
+      };
+      updateCheckinLine();
+
+    </script>
+
+    <!-- ═══════ FLOATING TIMELINE ═══════ -->
+    <button
+      class="popout-fab"
+      onclick="popOutSchedule()"
+      title="Open floating schedule popup"
+    >
+      🪟 Pop Out
+    </button>
+    <button
+      class="timeline-fab"
+      id="tl-fab"
+      onclick="toggleTimeline()"
+      title="Schedule Timeline"
+    >
+      <span class="fab-icon">📅</span> Timeline
+    </button>
+    <div class="timeline-panel" id="tl-panel">
+      <div class="tl-header">
+        <h3>SCHEDULE TIMELINE</h3>
+        <div class="tl-day-tabs" id="tl-day-tabs"></div>
+      </div>
+      <div class="tl-now-indicator" id="tl-now"></div>
+      <div class="tl-body">
+        <div class="tl-timeline" id="tl-timeline"></div>
+      </div>
+      <div class="tl-legend">
+        <span class="tl-legend-item"
+          ><span class="tl-legend-dot" style="background: #1976d2"></span
+          >Video</span
+        >
+        <span class="tl-legend-item"
+          ><span class="tl-legend-dot" style="background: #e8a500"></span
+          >Drill</span
+        >
+        <span class="tl-legend-item"
+          ><span class="tl-legend-dot" style="background: #00a651"></span
+          >Practice</span
+        >
+        <span class="tl-legend-item"
+          ><span class="tl-legend-dot" style="background: #7b1fa2"></span
+          >Solo</span
+        >
+        <span class="tl-legend-item"
+          ><span class="tl-legend-dot" style="background: #d32f2f"></span
+          >FIT</span
+        >
+        <span class="tl-legend-item"
+          ><span class="tl-legend-dot" style="background: #ff9800"></span
+          >Break</span
+        >
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        /* ── helpers ── */
+        function parseTime(s) {
+          const [h, m] = s.split(":").map(Number);
+          return h * 60 + m;
+        }
+        function fmtTime(mins) {
+          const h = Math.floor(mins / 60),
+            m = mins % 60;
+          return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+        }
+        function categorize(text) {
+          const t = text.toLowerCase();
+          if (/practice room|🤝/.test(t)) return "practice";
+          if (/caso solo|📚/.test(t)) return "solo";
+          if (/📹|course|sample interview|bloco/.test(t)) return "video";
+          if (/drill|⚡/.test(t)) return "drill";
+          if (/fit|scar|📝.*fit/.test(t)) return "fit";
+          if (/jantar|pausa|almoço|rest|nap|🍽️|😌|livre|relax/.test(t))
+            return "break";
+          return "default";
+        }
+
+        /* ── extract schedule data from existing DOM ── */
+        const dayMap = {};
+        const dayLabels = {
+          sun: "Dom 22",
+          mon: "Seg 23",
+          tue: "Ter 24",
+          wed: "Qua 25",
+          thu: "Qui 26",
+          fri: "Sex 27",
+        };
+        const dayOrder = ["sun", "mon", "tue", "wed", "thu", "fri"];
+
+        function extractSchedule() {
+          dayOrder.forEach((d) => {
+            dayMap[d] = [];
+          });
+          dayOrder.forEach((dayId) => {
+            const dayEl = document.getElementById("day-" + dayId);
+            if (!dayEl) return;
+            const rows = dayEl.querySelectorAll("table tbody tr");
+            rows.forEach((row) => {
+              const cells = row.querySelectorAll("td");
+              if (cells.length < 3) return;
+              const timeCell = row.querySelector(".time-col");
+              if (!timeCell) return;
+              const timeText = timeCell.textContent.trim();
+              const timeParts = timeText.match(
+                /(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/,
+              );
+              if (!timeParts) return;
+              const checkbox = row.querySelector(".schedule-check");
+              const actCell = cells.length >= 3 ? cells[2] : cells[1];
+              const detailCell = cells.length >= 4 ? cells[3] : null;
+              const activity = actCell.textContent.trim().substring(0, 60);
+              const detail = detailCell
+                ? detailCell.textContent.trim().substring(0, 80)
+                : "";
+              const links = [];
+              if (detailCell) {
+                detailCell.querySelectorAll("a[href]").forEach((a) => {
+                  links.push({ text: a.textContent.trim(), href: a.href });
+                });
+              }
+              dayMap[dayId].push({
+                start: timeParts[1],
+                end: timeParts[2],
+                activity: activity,
+                detail: detail,
+                cat: categorize(activity),
+                done: checkbox ? checkbox.checked : false,
+                links: links,
+              });
+            });
+          });
+        }
+
+        /* ── determine "today" day key ── */
+        function getTodayKey() {
+          const now = new Date();
+          const dayNum = now.getDate();
+          const month = now.getMonth(); // 0-indexed, Feb = 1
+          if (month === 1) {
+            // February
+            if (dayNum === 22) return "sun";
+            if (dayNum === 23) return "mon";
+            if (dayNum === 24) return "tue";
+            if (dayNum === 25) return "wed";
+            if (dayNum === 26) return "thu";
+            if (dayNum === 27) return "fri";
+          }
+          return "tue"; // default fallback
+        }
+
+        let currentTLDay = getTodayKey();
+
+        /* ── render ── */
+        function renderDayTabs() {
+          const tabs = document.getElementById("tl-day-tabs");
+          tabs.innerHTML = "";
+          dayOrder.forEach((d) => {
+            if (dayMap[d].length === 0) return;
+            const btn = document.createElement("button");
+            btn.className =
+              "tl-day-tab" + (d === currentTLDay ? " active" : "");
+            btn.textContent = dayLabels[d];
+            btn.onclick = () => {
+              currentTLDay = d;
+              renderTimeline();
+              renderDayTabs();
+            };
+            tabs.appendChild(btn);
+          });
+        }
+
+        function renderTimeline() {
+          const container = document.getElementById("tl-timeline");
+          const now = new Date();
+          const nowMins = now.getHours() * 60 + now.getMinutes();
+          const slots = dayMap[currentTLDay] || [];
+          const isToday = currentTLDay === getTodayKey();
+
+          // Re-check done state from checkboxes
+          const dayEl = document.getElementById("day-" + currentTLDay);
+          if (dayEl) {
+            const rows = dayEl.querySelectorAll("table tbody tr");
+            let idx = 0;
+            rows.forEach((row) => {
+              const cb = row.querySelector(".schedule-check");
+              const timeCell = row.querySelector(".time-col");
+              if (!timeCell) return;
+              if (idx < slots.length) {
+                slots[idx].done = cb ? cb.checked : false;
+                idx++;
+              }
+            });
+          }
+
+          // Now indicator
+          const nowEl = document.getElementById("tl-now");
+          if (isToday) {
+            let currentSlot = null;
+            slots.forEach((s) => {
+              const start = parseTime(s.start);
+              let end = parseTime(s.end);
+              if (end <= start) end += 24 * 60;
+              if (nowMins >= start && nowMins < end) currentSlot = s;
+            });
+            if (currentSlot) {
+              nowEl.textContent = "▶ NOW: " + currentSlot.activity;
+              nowEl.style.display = "block";
+            } else {
+              nowEl.textContent = "🕐 " + fmtTime(nowMins) + " — between slots";
+              nowEl.style.display = "block";
+            }
+          } else {
+            nowEl.style.display = "none";
+          }
+
+          // Render slots
+          container.innerHTML = "";
+          slots.forEach((s) => {
+            const startMins = parseTime(s.start);
+            let endMins = parseTime(s.end);
+            if (endMins <= startMins) endMins += 24 * 60;
+            const isCurrent =
+              isToday && nowMins >= startMins && nowMins < endMins;
+
+            const div = document.createElement("div");
+            div.className = "tl-slot tl-cat-" + s.cat;
+            if (isCurrent) div.className += " current";
+            if (s.done) div.className += " done";
+
+            div.innerHTML =
+              '<span class="tl-time">' +
+              s.start +
+              "</span>" +
+              '<span class="tl-dot"></span>' +
+              '<div class="tl-activity">' +
+              escHtml(s.activity) +
+              "</div>" +
+              '<div class="tl-detail">' +
+              escHtml(s.detail) +
+              "</div>";
+
+            // Scroll current into view after append
+            container.appendChild(div);
+            if (isCurrent) {
+              setTimeout(
+                () =>
+                  div.scrollIntoView({ block: "center", behavior: "smooth" }),
+                100,
+              );
+            }
+          });
+        }
+
+        function escHtml(t) {
+          const d = document.createElement("div");
+          d.textContent = t;
+          return d.innerHTML;
+        }
+
+        /* ── toggle ── */
+        window.toggleTimeline = function () {
+          const panel = document.getElementById("tl-panel");
+          const fab = document.getElementById("tl-fab");
+          const isOpen = panel.classList.contains("open");
+          if (isOpen) {
+            panel.classList.remove("open");
+            fab.classList.remove("open");
+          } else {
+            extractSchedule();
+            renderDayTabs();
+            renderTimeline();
+            panel.classList.add("open");
+            fab.classList.add("open");
+          }
+        };
+
+        /* ── pop out floating window (always-on-top via Document PiP) ── */
+        window.popOutSchedule = async function () {
+          // Try Document Picture-in-Picture API (Chrome 116+, always-on-top)
+          if ("documentPictureInPicture" in window) {
+            try {
+              const pipWindow = await documentPictureInPicture.requestWindow({
+                width: 380,
+                height: 640,
+              });
+              // Fetch popup.html and inject into PiP window
+              const resp = await fetch("popup.html");
+              const html = await resp.text();
+              pipWindow.document.open();
+              pipWindow.document.write(html);
+              pipWindow.document.close();
+              return;
+            } catch (err) {
+              console.warn("PiP failed, falling back to popup:", err);
+            }
+          }
+          // Fallback: regular popup window
+          var w = 380,
+            h = 640;
+          var left = screen.width - w - 30;
+          var top = 60;
+          var features =
+            "width=" +
+            w +
+            ",height=" +
+            h +
+            ",left=" +
+            left +
+            ",top=" +
+            top +
+            ",resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no";
+          window.open("popup.html", "bcg-schedule-popup", features);
+        };
+
+        // Auto-refresh every minute if open
+        setInterval(() => {
+          const panel = document.getElementById("tl-panel");
+          if (panel.classList.contains("open")) {
+            extractSchedule();
+            renderTimeline();
+          }
+        }, 60000);
+
+        // Listen for checkbox changes to update timeline
+        document.addEventListener("change", (e) => {
+          if (e.target.classList.contains("schedule-check")) {
+            const panel = document.getElementById("tl-panel");
+            if (panel.classList.contains("open")) {
+              extractSchedule();
+              renderTimeline();
+            }
+          }
+        });
+      })();
     </script>
   </body>
 </html>
