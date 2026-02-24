@@ -1288,9 +1288,19 @@
                   </td>
                   <td class="time-col">22:40-23:10</td>
                   <td class="activity-col">
-                    📝 FIT: SCAR stories em voz alta PT
+                    🏠
+                    <a
+                      href="https://casecoach.com/c/practice-room/book/"
+                      target="_blank"
+                      style="color: inherit; text-decoration: underline"
+                      >Practice Room Case #1</a
+                    >
+                    — Live peer case
                   </td>
-                  <td>Praticar 4 histórias em voz alta. Gravar se possível.</td>
+                  <td>
+                    Primeiro caso ao vivo com peer. Praticar structure + math +
+                    recomendação. 30min slot.
+                  </td>
                 </tr>
                 <tr>
                   <td>
@@ -9453,7 +9463,7 @@
           fillEl.style.height = "100%";
           fillEl.style.position = "absolute";
           fillEl.style.borderRadius = "4px";
-          fillEl.style.cursor = isTaken ? "grab" : "default";
+          fillEl.style.cursor = "grab";
           fillEl.style.zIndex = "2";
 
           // Pill name label (pointer-events:none so drag works through it!)
@@ -10034,13 +10044,20 @@
         e.stopPropagation();
         console.log("[DRAG] startDrag called for", pillId);
         const log = getPillLog();
-        console.log("[DRAG] log.pills:", JSON.stringify(log.pills));
-        // Only allow dragging taken pills (not expected)
-        if (!log.pills[pillId]) {
-          console.log("[DRAG] BLOCKED - pill not taken yet:", pillId);
+        const expected = getExpectedForDay();
+
+        // Allow dragging both taken AND expected pills
+        const isTaken = !!log.pills[pillId];
+        const isExpected = !!expected[pillId];
+        if (!isTaken && !isExpected) {
+          console.log("[DRAG] BLOCKED - pill not in schedule:", pillId);
           return;
         }
-        console.log("[DRAG] Starting drag for", pillId);
+        console.log(
+          "[DRAG] Starting drag for",
+          pillId,
+          isTaken ? "(taken)" : "(expected)",
+        );
 
         const fillEl = document.getElementById("bar-" + pillId + "-fill");
         const trackEl = fillEl.parentElement;
@@ -10060,6 +10077,7 @@
           rect,
           startX,
           origLeft,
+          wasTaken: isTaken,
         };
       }
 
@@ -10127,22 +10145,35 @@
         const newHour = percentToHour(newLeft);
         const hours = Math.floor(newHour) % 24;
         const mins = Math.round((newHour % 1) * 60);
+        const timeStr =
+          String(hours).padStart(2, "0") + ":" + String(mins).padStart(2, "0");
 
         const log = getPillLog();
+        const now = getNow();
+        now.setHours(hours, mins, 0, 0);
+
         if (log.pills[dragState.pillId]) {
-          const now = getNow();
-          now.setHours(hours, mins, 0, 0);
+          // Update existing taken pill
           log.pills[dragState.pillId].time = now.toISOString();
-          log.pills[dragState.pillId].timeStr = now.toLocaleTimeString(
-            "pt-PT",
-            {
-              timeZone: TZ,
-              hour: "2-digit",
-              minute: "2-digit",
-            },
+          log.pills[dragState.pillId].timeStr = timeStr;
+        } else {
+          // Expected pill dragged — register as taken at drag position
+          const expected = getExpectedForDay();
+          const exp = expected[dragState.pillId];
+          const dose = exp ? exp.dose : "?";
+          log.pills[dragState.pillId] = {
+            time: now.toISOString(),
+            timeStr: timeStr,
+            dose: dose,
+          };
+          console.log(
+            "[DRAG] Registered expected pill as taken:",
+            dragState.pillId,
+            timeStr,
+            dose,
           );
-          savePillLog(log);
         }
+        savePillLog(log);
 
         dragState = null;
         updatePillUI();
