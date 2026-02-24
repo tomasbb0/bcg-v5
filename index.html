@@ -120,13 +120,16 @@
 
       .sidebar-header .countdown {
         margin-top: 12px;
-        padding: 8px 12px;
+        padding: 10px 12px;
         background: rgba(0, 166, 81, 0.06);
         border: 1px solid rgba(0, 166, 81, 0.2);
         border-radius: 8px;
         font-size: 12px;
         color: var(--bcg-green);
         font-weight: 600;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
       }
 
       .sidebar nav {
@@ -658,8 +661,8 @@
         background: #bbb;
       }
 
-      /* RESPONSIVE */
-      @media (max-width: 768px) {
+      /* RESPONSIVE — sidebar only hides on phones (<480px) */
+      @media (max-width: 480px) {
         .sidebar {
           transform: translateX(-100%);
         }
@@ -3469,7 +3472,7 @@
           </div>
 
           <!-- ALWAYS-ACCESSIBLE CHECK-IN BUTTON -->
-          <div style="margin-bottom: 16px; text-align: center;">
+          <div style="margin-bottom: 16px; text-align: center">
             <button
               onclick="showCheckinModal()"
               style="
@@ -3485,7 +3488,13 @@
             >
               📋 Abrir Check-in Médico
             </button>
-            <p style="font-size: 0.75em; color: var(--text-muted); margin: 4px 0 0;">
+            <p
+              style="
+                font-size: 0.75em;
+                color: var(--text-muted);
+                margin: 4px 0 0;
+              "
+            >
               Podes responder a qualquer momento — dados salvos para o médico
             </p>
           </div>
@@ -9423,12 +9432,12 @@
         document.getElementById("sidebar").classList.toggle("open");
       }
 
-      // Close sidebar on click outside (mobile)
+      // Close sidebar on click outside (mobile only)
       document.addEventListener("click", function (e) {
         const sidebar = document.getElementById("sidebar");
         const toggle = document.querySelector(".menu-toggle");
         if (
-          window.innerWidth <= 768 &&
+          window.innerWidth <= 480 &&
           !sidebar.contains(e.target) &&
           !toggle.contains(e.target)
         ) {
@@ -10391,7 +10400,10 @@
         // Find the best check-in time: peak of latest SOS med (taken or expected)
         let latestPeakTime = null;
         let reason = "";
-        const allPills = new Set([...Object.keys(log.pills), ...Object.keys(expected)]);
+        const allPills = new Set([
+          ...Object.keys(log.pills),
+          ...Object.keys(expected),
+        ]);
 
         allPills.forEach((pillId) => {
           const data = PILL_DATA[pillId];
@@ -10417,7 +10429,8 @@
             latestPeakTime = peakTime;
             const prefix = isActual ? "" : "(esperado) ";
             reason =
-              prefix + data.name +
+              prefix +
+              data.name +
               " pico às " +
               peakTime.toLocaleTimeString("pt-PT", {
                 timeZone: TZ,
@@ -10981,15 +10994,18 @@
       // Auto-adds "▶ Open All" to schedule cells with 2+ external links
       // ═══════════════════════════════════════════════════
       (function addOpenAllButtons() {
-        document.querySelectorAll("td").forEach(td => {
-          const links = td.querySelectorAll('a[href*="casecoach.com"], a[href*="youtube.com"], a[href*="youtu.be"]');
+        document.querySelectorAll("td").forEach((td) => {
+          const links = td.querySelectorAll(
+            'a[href*="casecoach.com"], a[href*="youtube.com"], a[href*="youtu.be"]',
+          );
           if (links.length >= 2) {
             const btn = document.createElement("button");
             btn.textContent = "▶ Open All (" + links.length + ")";
-            btn.style.cssText = "display:block;margin-top:6px;padding:3px 10px;font-size:0.75em;border-radius:4px;border:1px solid var(--highlight);background:transparent;color:var(--highlight);cursor:pointer;font-weight:bold;";
-            btn.addEventListener("click", function(e) {
+            btn.style.cssText =
+              "display:block;margin-top:6px;padding:3px 10px;font-size:0.75em;border-radius:4px;border:1px solid var(--highlight);background:transparent;color:var(--highlight);cursor:pointer;font-weight:bold;";
+            btn.addEventListener("click", function (e) {
               e.preventDefault();
-              links.forEach(link => window.open(link.href, "_blank"));
+              links.forEach((link) => window.open(link.href, "_blank"));
             });
             td.appendChild(btn);
           }
@@ -11004,10 +11020,13 @@
         // Calculate optimal check-in: when the latest-peaking SOS med hits peak
         const log = getPillLog();
         const expected = getExpectedForDay();
-        const allPills = new Set([...Object.keys(log.pills), ...Object.keys(expected)]);
+        const allPills = new Set([
+          ...Object.keys(log.pills),
+          ...Object.keys(expected),
+        ]);
 
         let latestPeakH = null;
-        allPills.forEach(pillId => {
+        allPills.forEach((pillId) => {
           const data = PILL_DATA[pillId];
           if (!data) return;
           let takenH;
@@ -11045,20 +11064,23 @@
 
         const line = document.createElement("div");
         line.id = "checkin-timeline-line";
-        line.style.cssText = "position:absolute;left:" + pct + "%;top:0;bottom:0;width:2px;background:#9c27b0;z-index:5;pointer-events:none;";
-        line.innerHTML = '<span style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:0.65em;color:#9c27b0;white-space:nowrap;font-weight:bold;">📋 Check-in</span>';
+        line.style.cssText =
+          "position:absolute;left:" +
+          pct +
+          "%;top:0;bottom:0;width:2px;background:#9c27b0;z-index:5;pointer-events:none;";
+        line.innerHTML =
+          '<span style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:0.65em;color:#9c27b0;white-space:nowrap;font-weight:bold;">📋 Check-in</span>';
         ruler.style.position = "relative";
         ruler.appendChild(line);
       }
 
       // Update check-in line when pills change
       var origUpdatePillUI = updatePillUI;
-      updatePillUI = function() {
+      updatePillUI = function () {
         origUpdatePillUI();
         updateCheckinLine();
       };
       updateCheckinLine();
-
     </script>
 
     <!-- ═══════ FLOATING TIMELINE ═══════ -->
