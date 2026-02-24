@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <title>BCG Schedule — Pop Out</title>
+    <style>
+      :root {
+        --bcg: #00a651;
+        --text: #e0e0e0;
+        --muted: #888;
+        --bg: #111;
+        --card: #1a1a1a;
+        --border: #2a2a2a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          "SF Pro Display",
+          -apple-system,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        font-size: 12px;
+        overflow-x: hidden;
+      }
+
+      /* ═══ HEADER ═══ */
+      .header {
+        background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+        cursor: move;
+        -webkit-app-region: drag;
+        user-select: none;
+      }
+      .header h1 {
+        font-size: 11px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: 1.5px;
+      }
+      .header h1 span {
+        color: var(--bcg);
+      }
+      .header .cd {
+        font-size: 10px;
+        color: var(--bcg);
+        font-weight: 700;
+      }
+      .header .close-btn {
+        background: none;
+        border: none;
+        color: #666;
+        font-size: 16px;
+        cursor: pointer;
+        -webkit-app-region: no-drag;
+        padding: 0 4px;
+      }
+      .header .close-btn:hover {
+        color: #f44;
+      }
+
+      /* ═══ NOW BAR ═══ */
+      .now-bar {
+        background: rgba(0, 166, 81, 0.1);
+        border-bottom: 1px solid rgba(0, 166, 81, 0.2);
+        padding: 6px 14px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--bcg);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .now-pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--bcg);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 166, 81, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 6px rgba(0, 166, 81, 0);
+        }
+      }
+
+      /* ═══ DAY TABS ═══ */
+      .tabs {
+        display: flex;
+        gap: 3px;
+        padding: 6px 10px;
+        background: #0d0d0d;
+        border-bottom: 1px solid var(--border);
+      }
+      .tab {
+        flex: 1;
+        padding: 5px 0;
+        text-align: center;
+        font-size: 10px;
+        font-weight: 700;
+        color: #666;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .tab:hover {
+        color: #aaa;
+        background: #1a1a1a;
+      }
+      .tab.active {
+        background: var(--bcg);
+        color: #fff;
+        border-color: var(--bcg);
+      }
+      .tab.today {
+        border-bottom: 2px solid var(--bcg);
+      }
+
+      /* ═══ PROGRESS ═══ */
+      .progress {
+        height: 2px;
+        background: #222;
+      }
+      .progress-fill {
+        height: 100%;
+        background: var(--bcg);
+        transition: width 0.5s;
+      }
+
+      /* ═══ TIMELINE ═══ */
+      .timeline {
+        overflow-y: auto;
+        padding: 8px 10px 60px 10px;
+        max-height: calc(100vh - 130px);
+      }
+      .timeline::-webkit-scrollbar {
+        width: 4px;
+      }
+      .timeline::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 2px;
+      }
+
+      .slot {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 8px 10px;
+        margin-bottom: 3px;
+        border-radius: 8px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-left: 3px solid #444;
+        transition: all 0.15s;
+        position: relative;
+      }
+      .slot:hover {
+        background: #222;
+      }
+      .slot.current {
+        background: rgba(0, 166, 81, 0.08);
+        border-left-color: var(--bcg);
+        border-color: rgba(0, 166, 81, 0.3);
+      }
+      .slot.done {
+        opacity: 0.3;
+      }
+      .slot.done .s-act {
+        text-decoration: line-through;
+      }
+
+      .s-time {
+        font-size: 9px;
+        font-weight: 800;
+        color: var(--muted);
+        min-width: 34px;
+        padding-top: 1px;
+      }
+      .slot.current .s-time {
+        color: var(--bcg);
+      }
+
+      .s-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .s-act {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .s-det {
+        font-size: 10px;
+        color: #666;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .s-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+        margin-top: 4px;
+      }
+      .s-link {
+        font-size: 9px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: rgba(0, 166, 81, 0.1);
+        color: var(--bcg);
+        text-decoration: none;
+        font-weight: 600;
+        border: 1px solid rgba(0, 166, 81, 0.2);
+      }
+      .s-link:hover {
+        background: rgba(0, 166, 81, 0.2);
+      }
+      .s-openall {
+        font-size: 9px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: var(--bcg);
+        color: #fff;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .s-check {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid #444;
+        background: transparent;
+        cursor: pointer;
+        font-size: 10px;
+        color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .s-check:hover {
+        border-color: var(--bcg);
+      }
+      .s-check.checked {
+        background: var(--bcg);
+        border-color: var(--bcg);
+        color: #fff;
+      }
+
+      /* ═══ CATEGORY COLORS ═══ */
+      .cat-video {
+        border-left-color: #1976d2;
+      }
+      .cat-drill {
+        border-left-color: #e8a500;
+      }
+      .cat-practice {
+        border-left-color: #00a651;
+      }
+      .cat-solo {
+        border-left-color: #7b1fa2;
+      }
+      .cat-fit {
+        border-left-color: #d32f2f;
+      }
+      .cat-break {
+        border-left-color: #ff9800;
+      }
+      .cat-meds {
+        border-left-color: #e91e63;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header" id="drag-header">
+      <h1><span>BCG</span> SCHEDULE</h1>
+      <span class="cd" id="countdown">⏱</span>
+      <button class="close-btn" onclick="window.close()" title="Close">
+        ✕
+      </button>
+    </div>
+
+    <div class="now-bar" id="now-bar">
+      <span class="now-pulse"></span>
+      <span id="now-text">Loading...</span>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+    <div class="progress"><div class="progress-fill" id="pbar"></div></div>
+    <div class="timeline" id="timeline"></div>
+
+    <script>
+      const SCHEDULE = {
+        tue: {
+          label: "Ter 24",
+          date: "2026-02-24",
+          slots: [
+            {
+              s: "15:30",
+              e: "15:40",
+              a: "☀️ Setup + meds + 💊 Propranolol 10mg",
+              d: "Rubifen 20mg + Propranolol 10mg (TESTE). Comer algo.",
+              l: [],
+            },
+            {
+              s: "15:40",
+              e: "16:00",
+              a: "📹 Case Prep Bloco 1 (Structuring)",
+              d: "AIM test: Answer-focused, Insightful, MECE. 3-4 vídeos a 1.5x.",
+              l: [
+                {
+                  t: "AIM Test",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-approach-structuring-the-aim-test/",
+                },
+                {
+                  t: "Build Structure",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-build-a-structure/",
+                },
+                {
+                  t: "Top-10 Frameworks",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/top-10-case-frameworks/",
+                },
+                {
+                  t: "Academic FW",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/academic-frameworks/",
+                },
+                {
+                  t: "Logical FW",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/logical-frameworks/",
+                },
+              ],
+            },
+            {
+              s: "17:00",
+              e: "17:50",
+              a: "📹 Case Prep Bloco 2 (Math+Exhibits)",
+              d: "Math in Cases + Exhibits a 1.5x. Anotar fórmulas-chave.",
+              l: [
+                {
+                  t: "Math in Cases",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-solve-math-questions/",
+                },
+                {
+                  t: "Identify Insights",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-identify-insights/",
+                },
+                {
+                  t: "Communicate",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-communicate-your-structure/",
+                },
+              ],
+            },
+            {
+              s: "17:50",
+              e: "18:20",
+              a: "⚡ Drills: Calculations + Structures",
+              d: "10 Calculations + 5 Structures. Target: 15-30s cada.",
+              l: [{ t: "🔗 Drills", h: "https://casecoach.com/c/drills/" }],
+            },
+            {
+              s: "18:20",
+              e: "19:20",
+              a: "📚 Caso Solo #1: Roko Hotel",
+              d: "Easy. Foco: ESTRUTURAR em max 2 min. Full solo protocol.",
+              l: [],
+            },
+            {
+              s: "19:20",
+              e: "20:00",
+              a: "🍽️ Jantar + pausa",
+              d: "Comer bem. Descansar 40 min.",
+              l: [],
+            },
+            {
+              s: "20:15",
+              e: "21:00",
+              a: "📹 Math Course Bloco 1",
+              d: "Operações, frações, percentagens + 3 drills.",
+              l: [
+                {
+                  t: "Addition",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/addition/",
+                },
+                {
+                  t: "Subtraction",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/subtraction/",
+                },
+                {
+                  t: "Multiply",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/multiplication/",
+                },
+                {
+                  t: "Division",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/division/",
+                },
+                {
+                  t: "Fractions",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/fractions/",
+                },
+                {
+                  t: "Percent",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/percentages/",
+                },
+              ],
+            },
+            {
+              s: "21:00",
+              e: "21:40",
+              a: "📝 FIT: SCAR stories + 💊 Alprazolam",
+              d: "Tomar Alprazolam 0,25mg. SCAR stories em PT.",
+              l: [],
+            },
+            {
+              s: "21:40",
+              e: "22:40",
+              a: "📚 Caso Solo #2: FlashFash (M&A)",
+              d: "Caso médio sob Alprazolam. Observar math + síntese.",
+              l: [
+                {
+                  t: "FlashFash",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/model-case-interview-flashfash/",
+                },
+              ],
+            },
+            {
+              s: "22:40",
+              e: "23:10",
+              a: "🤝 Practice Room #1",
+              d: "Primeiro caso ao vivo. Structure + math + recomendação.",
+              l: [
+                {
+                  t: "🔗 Reservar",
+                  h: "https://casecoach.com/c/practice-room/book/",
+                },
+              ],
+            },
+            {
+              s: "23:10",
+              e: "00:30",
+              a: "📝 Review + meds log + 💊 Aerius",
+              d: "5 key takeaways. Efeitos de ambos meds.",
+              l: [],
+            },
+          ],
+        },
+        wed: {
+          label: "Qua 25",
+          date: "2026-02-25",
+          slots: [
+            {
+              s: "10:00",
+              e: "10:15",
+              a: "☀️ Acordar + meds",
+              d: "Concerta 36mg.",
+              l: [],
+            },
+            {
+              s: "10:15",
+              e: "11:15",
+              a: "📹 Case Prep Bloco 3 (Creativity)",
+              d: "Creativity & Judgment + 5 drills.",
+              l: [
+                {
+                  t: "Creativity",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-generate-ideas/",
+                },
+                {
+                  t: "Judgment",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-identify-insights/",
+                },
+              ],
+            },
+            {
+              s: "11:15",
+              e: "12:15",
+              a: "🤝 Practice Room #2",
+              d: "Market Entry/Operations. Hipótese + brainstorming.",
+              l: [
+                {
+                  t: "🔗 Reservar",
+                  h: "https://casecoach.com/c/practice-room/",
+                },
+              ],
+            },
+            {
+              s: "12:30",
+              e: "13:30",
+              a: "📹 Case Prep Bloco 4 (Synthesis)",
+              d: "+ Case Leadership. Watch 1 sample interview.",
+              l: [
+                {
+                  t: "Synthesis",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-synthesize-your-recommendation/",
+                },
+                {
+                  t: "Leadership",
+                  h: "https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-lead-the-case-and-conquer-candidate-led-interviews/",
+                },
+              ],
+            },
+            {
+              s: "14:00",
+              e: "15:00",
+              a: "🤝 Practice Room #3 — 💊 COMBO TEST",
+              d: "Propranolol 20mg + Alprazolam 0,5mg — dress rehearsal!",
+              l: [],
+            },
+            {
+              s: "17:00",
+              e: "18:00",
+              a: "📹 Math Bloco 2 + Drills",
+              d: "Weighted avg, growth, breakeven + 15 drills.",
+              l: [
+                {
+                  t: "Weighted Avg",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/weighted-averages/",
+                },
+                {
+                  t: "Compound",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/compounding/",
+                },
+                {
+                  t: "Probability",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/probability/",
+                },
+                {
+                  t: "Algebra",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/algebra/",
+                },
+                { t: "🔗 Drills", h: "https://casecoach.com/c/drills/" },
+              ],
+            },
+            {
+              s: "18:00",
+              e: "19:00",
+              a: "📚 Caso Solo #5: A-EYE (Pricing)",
+              d: "Market entry + pricing. Foco: Math + criatividade.",
+              l: [],
+            },
+            {
+              s: "20:00",
+              e: "21:00",
+              a: "📹 Math Bloco 3 (Pro Tips)",
+              d: "Atalhos, arredondamento, simplificação.",
+              l: [
+                {
+                  t: "Track Zeros",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/keeping-track-of-zeros/",
+                },
+                {
+                  t: "Rounding",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-rounding/",
+                },
+                {
+                  t: "Factors",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-factors/",
+                },
+                {
+                  t: "Distributive",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-distributive-properties/",
+                },
+                {
+                  t: "Fractions",
+                  h: "https://casecoach.com/c/courses/case-math-course/class/fraction-values-to-remember/",
+                },
+              ],
+            },
+            {
+              s: "21:00",
+              e: "22:00",
+              a: "🤝 Practice Room #4",
+              d: "Cost Cutting/Operations. Último caso hard.",
+              l: [
+                {
+                  t: "🔗 Reservar",
+                  h: "https://casecoach.com/c/practice-room/",
+                },
+              ],
+            },
+            {
+              s: "22:00",
+              e: "22:30",
+              a: "📝 Confidence check",
+              d: "Avaliação do dia.",
+              l: [],
+            },
+          ],
+        },
+        thu: {
+          label: "Qui 26",
+          date: "2026-02-26",
+          slots: [
+            {
+              s: "10:00",
+              e: "10:15",
+              a: "☀️ Acordar + meds",
+              d: "Concerta 36mg.",
+              l: [],
+            },
+            {
+              s: "10:15",
+              e: "11:15",
+              a: "📹 Math Bloco 4 + Fit Course",
+              d: "Business Math + Fit Interview Prep (7 aulas).",
+              l: [],
+            },
+            {
+              s: "12:00",
+              e: "12:30",
+              a: "📝 Debrief detalhado",
+              d: "Review de todos os casos. Padrões de erro.",
+              l: [],
+            },
+            {
+              s: "12:30",
+              e: "13:00",
+              a: "🔄 Ajudar amiga (Google prep)",
+              d: "",
+              l: [],
+            },
+            {
+              s: "15:00",
+              e: "16:00",
+              a: "🤝 Practice Room #5",
+              d: "Revenue Growth/Cost Cutting. Push for excellence.",
+              l: [
+                {
+                  t: "🔗 Reservar",
+                  h: "https://casecoach.com/c/practice-room/",
+                },
+              ],
+            },
+            {
+              s: "16:00",
+              e: "17:00",
+              a: "📹 Sample Interview + BCG Research",
+              d: "Top-rated MBB interview + BCG checklist.",
+              l: [],
+            },
+            {
+              s: "17:00",
+              e: "18:00",
+              a: "📝 FIT Final: SCAR + Review",
+              d: "Cada SCAR em voz alta. Gravar. Top 3 takeaways.",
+              l: [],
+            },
+            {
+              s: "18:00",
+              e: "18:30",
+              a: "📚 Caso Solo #8: Confidence Builder",
+              d: "Caso fácil. Acabar com VITÓRIA.",
+              l: [],
+            },
+          ],
+        },
+        fri: {
+          label: "Sex 27 🏆",
+          date: "2026-02-27",
+          slots: [
+            {
+              s: "09:00",
+              e: "09:30",
+              a: "☀️ Acordar + pequeno-almoço",
+              d: "Proteína + carbos complexos.",
+              l: [],
+            },
+            {
+              s: "10:00",
+              e: "10:30",
+              a: "📖 Light review",
+              d: "Skim frameworks. NÃO deep study.",
+              l: [],
+            },
+            {
+              s: "10:30",
+              e: "11:00",
+              a: "📝 Ler fit stories",
+              d: "Sentir as histórias.",
+              l: [],
+            },
+            {
+              s: "11:00",
+              e: "11:30",
+              a: "🎯 Quick warm-up",
+              d: "5 math + 1 structure prompt.",
+              l: [],
+            },
+            {
+              s: "11:30",
+              e: "12:30",
+              a: "🍽️ Almoço + 💊 Rubifen",
+              d: "Leve. Frango + salada.",
+              l: [],
+            },
+            {
+              s: "12:30",
+              e: "13:30",
+              a: "😌 REST",
+              d: "Nap 20 min. Música. Walk.",
+              l: [],
+            },
+            {
+              s: "13:30",
+              e: "14:00",
+              a: "👔 Preparar-se",
+              d: "Business formal.",
+              l: [],
+            },
+            {
+              s: "14:00",
+              e: "14:15",
+              a: "📋 Final checklist",
+              d: "Game Day tab.",
+              l: [],
+            },
+            {
+              s: "14:15",
+              e: "14:30",
+              a: "💊 Meds finais",
+              d: "Propranolol 20mg + Alprazolam 0,5mg.",
+              l: [],
+            },
+            {
+              s: "15:30",
+              e: "17:00",
+              a: "🏆 BCG INTERVIEW",
+              d: "GAME TIME. AIM. Estruturar. Liderar.",
+              l: [],
+            },
+          ],
+        },
+      };
+
+      const DAYS = ["tue", "wed", "thu", "fri"];
+      let curDay = getToday();
+      let checks = JSON.parse(localStorage.getItem("popup-checks") || "{}");
+
+      function getToday() {
+        const d = new Date();
+        const day = d.getDate(),
+          mo = d.getMonth();
+        if (mo === 1) {
+          if (day === 24) return "tue";
+          if (day === 25) return "wed";
+          if (day === 26) return "thu";
+          if (day === 27) return "fri";
+        }
+        return "tue";
+      }
+      function pt(s) {
+        const [h, m] = s.split(":").map(Number);
+        return h * 60 + m;
+      }
+      function cat(t) {
+        t = t.toLowerCase();
+        if (/💊|meds|propranolol|alprazolam|rubifen|concerta|aerius/.test(t))
+          return "meds";
+        if (/practice room|🤝/.test(t)) return "practice";
+        if (/caso solo|📚/.test(t)) return "solo";
+        if (/📹|course|bloco|sample/.test(t)) return "video";
+        if (/drill|⚡/.test(t)) return "drill";
+        if (/fit|scar/.test(t) && /📝/.test(t)) return "fit";
+        if (
+          /jantar|pausa|almoço|rest|nap|🍽️|😌|livre|relax|preparar|👔|duche|📖|☀️/.test(
+            t,
+          )
+        )
+          return "break";
+        if (/🏆|interview|game/.test(t)) return "practice";
+        return "";
+      }
+      function esc(t) {
+        const d = document.createElement("div");
+        d.textContent = t;
+        return d.innerHTML;
+      }
+
+      function updateCD() {
+        const diff = new Date("2026-02-28T15:30:00") - new Date();
+        if (diff <= 0) {
+          document.getElementById("countdown").textContent = "🎯 GAME TIME!";
+          return;
+        }
+        const d = Math.floor(diff / 864e5),
+          h = Math.floor((diff % 864e5) / 36e5),
+          m = Math.floor((diff % 36e5) / 6e4);
+        document.getElementById("countdown").textContent = `⏱${d}d${h}h${m}m`;
+      }
+
+      function renderTabs() {
+        const c = document.getElementById("tabs");
+        c.innerHTML = "";
+        DAYS.forEach((k) => {
+          const b = document.createElement("button");
+          b.className =
+            "tab" +
+            (k === curDay ? " active" : "") +
+            (k === getToday() ? " today" : "");
+          b.textContent = SCHEDULE[k].label;
+          b.onclick = () => {
+            curDay = k;
+            renderTabs();
+            render();
+          };
+          c.appendChild(b);
+        });
+      }
+
+      function render() {
+        const c = document.getElementById("timeline");
+        const day = SCHEDULE[curDay];
+        if (!day) {
+          c.innerHTML = "";
+          return;
+        }
+        const now = new Date(),
+          nm = now.getHours() * 60 + now.getMinutes(),
+          isT = curDay === getToday();
+        c.innerHTML = "";
+        let done = 0;
+
+        // Now bar
+        const nb = document.getElementById("now-bar"),
+          nt = document.getElementById("now-text");
+        if (isT) {
+          let cur = null;
+          day.slots.forEach((s) => {
+            const sm = pt(s.s);
+            let em = pt(s.e);
+            if (em <= sm) em += 1440;
+            if (nm >= sm && nm < em) cur = s;
+          });
+          nt.textContent = cur
+            ? "▶ " + cur.a.substring(0, 45)
+            : "🕐 Entre sessões";
+          nb.style.display = "flex";
+        } else {
+          nb.style.display = "none";
+        }
+
+        day.slots.forEach((s, i) => {
+          const sm = pt(s.s);
+          let em = pt(s.e);
+          if (em <= sm) em += 1440;
+          const isCur = isT && nm >= sm && nm < em;
+          const ck = curDay + "-" + i,
+            isDone = checks[ck] || false;
+          if (isDone) done++;
+          const ct = cat(s.a);
+
+          const div = document.createElement("div");
+          div.className =
+            "slot" +
+            (ct ? " cat-" + ct : "") +
+            (isCur ? " current" : "") +
+            (isDone ? " done" : "");
+
+          let lh = "";
+          if (s.l.length) {
+            lh = '<div class="s-links">';
+            s.l.forEach((l) => {
+              lh += `<a class="s-link" href="${esc(l.h)}" target="_blank">${esc(l.t)}</a>`;
+            });
+            if (s.l.length >= 2)
+              lh += `<button class="s-openall" onclick="event.stopPropagation();this.parentElement.querySelectorAll(\'a\').forEach(a=>window.open(a.href,\'_blank\'))">▶ All</button>`;
+            lh += "</div>";
+          }
+
+          div.innerHTML =
+            `<span class="s-time">${s.s}</span>` +
+            `<div class="s-body"><div class="s-act">${esc(s.a)}</div><div class="s-det">${esc(s.d)}</div>${lh}</div>` +
+            `<button class="s-check${isDone ? " checked" : ""}" onclick="event.stopPropagation();tgl('${ck}',${i})">${isDone ? "✓" : ""}</button>`;
+
+          c.appendChild(div);
+          if (isCur)
+            setTimeout(
+              () => div.scrollIntoView({ block: "center", behavior: "smooth" }),
+              150,
+            );
+        });
+
+        document.getElementById("pbar").style.width =
+          Math.round((done / day.slots.length) * 100) + "%";
+      }
+
+      function tgl(k, i) {
+        checks[k] = !checks[k];
+        localStorage.setItem("popup-checks", JSON.stringify(checks));
+        render();
+      }
+
+      updateCD();
+      setInterval(updateCD, 60000);
+      renderTabs();
+      render();
+      setInterval(render, 60000);
+
+      document.addEventListener("keydown", (e) => {
+        const i = DAYS.indexOf(curDay);
+        if (e.key === "ArrowLeft" && i > 0) {
+          curDay = DAYS[i - 1];
+          renderTabs();
+          render();
+        }
+        if (e.key === "ArrowRight" && i < DAYS.length - 1) {
+          curDay = DAYS[i + 1];
+          renderTabs();
+          render();
+        }
+      });
+    </script>
+  </body>
+</html>
