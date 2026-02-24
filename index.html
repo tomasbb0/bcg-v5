@@ -1098,7 +1098,7 @@
     <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
 
     <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="bcg-nav">
       <div class="sidebar-header">
         <h1>BCG PREP</h1>
         <p>Tomás Batalha — 1ª Ronda</p>
@@ -9405,7 +9405,7 @@
           .classList.add("active");
         window.scrollTo({ top: 0, behavior: "smooth" });
         // Close mobile sidebar
-        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("bcg-nav").classList.remove("open");
       }
 
       // Day tabs
@@ -9429,31 +9429,47 @@
 
       // Mobile sidebar
       function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("bcg-nav").classList.toggle("open");
       }
 
       // Close sidebar on click outside (mobile only)
       document.addEventListener("click", function (e) {
-        const sidebar = document.getElementById("sidebar");
+        const sidebar = document.getElementById("bcg-nav");
         const toggle = document.querySelector(".menu-toggle");
         if (
           window.innerWidth <= 480 &&
           !sidebar.contains(e.target) &&
           !toggle.contains(e.target)
         ) {
-          console.log("[SIDEBAR] Auto-closing sidebar, width:", window.innerWidth);
+          console.log(
+            "[SIDEBAR] Auto-closing sidebar, width:",
+            window.innerWidth,
+          );
           sidebar.classList.remove("open");
         }
       });
 
       // DEBUG: Monitor sidebar visibility
-      setInterval(function() {
-        const sidebar = document.getElementById("sidebar");
+      setInterval(function () {
+        const sidebar = document.getElementById("bcg-nav");
         if (sidebar) {
           const rect = sidebar.getBoundingClientRect();
           const computed = window.getComputedStyle(sidebar);
           if (rect.right <= 0 || computed.transform !== "none") {
-            console.log("[SIDEBAR] HIDDEN! rect:", JSON.stringify({left: rect.left, right: rect.right, width: rect.width}), "transform:", computed.transform, "display:", computed.display, "windowWidth:", window.innerWidth);
+            console.log(
+              "[SIDEBAR] HIDDEN! rect:",
+              JSON.stringify({
+                left: rect.left,
+                right: rect.right,
+                width: rect.width,
+              }),
+              "transform:",
+              computed.transform,
+              "display:",
+              computed.display,
+              "windowWidth:",
+              window.innerWidth,
+            );
           }
         }
       }, 2000);
