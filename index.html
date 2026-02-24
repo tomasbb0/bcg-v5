@@ -3121,10 +3121,12 @@
               display: none;
               position: fixed;
               inset: 0;
-              background: rgba(0, 0, 0, 0.6);
+              background: rgba(0, 0, 0, 0.85);
               z-index: 9999;
               align-items: center;
               justify-content: center;
+              overflow-y: auto;
+              padding: 20px;
             "
           >
             <div
@@ -3132,24 +3134,31 @@
                 background: var(--bg-card);
                 border-radius: 12px;
                 padding: 24px;
-                max-width: 400px;
-                width: 90%;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                max-width: 520px;
+                width: 95%;
+                margin: auto;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+                border: 1px solid var(--border);
               "
             >
-              <h3 style="margin: 0 0 12px">📋 Como te sentes agora?</h3>
+              <h3 style="margin: 0 0 6px">📋 Check-in Médico</h3>
               <p
                 style="
-                  font-size: 0.85em;
+                  font-size: 0.82em;
                   color: var(--text-muted);
                   margin-bottom: 16px;
                 "
               >
-                5 minutos — responde honestamente para o médico
+                Responde honestamente — dados adaptativos para amanhã +
+                relatório médico
               </p>
+
+              <!-- Dynamic content filled by showCheckinModal() -->
+              <div id="checkin-dynamic-content"></div>
+
               <div style="margin-bottom: 12px">
                 <label style="font-weight: bold; font-size: 0.9em"
-                  >🧠 Foco (1-5):</label
+                  >🧠 Foco geral (1-5):</label
                 >
                 <div
                   id="checkin-focus"
@@ -3158,19 +3167,10 @@
               </div>
               <div style="margin-bottom: 12px">
                 <label style="font-weight: bold; font-size: 0.9em"
-                  >😰 Ansiedade (1-5):</label
+                  >😰 Ansiedade geral (1-5):</label
                 >
                 <div
                   id="checkin-anxiety"
-                  style="display: flex; gap: 4px; margin-top: 4px"
-                ></div>
-              </div>
-              <div style="margin-bottom: 12px">
-                <label style="font-weight: bold; font-size: 0.9em"
-                  >💊 Efeitos secundários (1-5):</label
-                >
-                <div
-                  id="checkin-sideeffects"
                   style="display: flex; gap: 4px; margin-top: 4px"
                 ></div>
               </div>
@@ -3185,7 +3185,7 @@
               </div>
               <div style="margin-bottom: 16px">
                 <label style="font-weight: bold; font-size: 0.9em"
-                  >📝 Notas:</label
+                  >📝 Notas livres:</label
                 >
                 <textarea
                   id="checkin-notes"
@@ -3196,6 +3196,8 @@
                     padding: 6px;
                     border-radius: 6px;
                     border: 1px solid var(--border);
+                    background: var(--bg-main);
+                    color: var(--text);
                     font-family: inherit;
                     resize: vertical;
                   "
@@ -3209,6 +3211,7 @@
                     border-radius: 6px;
                     border: 1px solid var(--border);
                     background: transparent;
+                    color: var(--text);
                     cursor: pointer;
                   "
                 >
@@ -3226,7 +3229,7 @@
                     font-weight: bold;
                   "
                 >
-                  Guardar
+                  Guardar ✅
                 </button>
               </div>
             </div>
@@ -9757,37 +9760,206 @@
       }
 
       // ═══════════════════════════════════════════════════
-      // EXPECTED PILL SCHEDULES (pre-filled for each day)
+      // EXPECTED PILL SCHEDULES — PROGRESSIVE SAFE PLAN
+      // Goal: Game Day = Concerta 27mg + Rubifen 20mg + Propranolol 20mg + Alprazolam 0,5mg
+      // Plan tests individual → combo → rest → deploy
       // ═══════════════════════════════════════════════════
-      const EXPECTED_PILLS = {
-        "2026-02-24": {
-          // Terça - DAY 1
-          rubifen: { time: "15:30", dose: "20mg" },
-          propranolol: { time: "15:30", dose: "10mg" },
-          alprazolam: { time: "21:00", dose: "0,25mg" },
+
+      // Known side effects per med (used in check-in form)
+      const SIDE_EFFECTS = {
+        propranolol: {
+          name: "Propranolol",
+          individual: [
+            "Tonturas",
+            "Mãos/pés frios",
+            "Fadiga excessiva",
+            "Batimento cardíaco muito lento",
+            "Tensão arterial baixa",
+            "Dificuldade respirar",
+          ],
+          cognitive: [
+            "Concentração afetada?",
+            "Math mais lenta?",
+            "Criatividade reduzida?",
+          ],
+          positive: [
+            "Mais calmo",
+            "Coração estável",
+            "Sem tremores",
+            "Menos ansiedade física",
+          ],
         },
-        "2026-02-25": {
-          // Quarta - DAY 2
-          concerta: { time: "10:00", dose: "27mg" },
-          rubifen: { time: "12:30", dose: "20mg" },
-          propranolol: { time: "13:00", dose: "20mg" },
-          alprazolam: { time: "13:00", dose: "0,5mg" },
+        alprazolam: {
+          name: "Alprazolam",
+          individual: [
+            "Sonolência",
+            "Pensamento muddy/confuso",
+            "Problemas memória",
+            "Tonturas",
+            "Fraqueza muscular",
+            "Descoordenação motora",
+          ],
+          cognitive: [
+            "Síntese/recomendação afetada?",
+            "Articulação afectada?",
+            "Raciocínio mais lento?",
+          ],
+          positive: [
+            "Calmo",
+            "Sem ansiedade mental",
+            "Foco mantido",
+            "Relaxamento OK",
+          ],
         },
-        "2026-02-26": {
-          // Quinta - DAY 3
-          concerta: { time: "09:30", dose: "27mg" },
-          rubifen: { time: "13:00", dose: "20mg" },
+        concerta: {
+          name: "Concerta",
+          individual: [
+            "Insónia",
+            "Apetite reduzido",
+            "Dor de cabeça",
+            "Boca seca",
+            "Coração acelerado",
+            "Ansiedade/nervosismo",
+            "Irritabilidade",
+          ],
+          cognitive: ["Hiper-focado demais?", "Rigidez mental?"],
+          positive: [
+            "Foco melhorado",
+            "Energia estável",
+            "Motivação",
+            "Organização mental",
+          ],
         },
-        "2026-02-27": {
-          // Sexta - GAME DAY
-          concerta: { time: "09:30", dose: "27mg" },
-          rubifen: { time: "12:30", dose: "20mg" },
-          propranolol: { time: "14:30", dose: "?mg" },
-          alprazolam: { time: "14:30", dose: "?mg" },
+        rubifen: {
+          name: "Rubifen",
+          individual: [
+            "Crash/rebound ao acabar",
+            "Apetite zero",
+            "Irritabilidade",
+            "Coração acelerado",
+            "Ansiedade",
+          ],
+          cognitive: ["Crash afetou desempenho?", "Demasiado speed?"],
+          positive: ["Boost pontual", "Clareza imediata", "Energia rápida"],
+        },
+        combo_prop_alp: {
+          name: "COMBO Propranolol + Alprazolam",
+          individual: [
+            "Sedação excessiva",
+            "Tensão arterial muito baixa",
+            "Fadiga extrema",
+            "Dificuldade manter-se acordado",
+          ],
+          cognitive: [
+            "Cognição muito afetada?",
+            "Reagir a perguntas lento?",
+            "Incapaz de fazer math?",
+          ],
+          positive: [
+            "Calma profunda sem sedação",
+            "Ansiedade zero",
+            "Capaz de pensar claramente",
+          ],
+        },
+        combo_stim_beta: {
+          name: "COMBO Estimulante + Beta-blocker",
+          individual: ["Sensação 'flat'/sem emoção", "Confusão push-pull"],
+          cognitive: ["Foco cancelado?", "Motivação afetada?"],
+          positive: [
+            "Foco sem taquicardia",
+            "Calmo mas atento",
+            "Melhor performance",
+          ],
         },
       };
 
+      // Adaptive expected pills — adjusts based on prior day feedback
+      function getAdaptiveExpected() {
+        const base = {
+          "2026-02-24": {
+            // TERÇA — TESTE INDIVIDUAL (isolado)
+            // Teste 1: Propranolol 10mg às 15:30 (baixa dose, medir efeito solo)
+            // Teste 2: Alprazolam 0,25mg às 21:00 (isolado, Prop já saiu do sistema)
+            rubifen: { time: "15:30", dose: "20mg" },
+            propranolol: { time: "15:30", dose: "10mg" },
+            alprazolam: { time: "21:00", dose: "0,25mg" },
+          },
+          "2026-02-25": {
+            // QUARTA — COMBO PRIME DOSE (se Terça correu bem)
+            // Full stack: Concerta + Rubifen + Propranolol 20mg + Alprazolam 0,5mg
+            // Testar COMBO antes do Practice Room #3
+            concerta: { time: "10:00", dose: "27mg" },
+            rubifen: { time: "12:30", dose: "20mg" },
+            propranolol: { time: "13:00", dose: "20mg" },
+            alprazolam: { time: "13:00", dose: "0,5mg" },
+          },
+          "2026-02-26": {
+            // QUINTA — DESCANSO / LIGHT DAY
+            // Só Concerta + Rubifen (sem SOS) para comparar performance baseline
+            // Se quarta combo teve problemas → NÃO repetir
+            concerta: { time: "09:30", dose: "27mg" },
+            rubifen: { time: "13:00", dose: "20mg" },
+          },
+          "2026-02-26-night": {
+            // QUINTA À NOITE — Aerius para dia seguinte
+            // aerius: { time: "23:00", dose: "5mg" },
+          },
+          "2026-02-27": {
+            // SEXTA — GAME DAY 🏆
+            // Doses finais baseadas nos testes de Ter+Qua
+            concerta: { time: "09:30", dose: "27mg" },
+            rubifen: { time: "12:30", dose: "20mg" },
+            propranolol: { time: "14:30", dose: "20mg" },
+            alprazolam: { time: "14:30", dose: "0,5mg" },
+          },
+        };
+
+        // ADAPTIVE: Check Tuesday feedback → adjust Wednesday
+        const tueLogs = JSON.parse(
+          localStorage.getItem("pillLog_2026-02-24") || "{}",
+        );
+        if (tueLogs.checkin) {
+          const fb = tueLogs.checkin;
+          // If Propranolol caused problems Tuesday → reduce Wednesday dose
+          if (fb.propranolol_negative) {
+            if (base["2026-02-25"].propranolol) {
+              base["2026-02-25"].propranolol.dose = "10mg"; // Keep at low dose
+              base["2026-02-27"].propranolol.dose = "10mg"; // Game day too
+            }
+          }
+          // If Alprazolam caused drowsiness Tuesday → reduce Wednesday dose
+          if (fb.alprazolam_negative) {
+            if (base["2026-02-25"].alprazolam) {
+              base["2026-02-25"].alprazolam.dose = "0,25mg"; // Keep at low dose
+              base["2026-02-27"].alprazolam.dose = "0,25mg"; // Game day too
+            }
+          }
+        }
+
+        // ADAPTIVE: Check Wednesday feedback → adjust Game Day
+        const wedLogs = JSON.parse(
+          localStorage.getItem("pillLog_2026-02-25") || "{}",
+        );
+        if (wedLogs.checkin) {
+          const fb = wedLogs.checkin;
+          if (fb.combo_negative) {
+            // Combo was bad → Don't use SOS on game day
+            delete base["2026-02-27"].propranolol;
+            delete base["2026-02-27"].alprazolam;
+          }
+          if (fb.propranolol_negative) {
+            delete base["2026-02-27"].propranolol;
+          }
+          if (fb.alprazolam_negative) {
+            delete base["2026-02-27"].alprazolam;
+          }
+        }
+
+        return base;
+      }
+
       function getExpectedForDay() {
+        const adaptive = getAdaptiveExpected();
         const d = viewDate;
         const key =
           d.getFullYear() +
@@ -9795,7 +9967,7 @@
           String(d.getMonth() + 1).padStart(2, "0") +
           "-" +
           String(d.getDate()).padStart(2, "0");
-        return EXPECTED_PILLS[key] || {};
+        return adaptive[key] || {};
       }
 
       // Initialize pill tracker on load
@@ -9934,17 +10106,99 @@
       // Init rating buttons
       buildRatingButtons("checkin-focus", ["1 💤", "2", "3", "4", "5 🧠"]);
       buildRatingButtons("checkin-anxiety", ["1 😌", "2", "3", "4", "5 😰"]);
-      buildRatingButtons("checkin-sideeffects", [
-        "1 ✅",
-        "2",
-        "3",
-        "4",
-        "5 🤢",
-      ]);
       buildRatingButtons("checkin-mood", ["1 😞", "2", "3", "4", "5 😊"]);
 
       function showCheckinModal() {
         const modal = document.getElementById("checkin-modal");
+        const container = document.getElementById("checkin-dynamic-content");
+        const log = getPillLog();
+        const activePills = Object.keys(log.pills);
+        const expected = getExpectedForDay();
+        const allPills = new Set([...activePills, ...Object.keys(expected)]);
+
+        let html = "";
+
+        // Per-medication sections with specific side effects
+        allPills.forEach(pillId => {
+          const se = SIDE_EFFECTS[pillId];
+          if (!se) return;
+          const data = PILL_DATA[pillId];
+          const color = data ? data.color : "#999";
+          const isTaken = activePills.includes(pillId);
+          const statusIcon = isTaken ? "✅" : "⏰";
+
+          html += '<div style="margin-bottom:14px;padding:10px;border:1px solid ' + color + '40;border-radius:8px;background:' + color + '10;">';
+          html += '<h4 style="margin:0 0 8px;color:' + color + ';">' + statusIcon + ' ' + se.name + '</h4>';
+
+          // Negative effects checkboxes
+          html += '<p style="font-size:0.82em;color:var(--text-muted);margin:0 0 6px;">⚠️ Efeitos negativos sentidos:</p>';
+          html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
+          se.individual.forEach((effect, i) => {
+            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html += '<input type="checkbox" class="checkin-effect" data-pill="' + pillId + '" data-effect="' + effect + '" data-type="negative" style="accent-color:' + color + ';"> ' + effect;
+            html += '</label>';
+          });
+          html += '</div>';
+
+          // Cognitive effects
+          html += '<p style="font-size:0.82em;color:var(--text-muted);margin:8px 0 4px;">🧠 Impacto cognitivo:</p>';
+          html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
+          se.cognitive.forEach((effect, i) => {
+            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html += '<input type="checkbox" class="checkin-effect" data-pill="' + pillId + '" data-effect="' + effect + '" data-type="cognitive"> ' + effect;
+            html += '</label>';
+          });
+          html += '</div>';
+
+          // Positive effects
+          html += '<p style="font-size:0.82em;color:var(--text-muted);margin:8px 0 4px;">✅ Efeitos positivos:</p>';
+          html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
+          se.positive.forEach((effect, i) => {
+            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html += '<input type="checkbox" class="checkin-effect" data-pill="' + pillId + '" data-effect="' + effect + '" data-type="positive"> ' + effect;
+            html += '</label>';
+          });
+          html += '</div>';
+
+          // Overall verdict for this med
+          html += '<div style="margin-top:8px;display:flex;align-items:center;gap:8px;">';
+          html += '<span style="font-size:0.85em;font-weight:bold;">Veredicto:</span>';
+          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' + pillId + '" value="positive" style="accent-color:green;"> 👍 OK</label>';
+          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' + pillId + '" value="neutral" style="accent-color:orange;"> 🤷 Neutro</label>';
+          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-' + pillId + '" value="negative" style="accent-color:red;"> 👎 Negativo</label>';
+          html += '</div>';
+          html += '</div>';
+        });
+
+        // Combo sections if both SOS meds active
+        if (allPills.has("propranolol") && allPills.has("alprazolam")) {
+          const combo = SIDE_EFFECTS.combo_prop_alp;
+          html += '<div style="margin-bottom:14px;padding:10px;border:2px solid #ff980060;border-radius:8px;background:#ff980010;">';
+          html += '<h4 style="margin:0 0 8px;color:#ff9800;">⚡ ' + combo.name + '</h4>';
+          html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
+          combo.individual.concat(combo.cognitive).forEach(effect => {
+            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html += '<input type="checkbox" class="checkin-effect" data-pill="combo_prop_alp" data-effect="' + effect + '" data-type="negative"> ' + effect;
+            html += '</label>';
+          });
+          html += '</div>';
+          html += '<p style="font-size:0.82em;color:var(--text-muted);margin:6px 0 4px;">✅ Positivos:</p>';
+          html += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;">';
+          combo.positive.forEach(effect => {
+            html += '<label style="font-size:0.82em;display:flex;align-items:center;gap:3px;cursor:pointer;">';
+            html += '<input type="checkbox" class="checkin-effect" data-pill="combo_prop_alp" data-effect="' + effect + '" data-type="positive"> ' + effect;
+            html += '</label>';
+          });
+          html += '</div>';
+          html += '<div style="margin-top:8px;display:flex;align-items:center;gap:8px;">';
+          html += '<span style="font-size:0.85em;font-weight:bold;">Veredicto combo:</span>';
+          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-combo" value="positive" style="accent-color:green;"> 👍</label>';
+          html += '<label style="font-size:0.85em;cursor:pointer;"><input type="radio" name="verdict-combo" value="negative" style="accent-color:red;"> 👎</label>';
+          html += '</div>';
+          html += '</div>';
+        }
+
+        container.innerHTML = html;
         modal.style.display = "flex";
       }
 
@@ -9961,6 +10215,21 @@
       function submitCheckin() {
         const log = getPillLog();
         const nowTZ = getTimeInLisbon();
+
+        // Collect all checked effects
+        const effectsByPill = {};
+        document.querySelectorAll(".checkin-effect:checked").forEach(cb => {
+          const pill = cb.dataset.pill;
+          if (!effectsByPill[pill]) effectsByPill[pill] = { negative: [], cognitive: [], positive: [] };
+          effectsByPill[pill][cb.dataset.type].push(cb.dataset.effect);
+        });
+
+        // Collect verdicts
+        const verdicts = {};
+        document.querySelectorAll('[name^="verdict-"]:checked').forEach(r => {
+          verdicts[r.name.replace("verdict-", "")] = r.value;
+        });
+
         log.checkin = {
           time: getNow().toISOString(),
           timeStr:
@@ -9973,29 +10242,34 @@
           anxiety: parseInt(
             document.getElementById("checkin-anxiety").dataset.selected || "0",
           ),
-          sideEffects: parseInt(
-            document.getElementById("checkin-sideeffects").dataset.selected ||
-              "0",
-          ),
           mood: parseInt(
             document.getElementById("checkin-mood").dataset.selected || "0",
           ),
           notes: document.getElementById("checkin-notes").value.trim(),
+          effectsByPill: effectsByPill,
+          verdicts: verdicts,
+          // Adaptive flags (used by getAdaptiveExpected)
+          propranolol_negative: verdicts.propranolol === "negative",
+          alprazolam_negative: verdicts.alprazolam === "negative",
+          combo_negative: verdicts.combo === "negative",
         };
         savePillLog(log);
         document.getElementById("checkin-modal").style.display = "none";
         document.getElementById("checkin-section").style.display = "none";
 
         // Add as symptom entry too
+        const negEffects = Object.entries(effectsByPill)
+          .filter(([, v]) => v.negative.length > 0)
+          .map(([pill, v]) => pill + ": " + v.negative.join(", "))
+          .join(" | ");
         const summary =
           "📋 Check-in: Foco=" +
           log.checkin.focus +
           " Ansiedade=" +
           log.checkin.anxiety +
-          " Efeitos=" +
-          log.checkin.sideEffects +
           " Humor=" +
           log.checkin.mood +
+          (negEffects ? " | ⚠️ " + negEffects : "") +
           (log.checkin.notes ? " | " + log.checkin.notes : "");
         log.symptoms.push({
           time: log.checkin.time,
