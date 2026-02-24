@@ -826,9 +826,6 @@
         transform: scale(1.05);
         box-shadow: 0 6px 24px rgba(0, 166, 81, 0.45);
       }
-      .timeline-fab .fab-icon {
-        font-size: 18px;
-      }
       .timeline-fab.open {
         background: #333;
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
@@ -10772,13 +10769,13 @@
           concerta: "Concerta (metilfenidato LP)",
           rubifen: "Rubifen (metilfenidato IR)",
           propranolol: "Propranolol (beta-bloqueador)",
-          alprazolam: "Alprazolam (benzodiazepina)"
+          alprazolam: "Alprazolam (benzodiazepina)",
         };
         const dayLabels = {
           "2026-02-24": "Terça-feira 24 Fev — Teste Individual",
           "2026-02-25": "Quarta-feira 25 Fev — Combo Prime Dose",
           "2026-02-26": "Quinta-feira 26 Fev — Descanso / Baseline",
-          "2026-02-27": "Sexta-feira 27 Fev — GAME DAY (Entrevista BCG)"
+          "2026-02-27": "Sexta-feira 27 Fev — GAME DAY (Entrevista BCG)",
         };
         let text = "═══════════════════════════════════════\n";
         text += "PLANO DE MEDICAÇÃO — SEMANA BCG\n";
@@ -10790,8 +10787,10 @@
         text += "• Concerta 27mg (metilfenidato LP) — manhã\n";
         text += "• Rubifen 20mg (metilfenidato IR) — reforço tarde\n\n";
         text += "MEDICAÇÃO SOS (ansiedade situacional para entrevista):\n";
-        text += "• Propranolol 10-20mg — beta-bloqueador para sintomas físicos\n";
-        text += "• Alprazolam 0,25-0,5mg — benzodiazepina para ansiedade aguda\n\n";
+        text +=
+          "• Propranolol 10-20mg — beta-bloqueador para sintomas físicos\n";
+        text +=
+          "• Alprazolam 0,25-0,5mg — benzodiazepina para ansiedade aguda\n\n";
         text += "PLANO SEMANAL DE TESTE PROGRESSIVO:\n";
         text += "─────────────────────────────────────\n\n";
         for (const [dateKey, pills] of Object.entries(plan)) {
@@ -10800,16 +10799,19 @@
           text += "📅 " + label + "\n";
           for (const [pillId, info] of Object.entries(pills)) {
             const name = PILL_NAMES[pillId] || pillId;
-            text += "   • " + name + " — " + info.dose + " às " + info.time + "\n";
+            text +=
+              "   • " + name + " — " + info.dose + " às " + info.time + "\n";
           }
           text += "\n";
         }
         text += "─────────────────────────────────────\n";
         text += "LÓGICA DO PLANO:\n";
-        text += "• Terça: testar Propranolol e Alprazolam isolados (doses baixas)\n";
+        text +=
+          "• Terça: testar Propranolol e Alprazolam isolados (doses baixas)\n";
         text += "• Quarta: testar combo completo (SOS + estimulantes)\n";
         text += "• Quinta: dia sem SOS — comparar baseline de performance\n";
-        text += "• Sexta: doses finais ajustadas com base no feedback dos dias anteriores\n\n";
+        text +=
+          "• Sexta: doses finais ajustadas com base no feedback dos dias anteriores\n\n";
         text += "SISTEMA ADAPTATIVO:\n";
         text += "• Check-in digital após pico de cada medicamento\n";
         text += "• Se efeitos negativos na Terça → reduzir dose na Quarta\n";
@@ -10817,7 +10819,8 @@
         text += "• Dados exportáveis para consulta médica\n\n";
         text += "NOTAS:\n";
         text += "• Entrevista presencial — formato case study + fit (BCG)\n";
-        text += "• Objetivo: controlar ansiedade sem afetar performance cognitiva\n";
+        text +=
+          "• Objetivo: controlar ansiedade sem afetar performance cognitiva\n";
         text += "• Paciente monitoriza efeitos com formulário estruturado\n";
         text += "═══════════════════════════════════════\n";
 
@@ -11234,7 +11237,7 @@
       onclick="toggleTimeline()"
       title="Schedule Timeline"
     >
-      <span class="fab-icon">📅</span> Timeline
+      📅 Timeline
     </button>
     <div class="timeline-panel" id="tl-panel">
       <div class="tl-header">
