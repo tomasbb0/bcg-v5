@@ -837,7 +837,7 @@
       .popout-fab {
         position: fixed;
         bottom: 24px;
-        right: 190px;
+        right: 160px;
         height: 48px;
         border-radius: 24px;
         background: #1a1a1a;
@@ -9441,9 +9441,22 @@
           !sidebar.contains(e.target) &&
           !toggle.contains(e.target)
         ) {
+          console.log("[SIDEBAR] Auto-closing sidebar, width:", window.innerWidth);
           sidebar.classList.remove("open");
         }
       });
+
+      // DEBUG: Monitor sidebar visibility
+      setInterval(function() {
+        const sidebar = document.getElementById("sidebar");
+        if (sidebar) {
+          const rect = sidebar.getBoundingClientRect();
+          const computed = window.getComputedStyle(sidebar);
+          if (rect.right <= 0 || computed.transform !== "none") {
+            console.log("[SIDEBAR] HIDDEN! rect:", JSON.stringify({left: rect.left, right: rect.right, width: rect.width}), "transform:", computed.transform, "display:", computed.display, "windowWidth:", window.innerWidth);
+          }
+        }
+      }, 2000);
 
       // Back to top button
       window.addEventListener("scroll", function () {
