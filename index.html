@@ -10599,10 +10599,10 @@
           "2026-02-24": {
             // TERÇA — TESTE INDIVIDUAL (isolado)
             // Teste 1: Propranolol 10mg às 15:30 (baixa dose, medir efeito solo)
-            // Teste 2: Alprazolam 0,25mg às 21:00 (isolado, Prop já saiu do sistema)
+            // Teste 2: Alprazolam 0,25mg às 23:00 (atrasado — tomado 2h tarde, isolado)
             rubifen: { time: "15:30", dose: "20mg" },
             propranolol: { time: "15:30", dose: "10mg" },
-            alprazolam: { time: "21:00", dose: "0,25mg" },
+            alprazolam: { time: "23:00", dose: "0,25mg" },
           },
           "2026-02-25": {
             // QUARTA — COMBO PRIME DOSE (se Terça correu bem)
@@ -11508,9 +11508,9 @@
 
         // ── Add drag handles to all schedule rows ──
         function addDragHandles() {
-          getAllDayContainers().forEach(function(dayEl) {
+          getAllDayContainers().forEach(function (dayEl) {
             const rows = dayEl.querySelectorAll("table tbody tr");
-            rows.forEach(function(row) {
+            rows.forEach(function (row) {
               if (row.querySelector(".drag-handle")) return; // Already has handle
               const firstTd = row.querySelector("td");
               if (!firstTd) return;
@@ -11519,7 +11519,8 @@
               handle.className = "drag-handle";
               handle.textContent = "⠿";
               handle.title = "Drag to reorder";
-              handle.style.cssText = "cursor:grab;font-size:14px;color:#999;margin-right:4px;user-select:none;";
+              handle.style.cssText =
+                "cursor:grab;font-size:14px;color:#999;margin-right:4px;user-select:none;";
               firstTd.insertBefore(handle, firstTd.firstChild);
               row.setAttribute("draggable", "true");
             });
@@ -11585,7 +11586,7 @@
         function handleDragEnd(e) {
           this.style.opacity = "1";
           // Clean up all drag indicators
-          document.querySelectorAll("table tbody tr").forEach(function(r) {
+          document.querySelectorAll("table tbody tr").forEach(function (r) {
             r.style.borderTop = "";
           });
         }
@@ -11612,18 +11613,20 @@
 
           // Re-add "Open All" buttons if needed
           if (typeof addOpenAllButtons !== "undefined") {
-            try { addOpenAllButtons(); } catch(e) {}
+            try {
+              addOpenAllButtons();
+            } catch (e) {}
           }
         }
 
         // ── Editable times ──
         function makeTimesEditable() {
-          document.querySelectorAll(".time-col").forEach(function(td) {
+          document.querySelectorAll(".time-col").forEach(function (td) {
             if (td.dataset.editable) return; // Already set up
             td.dataset.editable = "true";
             td.style.cursor = "pointer";
             td.title = "Click to edit time";
-            td.addEventListener("click", function() {
+            td.addEventListener("click", function () {
               const current = td.textContent.trim();
               const match = current.match(/(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/);
               if (!match) return;
@@ -11632,13 +11635,18 @@
               const endTime = match[2];
 
               // Create inline editor
-              td.innerHTML = '<div style="display:flex;align-items:center;gap:2px;flex-wrap:nowrap;">' +
-                '<input type="time" value="' + startTime + '" style="width:75px;font-size:0.85em;padding:2px 4px;border:1px solid var(--bcg-green);border-radius:4px;" class="time-edit-start">' +
+              td.innerHTML =
+                '<div style="display:flex;align-items:center;gap:2px;flex-wrap:nowrap;">' +
+                '<input type="time" value="' +
+                startTime +
+                '" style="width:75px;font-size:0.85em;padding:2px 4px;border:1px solid var(--bcg-green);border-radius:4px;" class="time-edit-start">' +
                 '<span style="font-size:0.8em;">-</span>' +
-                '<input type="time" value="' + endTime + '" style="width:75px;font-size:0.85em;padding:2px 4px;border:1px solid var(--bcg-green);border-radius:4px;" class="time-edit-end">' +
+                '<input type="time" value="' +
+                endTime +
+                '" style="width:75px;font-size:0.85em;padding:2px 4px;border:1px solid var(--bcg-green);border-radius:4px;" class="time-edit-end">' +
                 '<button style="font-size:0.8em;padding:2px 6px;background:var(--bcg-green);color:#fff;border:none;border-radius:4px;cursor:pointer;" class="time-edit-save">✓</button>' +
                 '<button style="font-size:0.8em;padding:2px 6px;background:#d32f2f;color:#fff;border:none;border-radius:4px;cursor:pointer;" class="time-edit-cancel">✗</button>' +
-                '</div>';
+                "</div>";
 
               const saveBtn = td.querySelector(".time-edit-save");
               const cancelBtn = td.querySelector(".time-edit-cancel");
@@ -11647,11 +11655,14 @@
 
               startInput.focus();
 
-              saveBtn.addEventListener("click", function(e) {
+              saveBtn.addEventListener("click", function (e) {
                 e.stopPropagation();
                 const newStart = startInput.value;
                 const newEnd = endInput.value;
-                if (!newStart || !newEnd) { alert("Introduz ambos os tempos"); return; }
+                if (!newStart || !newEnd) {
+                  alert("Introduz ambos os tempos");
+                  return;
+                }
                 td.textContent = newStart + "-" + newEnd;
                 const dayId = getDayId(td.closest("tr"));
                 saveScheduleSwaps(dayId);
@@ -11662,14 +11673,14 @@
                 }
               });
 
-              cancelBtn.addEventListener("click", function(e) {
+              cancelBtn.addEventListener("click", function (e) {
                 e.stopPropagation();
                 td.textContent = startTime + "-" + endTime;
               });
 
               // Enter key saves
-              [startInput, endInput].forEach(function(inp) {
-                inp.addEventListener("keydown", function(e) {
+              [startInput, endInput].forEach(function (inp) {
+                inp.addEventListener("keydown", function (e) {
                   if (e.key === "Enter") saveBtn.click();
                   if (e.key === "Escape") cancelBtn.click();
                 });
@@ -11685,44 +11696,54 @@
           const rows = dayEl.querySelectorAll("table tbody tr");
 
           // Remove existing overlap warnings
-          dayEl.querySelectorAll(".overlap-warning").forEach(function(w) { w.remove(); });
-          rows.forEach(function(r) { r.style.outline = ""; });
+          dayEl.querySelectorAll(".overlap-warning").forEach(function (w) {
+            w.remove();
+          });
+          rows.forEach(function (r) {
+            r.style.outline = "";
+          });
 
           // Collect time ranges
           var slots = [];
-          rows.forEach(function(row, i) {
+          rows.forEach(function (row, i) {
             const timeCell = row.querySelector(".time-col");
             if (!timeCell) return;
-            const m = timeCell.textContent.trim().match(/(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/);
+            const m = timeCell.textContent
+              .trim()
+              .match(/(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/);
             if (!m) return;
             slots.push({
               row: row,
               index: i,
               start: timeToMin(m[1]),
               end: timeToMin(m[2]),
-              label: m[1] + "-" + m[2]
+              label: m[1] + "-" + m[2],
             });
           });
 
           // Check each pair for overlap
           for (var i = 0; i < slots.length; i++) {
             for (var j = i + 1; j < slots.length; j++) {
-              var a = slots[i], b = slots[j];
-              var aEnd = a.end <= a.start ? a.end + 24*60 : a.end;
-              var bEnd = b.end <= b.start ? b.end + 24*60 : b.end;
+              var a = slots[i],
+                b = slots[j];
+              var aEnd = a.end <= a.start ? a.end + 24 * 60 : a.end;
+              var bEnd = b.end <= b.start ? b.end + 24 * 60 : b.end;
               if (a.start < bEnd && b.start < aEnd) {
                 // OVERLAP!
                 a.row.style.outline = "2px solid #d32f2f";
                 b.row.style.outline = "2px solid #d32f2f";
 
                 // Add warning badge to both rows
-                [a, b].forEach(function(s) {
+                [a, b].forEach(function (s) {
                   if (s.row.querySelector(".overlap-warning")) return;
                   var badge = document.createElement("span");
                   badge.className = "overlap-warning";
-                  badge.style.cssText = "display:inline-block;background:#d32f2f;color:#fff;font-size:0.7em;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:bold;vertical-align:middle;";
+                  badge.style.cssText =
+                    "display:inline-block;background:#d32f2f;color:#fff;font-size:0.7em;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:bold;vertical-align:middle;";
                   badge.textContent = "⚠️ OVERLAP";
-                  badge.title = "Este bloco sobrepõe-se com " + (s === a ? b.label : a.label);
+                  badge.title =
+                    "Este bloco sobrepõe-se com " +
+                    (s === a ? b.label : a.label);
                   var actCell = s.row.querySelectorAll("td")[2];
                   if (actCell) actCell.appendChild(badge);
                 });
@@ -11737,14 +11758,14 @@
           if (!dayEl) return;
           var rows = dayEl.querySelectorAll("table tbody tr");
           var data = [];
-          rows.forEach(function(row) {
+          rows.forEach(function (row) {
             var timeCell = row.querySelector(".time-col");
             var cells = row.querySelectorAll("td");
             if (!timeCell || cells.length < 3) return;
             data.push({
               time: timeCell.textContent.trim(),
               activity: cells[2].innerHTML,
-              detail: cells.length >= 4 ? cells[3].innerHTML : ""
+              detail: cells.length >= 4 ? cells[3].innerHTML : "",
             });
           });
           localStorage.setItem("bcg-schedule-" + dayId, JSON.stringify(data));
@@ -11758,7 +11779,7 @@
             var dayEl = document.getElementById(dayId);
             if (!dayEl) return;
             var rows = dayEl.querySelectorAll("table tbody tr");
-            data.forEach(function(d, i) {
+            data.forEach(function (d, i) {
               if (i >= rows.length) return;
               var cells = rows[i].querySelectorAll("td");
               var timeCell = rows[i].querySelector(".time-col");
@@ -11767,14 +11788,16 @@
               cells[2].innerHTML = d.activity;
               if (cells.length >= 4) cells[3].innerHTML = d.detail;
             });
-          } catch(e) { console.warn("Failed to load schedule:", e); }
+          } catch (e) {
+            console.warn("Failed to load schedule:", e);
+          }
         }
 
         // ── Attach drag listeners to all rows ──
         function attachScheduleDragListeners() {
-          getAllDayContainers().forEach(function(dayEl) {
+          getAllDayContainers().forEach(function (dayEl) {
             var rows = dayEl.querySelectorAll("table tbody tr[draggable]");
-            rows.forEach(function(row) {
+            rows.forEach(function (row) {
               if (row.dataset.dragInit) return;
               row.dataset.dragInit = "true";
               row.addEventListener("dragstart", handleDragStart);
@@ -11788,7 +11811,14 @@
 
         // ── Initialize ──
         // Load saved modifications
-        ["day-sun", "day-mon", "day-tue", "day-wed", "day-thu", "day-fri"].forEach(function(dayId) {
+        [
+          "day-sun",
+          "day-mon",
+          "day-tue",
+          "day-wed",
+          "day-thu",
+          "day-fri",
+        ].forEach(function (dayId) {
           loadScheduleSwaps(dayId);
         });
 
@@ -11798,14 +11828,21 @@
         attachScheduleDragListeners();
 
         // Check overlaps on all days
-        ["day-sun", "day-mon", "day-tue", "day-wed", "day-thu", "day-fri"].forEach(function(dayId) {
+        [
+          "day-sun",
+          "day-mon",
+          "day-tue",
+          "day-wed",
+          "day-thu",
+          "day-fri",
+        ].forEach(function (dayId) {
           checkOverlaps(dayId);
         });
 
         // Re-init when day tab changes
-        document.querySelectorAll(".day-tab").forEach(function(tab) {
-          tab.addEventListener("click", function() {
-            setTimeout(function() {
+        document.querySelectorAll(".day-tab").forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            setTimeout(function () {
               addDragHandles();
               makeTimesEditable();
               attachScheduleDragListeners();
@@ -12061,18 +12098,18 @@
               "</div>";
 
             // Timeline slot drag handlers
-            div.addEventListener("dragstart", function(e) {
+            div.addEventListener("dragstart", function (e) {
               tlDragSrc = idx;
               div.style.opacity = "0.4";
             });
-            div.addEventListener("dragover", function(e) {
+            div.addEventListener("dragover", function (e) {
               e.preventDefault();
               div.style.borderTop = "3px solid var(--bcg-green)";
             });
-            div.addEventListener("dragleave", function() {
+            div.addEventListener("dragleave", function () {
               div.style.borderTop = "";
             });
-            div.addEventListener("drop", function(e) {
+            div.addEventListener("drop", function (e) {
               e.preventDefault();
               div.style.borderTop = "";
               if (tlDragSrc === null || tlDragSrc === idx) return;
@@ -12097,49 +12134,59 @@
                     }
                   }
                   // Save and re-render
-                  const swapSave = localStorage.getItem("bcg-schedule-day-" + currentTLDay);
+                  const swapSave = localStorage.getItem(
+                    "bcg-schedule-day-" + currentTLDay,
+                  );
                   if (typeof saveScheduleSwaps !== "undefined") {
                     // Save via the main function if available
                   }
                   // Save schedule state
                   var schedData = [];
-                  rows.forEach(function(r) {
+                  rows.forEach(function (r) {
                     var tc = r.querySelector(".time-col");
                     var cs = r.querySelectorAll("td");
                     if (!tc || cs.length < 3) return;
                     schedData.push({
                       time: tc.textContent.trim(),
                       activity: cs[2].innerHTML,
-                      detail: cs.length >= 4 ? cs[3].innerHTML : ""
+                      detail: cs.length >= 4 ? cs[3].innerHTML : "",
                     });
                   });
-                  localStorage.setItem("bcg-schedule-day-" + currentTLDay, JSON.stringify(schedData));
+                  localStorage.setItem(
+                    "bcg-schedule-day-" + currentTLDay,
+                    JSON.stringify(schedData),
+                  );
                 }
               }
               extractSchedule();
               renderTimeline();
             });
-            div.addEventListener("dragend", function() {
+            div.addEventListener("dragend", function () {
               div.style.opacity = "1";
-              container.querySelectorAll(".tl-slot").forEach(function(s) {
+              container.querySelectorAll(".tl-slot").forEach(function (s) {
                 s.style.borderTop = "";
               });
             });
 
             // Click on time to edit in floating panel
             const timeSpan = div.querySelector(".tl-time");
-            timeSpan.addEventListener("click", function(e) {
+            timeSpan.addEventListener("click", function (e) {
               e.stopPropagation();
               const curStart = s.start;
               const curEnd = s.end;
-              timeSpan.innerHTML = '<input type="time" value="' + curStart + '" style="width:65px;font-size:0.75em;padding:1px 3px;border:1px solid var(--bcg-green);border-radius:3px;" class="tl-time-start">' +
-                '-<input type="time" value="' + curEnd + '" style="width:65px;font-size:0.75em;padding:1px 3px;border:1px solid var(--bcg-green);border-radius:3px;" class="tl-time-end">' +
+              timeSpan.innerHTML =
+                '<input type="time" value="' +
+                curStart +
+                '" style="width:65px;font-size:0.75em;padding:1px 3px;border:1px solid var(--bcg-green);border-radius:3px;" class="tl-time-start">' +
+                '-<input type="time" value="' +
+                curEnd +
+                '" style="width:65px;font-size:0.75em;padding:1px 3px;border:1px solid var(--bcg-green);border-radius:3px;" class="tl-time-end">' +
                 '<button style="font-size:0.7em;padding:1px 4px;margin-left:2px;background:var(--bcg-green);color:#fff;border:none;border-radius:3px;cursor:pointer;">✓</button>';
               const startInp = timeSpan.querySelector(".tl-time-start");
               const endInp = timeSpan.querySelector(".tl-time-end");
               const saveBtn = timeSpan.querySelector("button");
               startInp.focus();
-              saveBtn.addEventListener("click", function(ev) {
+              saveBtn.addEventListener("click", function (ev) {
                 ev.stopPropagation();
                 const newStart = startInp.value;
                 const newEnd = endInp.value;
@@ -12154,24 +12201,27 @@
                     if (tc) tc.textContent = newStart + "-" + newEnd;
                     // Save
                     var schedData = [];
-                    rows.forEach(function(r) {
+                    rows.forEach(function (r) {
                       var ttc = r.querySelector(".time-col");
                       var cs = r.querySelectorAll("td");
                       if (!ttc || cs.length < 3) return;
                       schedData.push({
                         time: ttc.textContent.trim(),
                         activity: cs[2].innerHTML,
-                        detail: cs.length >= 4 ? cs[3].innerHTML : ""
+                        detail: cs.length >= 4 ? cs[3].innerHTML : "",
                       });
                     });
-                    localStorage.setItem("bcg-schedule-day-" + currentTLDay, JSON.stringify(schedData));
+                    localStorage.setItem(
+                      "bcg-schedule-day-" + currentTLDay,
+                      JSON.stringify(schedData),
+                    );
                   }
                 }
                 extractSchedule();
                 renderTimeline();
               });
-              [startInp, endInp].forEach(function(inp) {
-                inp.addEventListener("keydown", function(ev) {
+              [startInp, endInp].forEach(function (inp) {
+                inp.addEventListener("keydown", function (ev) {
                   if (ev.key === "Enter") saveBtn.click();
                   if (ev.key === "Escape") {
                     extractSchedule();
