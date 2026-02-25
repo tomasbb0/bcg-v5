@@ -6685,8 +6685,7 @@
           🎲 Case Prompt Generator / Gerador de Casos
         </div>
         <div class="section-subtitle">
-          Select industry + framework + math focus → get a unique practice case
-          prompt
+          Pick an industry, framework, and math type — or hit Random for a surprise. Each case has 3 guided sections with model solutions.
         </div>
 
         <div class="card" style="padding: 24px">
@@ -6711,6 +6710,7 @@
               >
               <select
                 id="cg-industry"
+                onchange="cgPreviewIndustry(this.value)"
                 style="
                   width: 100%;
                   padding: 10px;
@@ -6803,6 +6803,11 @@
                 </option>
               </select>
             </div>
+          </div>
+
+          <!-- INDUSTRY PREVIEW (before generating) -->
+          <div id="cg-industry-preview" style="display:none; background:#f8fafe; border:1px solid #e0ecf8; border-radius:8px; padding:12px 16px; margin-bottom:16px; font-size:0.85em; color:#444; line-height:1.5;">
+            <span id="cg-industry-preview-text"></span>
           </div>
 
           <div style="display: flex; gap: 12px; margin-bottom: 20px">
@@ -6932,6 +6937,33 @@
                 📋 Copy
               </button>
               <div id="cg-case-text"></div>
+            </div>
+
+            <!-- INDUSTRY INTRO (plain text context) -->
+            <div
+              id="cg-industry-intro"
+              style="
+                background: linear-gradient(135deg, #f8fafe, #eef5ff);
+                border: 1px solid #d0e0f0;
+                border-radius: 10px;
+                padding: 14px 18px;
+                margin-bottom: 16px;
+                display: none;
+              "
+            >
+              <div
+                style="
+                  font-weight: 700;
+                  font-size: 0.88em;
+                  color: #1565c0;
+                  margin-bottom: 4px;
+                "
+                id="cg-industry-intro-title"
+              ></div>
+              <div
+                style="font-size: 0.85em; color: #444; line-height: 1.55"
+                id="cg-industry-intro-text"
+              ></div>
             </div>
 
             <!-- SECTION CONTENT (swapped by navigation) -->
@@ -7075,75 +7107,27 @@
               </button>
             </div>
 
-            <!-- HINT ROW (collapsed) -->
-            <div style="margin-top: 16px; display: flex; gap: 12px">
-              <div
-                style="
-                  flex: 1;
-                  padding: 12px;
-                  background: #f0f7ff;
-                  border-radius: 8px;
-                  font-size: 0.85em;
-                "
-              >
-                <strong>🧩 Expected Structure:</strong>
-                <div
-                  id="cg-hint-framework"
-                  style="margin-top: 4px; color: #888"
-                ></div>
+            <!-- HINTS (single collapsible panel) -->
+            <details id="cg-hints-panel" style="margin-top:16px; background:#fafafa; border:1px solid #eee; border-radius:10px; overflow:hidden;">
+              <summary style="padding:12px 16px; cursor:pointer; font-weight:600; font-size:0.88em; color:#666; user-select:none;">
+                💡 Hints &amp; Context (click to reveal after attempting)
+              </summary>
+              <div style="padding:4px 16px 16px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; font-size:0.83em;">
+                <div style="padding:10px; background:#f0f7ff; border-radius:8px;">
+                  <strong style="color:#1565c0;">🧩 Structure</strong>
+                  <div id="cg-hint-framework" style="margin-top:4px; color:#555;"></div>
+                </div>
+                <div style="padding:10px; background:#fff3e0; border-radius:8px;">
+                  <strong style="color:#e65100;">🔢 Math</strong>
+                  <div id="cg-hint-math" style="margin-top:4px; color:#555;"></div>
+                </div>
+                <div style="padding:10px; background:#f0fff0; border-radius:8px;">
+                  <strong style="color:#2e7d32;">🏭 Industry</strong>
+                  <div id="cg-hint-industry" style="margin-top:4px; color:#555;"></div>
+                </div>
               </div>
-              <div
-                style="
-                  flex: 1;
-                  padding: 12px;
-                  background: #fff3e0;
-                  border-radius: 8px;
-                  font-size: 0.85em;
-                "
-              >
-                <strong>🔢 Math You'll Need:</strong>
-                <div
-                  id="cg-hint-math"
-                  style="margin-top: 4px; color: #888"
-                ></div>
-              </div>
-              <div
-                style="
-                  flex: 1;
-                  padding: 12px;
-                  background: #f0fff0;
-                  border-radius: 8px;
-                  font-size: 0.85em;
-                "
-              >
-                <strong>🏭 Industry Context:</strong>
-                <div
-                  id="cg-hint-industry"
-                  style="margin-top: 4px; color: #888"
-                ></div>
-              </div>
-            </div>
-            <button
-              id="cg-reveal-btn"
-              onclick="
-                document
-                  .querySelectorAll('.cg-hint-hidden')
-                  .forEach((e) => (e.style.display = 'block'));
-                this.style.display = 'none';
-              "
-              style="
-                margin-top: 12px;
-                padding: 10px 20px;
-                background: #eee;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 0.9em;
-                width: 100%;
-              "
-            >
-              👁️ Reveal Hints (after attempting your structure)
-            </button>
+            </details>
+            <div id="cg-reveal-btn" style="display:none;"></div>
           </div>
         </div>
 
@@ -12935,6 +12919,10 @@
           retail: {
             name: "Retail & Consumer Goods",
             namePT: "Retalho e Bens de Consumo",
+            intro:
+              "Retail is about selling products to consumers — think supermarkets, fashion, e-commerce. Key drivers are foot traffic, basket size, and same-store sales growth. Margins are typically thin (2-5% net), so volume and efficiency matter enormously.",
+            introPT:
+              "Retalho é vender produtos a consumidores — supermercados, moda, e-commerce. Drivers chave: tráfego, dimensão do cabaz, crescimento de vendas mesma loja. Margens tipicamente baixas (2-5% líquida), por isso volume e eficiência são fundamentais.",
             companies: [
               "FreshMart",
               "UrbanWear",
@@ -12964,6 +12952,10 @@
           healthcare: {
             name: "Healthcare & Pharma",
             namePT: "Saúde e Farmacêutica",
+            intro:
+              "Healthcare spans hospitals, pharma companies, biotech, and health tech. It's heavily regulated with long product cycles (10+ years for drugs). Key concepts: R&D pipeline, patent cliffs, reimbursement, patient population sizing. Gross margins in pharma are very high (70-90%) but R&D costs are massive.",
+            introPT:
+              "Saúde abrange hospitais, farmacêuticas, biotech e health tech. Muito regulado com ciclos longos (10+ anos para medicamentos). Conceitos chave: pipeline I&D, patent cliffs, reembolso, dimensionamento de pacientes. Margens brutas na farma muito altas (70-90%) mas custos de I&D enormes.",
             companies: [
               "MedVita Labs",
               "CureFirst Pharma",
@@ -12992,6 +12984,10 @@
           tech: {
             name: "Technology / SaaS",
             namePT: "Tecnologia / SaaS",
+            intro:
+              "Tech/SaaS companies sell software subscriptions. The business model is recurring revenue (MRR/ARR) with high gross margins (70-85%). Key metrics: churn rate, LTV:CAC ratio (>3:1 is healthy), net revenue retention. Growth is king — investors value revenue growth over profitability in early stages.",
+            introPT:
+              "Empresas tech/SaaS vendem subscrições de software. Modelo de receita recorrente (MRR/ARR), margens brutas altas (70-85%). Métricas chave: churn rate, rácio LTV:CAC (>3:1 é saudável), retenção líquida. Crescimento é rei — investidores valorizam crescimento sobre rentabilidade nas fases iniciais.",
             companies: [
               "CloudSync",
               "DataPulse AI",
@@ -13021,6 +13017,10 @@
           financial: {
             name: "Financial Services",
             namePT: "Serviços Financeiros",
+            intro:
+              "Financial services includes banks, insurance, asset management, and fintech. Banks earn on Net Interest Margin (NIM = interest earned - interest paid). Key metrics: cost-to-income ratio, AUM (assets under management), NPL (non-performing loans). Heavily regulated — capital requirements drive strategy.",
+            introPT:
+              "Serviços financeiros incluem bancos, seguros, gestão de ativos e fintech. Bancos ganham com NIM (margem de juros líquida). Métricas chave: rácio cost-to-income, AUM, NPL (crédito malparado). Muito regulado — requisitos de capital condicionam a estratégia.",
             companies: [
               "TrustBank",
               "InvestPrime",
@@ -13049,6 +13049,10 @@
           energy: {
             name: "Energy & Utilities",
             namePT: "Energia e Utilities",
+            intro:
+              "Energy covers oil & gas, renewables, utilities, and energy tech. It's capital-intensive with long investment horizons. Key concepts: LCOE (levelized cost of energy), capacity factor, energy transition, carbon pricing. Currently undergoing massive shift from fossil fuels to renewables.",
+            introPT:
+              "Energia abrange petróleo, renováveis, utilities e energy tech. Capital-intensiva com horizontes longos. Conceitos chave: LCOE (custo nivelado de energia), fator de capacidade, transição energética, preço do carbono. Em transição massiva de fósseis para renováveis.",
             companies: [
               "SolarFirst",
               "GridPower",
@@ -13076,6 +13080,10 @@
           airlines: {
             name: "Airlines & Transport",
             namePT: "Aviação e Transportes",
+            intro:
+              "Airlines are a notoriously tough industry — high fixed costs, low margins (2-3% net), commodity pricing. Revenue = passengers × avg ticket × load factor. Key metrics: CASK (cost per available seat km), RPK (revenue passenger km), load factor. Fuel is typically 25-35% of costs.",
+            introPT:
+              "Aviação é uma indústria notoriamente difícil — custos fixos altos, margens baixas (2-3% líquida), pricing commodity. Receita = passageiros × bilhete médio × load factor. Métricas chave: CASK, RPK, load factor. Combustível tipicamente 25-35% dos custos.",
             companies: [
               "SkyBridge Airlines",
               "EuroConnect",
@@ -13104,6 +13112,10 @@
           manufacturing: {
             name: "Manufacturing",
             namePT: "Indústria e Manufatura",
+            intro:
+              "Manufacturing is about converting raw materials into products. Think auto parts, chemicals, electronics. Key concepts: OEE (Overall Equipment Effectiveness), capacity utilization, yield/scrap rates, unit costs. Common levers: lean manufacturing, automation, make-vs-buy, reshoring.",
+            introPT:
+              "Manufatura é converter matérias-primas em produtos. Peças auto, químicos, eletrónica. Conceitos chave: OEE (Eficácia Global do Equipamento), utilização de capacidade, taxas de rendimento/desperdício, custo unitário. Alavancas: lean, automação, make-vs-buy, reshoring.",
             companies: [
               "SteelForge",
               "AutoParts Global",
@@ -13132,6 +13144,10 @@
           telecom: {
             name: "Telecom & Media",
             namePT: "Telecomunicações e Media",
+            intro:
+              "Telecom is infrastructure-heavy (towers, fiber, spectrum) with subscription-based revenue. Media is shifting from advertising to subscriptions. Key metrics: ARPU (average revenue per user), churn, capex/revenue ratio. Big themes: 5G rollout, content bundling, OTT competition.",
+            introPT:
+              "Telecom é intensiva em infraestrutura (torres, fibra, espectro) com receita por subscrição. Media em transição de publicidade para subscrições. Métricas: ARPU, churn, rácio capex/receita. Temas: rollout 5G, bundling de conteúdo, concorrência OTT.",
             companies: [
               "ConnectAll",
               "StreamVision",
@@ -13160,6 +13176,10 @@
           nonprofit: {
             name: "Non-Profit / Public Sector",
             namePT: "Sem Fins Lucrativos / Setor Público",
+            intro:
+              "Non-profits and public sector optimize for impact rather than profit. Key metrics: cost per beneficiary, impact per dollar spent, overhead ratio. Funding comes from donors, grants, or government budgets. Common cases: resource allocation, scaling programs, public-private partnerships.",
+            introPT:
+              "Sem fins lucrativos e setor público otimizam impacto em vez de lucro. Métricas: custo por beneficiário, impacto por euro gasto, rácio de overhead. Financiamento: doadores, subsídios, orçamentos públicos. Casos comuns: alocação de recursos, escalar programas, PPPs.",
             companies: [
               "EduBridge Foundation",
               "CleanWater Initiative",
@@ -13483,204 +13503,668 @@
       var CG_SOLUTIONS = {
         profitability: {
           framework: {
-            name: 'Profitability Framework (Top-10 #1)',
-            tree: 'How to improve profits?\n├── Revenue\n│   ├── Volume (units sold, customers, transactions)\n│   └── Price (per unit, discounts, mix)\n└── Costs\n    ├── Fixed Costs (rent, salaries, depreciation)\n    └── Variable Costs (COGS, materials, commissions)',
-            approach: 'Use the EQUATION method: Profits = Revenue - Costs = (Price x Volume) - (Fixed + Variable). Decompose each branch. Identify WHICH lever changed and diagnose WHY.',
-            secondLevel: 'Second-level drivers: Customer segments, geographies, product lines, channels, time periods. Always ask: "Is this a revenue problem, a cost problem, or both?"'
+            name: "Profitability Framework (Top-10 #1)",
+            tree: "How to improve profits?\n├── Revenue\n│   ├── Volume (units sold, customers, transactions)\n│   └── Price (per unit, discounts, mix)\n└── Costs\n    ├── Fixed Costs (rent, salaries, depreciation)\n    └── Variable Costs (COGS, materials, commissions)",
+            approach:
+              "Use the EQUATION method: Profits = Revenue - Costs = (Price x Volume) - (Fixed + Variable). Decompose each branch. Identify WHICH lever changed and diagnose WHY.",
+            secondLevel:
+              'Second-level drivers: Customer segments, geographies, product lines, channels, time periods. Always ask: "Is this a revenue problem, a cost problem, or both?"',
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The interviewer has just described the case. Take 60 seconds to structure your approach. What framework would you use? Walk me through your issue tree.', modelAnswer: '"Thank you. To understand the profit decline, I\'d like to break this into two main buckets:\n\n1. REVENUE SIDE: Has revenue declined? If so, is it driven by price (lower prices, unfavorable mix shift) or volume (fewer customers, lower frequency, lost accounts)?\n\n2. COST SIDE: Have costs increased? I\'d separate fixed costs (rent, overhead, headcount) from variable costs (COGS, materials, logistics).\n\nI\'d also want to understand the timeline — is this sudden or gradual? And benchmark against competitors — is this company-specific or industry-wide?\n\nShall I start by investigating the revenue side?"', insight: 'CaseCoach Tip: Always use the equation approach for profitability. Profits = Revenue - Costs. Then decompose. The interviewer wants to see MECE structure and business intuition about which branch to explore first.' },
-              { title: 'Analysis & Data Interpretation', prompt: 'The interviewer shares data. Analyze the numbers, identify the key driver, and explain what\'s happening.', modelAnswer: '"Looking at the data, I can see that revenue has actually grown 5% YoY, so this isn\'t a top-line problem — it\'s a cost issue.\n\nBreaking down costs:\n- Fixed costs are flat (good)\n- Variable costs have jumped 25% — specifically raw materials (+30%) and logistics (+20%)\n\nSo the margin erosion is driven by variable cost inflation. Let me now investigate WHY:\n- Are these industry-wide price increases or supplier-specific?\n- Have we locked in long-term contracts or are we spot-buying?\n- Can we pass these costs through to customers via price increases?"', insight: 'CaseCoach Tip: When analyzing data, always (1) state the headline finding, (2) quantify the driver, (3) explain the "so what", and (4) propose next steps. Don\'t just read numbers — interpret them.' },
-              { title: 'Synthesis & Recommendation', prompt: 'Based on your analysis, what would you recommend to the CEO? Structure your answer as: situation, finding, recommendation, next steps.', modelAnswer: '"To summarize my recommendation:\n\nSITUATION: The company is facing a 15% margin decline despite healthy revenue growth.\n\nFINDING: The root cause is a 25% increase in variable costs, primarily raw materials and logistics, which are industry-wide.\n\nRECOMMENDATION: I\'d propose a 3-pronged approach:\n1. SHORT-TERM: Renegotiate supplier contracts and consolidate vendors (potential 8-10% savings)\n2. MEDIUM-TERM: Implement selective price increases on less price-sensitive segments (recover 5-7% of margin)\n3. LONG-TERM: Invest in operational efficiency — automation and process optimization\n\nNEXT STEPS: Start with a quick supplier analysis to quantify negotiation leverage, then conduct customer willingness-to-pay research before raising prices."', insight: 'CaseCoach Tip: Use the "Situation-Finding-Recommendation" structure. Be specific with numbers. Always give 2-3 recommendations prioritized by impact and timeline. End with clear next steps.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The interviewer has just described the case. Take 60 seconds to structure your approach. What framework would you use? Walk me through your issue tree.",
+                modelAnswer:
+                  "\"Thank you. To understand the profit decline, I'd like to break this into two main buckets:\n\n1. REVENUE SIDE: Has revenue declined? If so, is it driven by price (lower prices, unfavorable mix shift) or volume (fewer customers, lower frequency, lost accounts)?\n\n2. COST SIDE: Have costs increased? I'd separate fixed costs (rent, overhead, headcount) from variable costs (COGS, materials, logistics).\n\nI'd also want to understand the timeline — is this sudden or gradual? And benchmark against competitors — is this company-specific or industry-wide?\n\nShall I start by investigating the revenue side?\"",
+                insight:
+                  "CaseCoach Tip: Always use the equation approach for profitability. Profits = Revenue - Costs. Then decompose. The interviewer wants to see MECE structure and business intuition about which branch to explore first.",
+              },
+              {
+                title: "Analysis & Data Interpretation",
+                prompt:
+                  "The interviewer shares data. Analyze the numbers, identify the key driver, and explain what's happening.",
+                modelAnswer:
+                  "\"Looking at the data, I can see that revenue has actually grown 5% YoY, so this isn't a top-line problem — it's a cost issue.\n\nBreaking down costs:\n- Fixed costs are flat (good)\n- Variable costs have jumped 25% — specifically raw materials (+30%) and logistics (+20%)\n\nSo the margin erosion is driven by variable cost inflation. Let me now investigate WHY:\n- Are these industry-wide price increases or supplier-specific?\n- Have we locked in long-term contracts or are we spot-buying?\n- Can we pass these costs through to customers via price increases?\"",
+                insight:
+                  'CaseCoach Tip: When analyzing data, always (1) state the headline finding, (2) quantify the driver, (3) explain the "so what", and (4) propose next steps. Don\'t just read numbers — interpret them.',
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt:
+                  "Based on your analysis, what would you recommend to the CEO? Structure your answer as: situation, finding, recommendation, next steps.",
+                modelAnswer:
+                  '"To summarize my recommendation:\n\nSITUATION: The company is facing a 15% margin decline despite healthy revenue growth.\n\nFINDING: The root cause is a 25% increase in variable costs, primarily raw materials and logistics, which are industry-wide.\n\nRECOMMENDATION: I\'d propose a 3-pronged approach:\n1. SHORT-TERM: Renegotiate supplier contracts and consolidate vendors (potential 8-10% savings)\n2. MEDIUM-TERM: Implement selective price increases on less price-sensitive segments (recover 5-7% of margin)\n3. LONG-TERM: Invest in operational efficiency — automation and process optimization\n\nNEXT STEPS: Start with a quick supplier analysis to quantify negotiation leverage, then conduct customer willingness-to-pay research before raising prices."',
+                insight:
+                  'CaseCoach Tip: Use the "Situation-Finding-Recommendation" structure. Be specific with numbers. Always give 2-3 recommendations prioritized by impact and timeline. End with clear next steps.',
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'O entrevistador descreveu o caso. Tome 60 segundos para estruturar. Que framework usaria? Apresente a sua árvore de issues.', modelAnswer: '"Obrigado. Para entender o declínio de lucro, gostaria de dividir em dois blocos:\n\n1. RECEITA: A receita caiu? Se sim, é por preço (preços mais baixos, mix desfavorável) ou volume (menos clientes, menor frequência)?\n\n2. CUSTOS: Os custos aumentaram? Separo custos fixos (renda, overhead, pessoal) de custos variáveis (COGS, materiais, logística).\n\nTambém quero entender a timeline e benchmarking vs concorrentes.\n\nDevo começar pelo lado da receita?"', insight: 'Dica CaseCoach: Use sempre a abordagem por equação. Lucro = Receita - Custos. Depois decomponha. O entrevistador quer ver estrutura MECE.' },
-              { title: 'Análise & Interpretação', prompt: 'O entrevistador partilha dados. Analise os números e identifique o driver principal.', modelAnswer: '"Analisando os dados, vejo que a receita cresceu 5% — não é problema de top-line, é de custos.\n\nCustos variáveis subiram 25% — matérias-primas (+30%) e logística (+20%). A erosão de margem vem da inflação de custos variáveis.\n\nPróximos passos: investigar se são aumentos da indústria ou específicos do fornecedor."', insight: 'Dica: Ao analisar dados — (1) headline, (2) quantificar, (3) "e então?", (4) próximos passos.' },
-              { title: 'Síntese & Recomendação', prompt: 'Qual a sua recomendação ao CEO?', modelAnswer: '"Resumindo:\n\nSITUAÇÃO: Margem caiu 15% apesar de receita saudável.\n\nDIAGNÓSTICO: Custos variáveis subiram 25%.\n\nRECOMENDAÇÃO:\n1. CURTO PRAZO: Renegociar contratos com fornecedores (8-10% poupança)\n2. MÉDIO PRAZO: Aumentos seletivos de preço (5-7% margem)\n3. LONGO PRAZO: Investir em automação\n\nPRÓXIMOS PASSOS: Análise de fornecedores + research de willingness-to-pay."', insight: 'Dica: Use "Situação-Diagnóstico-Recomendação". Seja específico com números.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt:
+                  "O entrevistador descreveu o caso. Tome 60 segundos para estruturar. Que framework usaria? Apresente a sua árvore de issues.",
+                modelAnswer:
+                  '"Obrigado. Para entender o declínio de lucro, gostaria de dividir em dois blocos:\n\n1. RECEITA: A receita caiu? Se sim, é por preço (preços mais baixos, mix desfavorável) ou volume (menos clientes, menor frequência)?\n\n2. CUSTOS: Os custos aumentaram? Separo custos fixos (renda, overhead, pessoal) de custos variáveis (COGS, materiais, logística).\n\nTambém quero entender a timeline e benchmarking vs concorrentes.\n\nDevo começar pelo lado da receita?"',
+                insight:
+                  "Dica CaseCoach: Use sempre a abordagem por equação. Lucro = Receita - Custos. Depois decomponha. O entrevistador quer ver estrutura MECE.",
+              },
+              {
+                title: "Análise & Interpretação",
+                prompt:
+                  "O entrevistador partilha dados. Analise os números e identifique o driver principal.",
+                modelAnswer:
+                  '"Analisando os dados, vejo que a receita cresceu 5% — não é problema de top-line, é de custos.\n\nCustos variáveis subiram 25% — matérias-primas (+30%) e logística (+20%). A erosão de margem vem da inflação de custos variáveis.\n\nPróximos passos: investigar se são aumentos da indústria ou específicos do fornecedor."',
+                insight:
+                  'Dica: Ao analisar dados — (1) headline, (2) quantificar, (3) "e então?", (4) próximos passos.',
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Qual a sua recomendação ao CEO?",
+                modelAnswer:
+                  '"Resumindo:\n\nSITUAÇÃO: Margem caiu 15% apesar de receita saudável.\n\nDIAGNÓSTICO: Custos variáveis subiram 25%.\n\nRECOMENDAÇÃO:\n1. CURTO PRAZO: Renegociar contratos com fornecedores (8-10% poupança)\n2. MÉDIO PRAZO: Aumentos seletivos de preço (5-7% margem)\n3. LONGO PRAZO: Investir em automação\n\nPRÓXIMOS PASSOS: Análise de fornecedores + research de willingness-to-pay."',
+                insight:
+                  'Dica: Use "Situação-Diagnóstico-Recomendação". Seja específico com números.',
+              },
+            ],
+          },
         },
-        'market-entry': {
+        "market-entry": {
           framework: {
-            name: 'Market Entry Framework (Top-10 #4)',
-            tree: 'Whether to enter a new market?\n├── Market Opportunity\n│   ├── Market Size (TAM, SAM, SOM)\n│   ├── Market Growth (CAGR, trends)\n│   └── Potential Share (competitors, barriers)\n├── Capabilities & Risks\n│   ├── Our Offering vs Customer Needs\n│   ├── Competitors & Their Strengths\n│   └── Investment Required\n└── Potential Profit\n    ├── Revenue (share × market × price)\n    └── Running Costs + Investment',
-            approach: 'Assess market attractiveness first, then capability fit, then financials. Entry modes: organic build, JV/partnership, or acquisition.',
-            secondLevel: 'Consider: Porter\'s Five Forces for industry attractiveness. Three Cs (Company, Customers, Competitors) for positioning.'
+            name: "Market Entry Framework (Top-10 #4)",
+            tree: "Whether to enter a new market?\n├── Market Opportunity\n│   ├── Market Size (TAM, SAM, SOM)\n│   ├── Market Growth (CAGR, trends)\n│   └── Potential Share (competitors, barriers)\n├── Capabilities & Risks\n│   ├── Our Offering vs Customer Needs\n│   ├── Competitors & Their Strengths\n│   └── Investment Required\n└── Potential Profit\n    ├── Revenue (share × market × price)\n    └── Running Costs + Investment",
+            approach:
+              "Assess market attractiveness first, then capability fit, then financials. Entry modes: organic build, JV/partnership, or acquisition.",
+            secondLevel:
+              "Consider: Porter's Five Forces for industry attractiveness. Three Cs (Company, Customers, Competitors) for positioning.",
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The client is considering entering a new market. How would you structure your analysis?', modelAnswer: '"I\'d structure this around three key questions:\n\n1. IS THE MARKET ATTRACTIVE?\n   - Size: What\'s the TAM? SAM? SOM?\n   - Growth: What\'s the projected CAGR?\n   - Competition: How concentrated? Barriers to entry?\n   - Customer needs: What are they and how well-served?\n\n2. CAN WE WIN?\n   - Do we have the capabilities (brand, distribution, tech)?\n   - What\'s our competitive advantage?\n   - Do we need to build, buy, or partner?\n\n3. IS IT WORTH IT?\n   - Required investment and timeline to breakeven\n   - Expected market share and revenue\n   - Risk-adjusted returns vs alternatives\n\nLet me start by sizing the market opportunity."', insight: 'CaseCoach Tip: For market entry, always separate market attractiveness from company capabilities. The classic trap is a great market where YOU can\'t win.' },
-              { title: 'Analysis & Market Sizing', prompt: 'Size the market opportunity and assess competitive dynamics. What data would you need?', modelAnswer: '"For market sizing, I\'ll use a bottom-up approach:\n\nTarget population × adoption rate × spend per customer\n\nBased on the data provided:\n- Target customers: ~5M potential businesses\n- Addressable segment: ~2M (40% fit our profile)\n- Expected penetration: 5-8% in Year 3 (based on comparable entries)\n- Average revenue per customer: $2,000/year\n- Market size estimate: $4B TAM, $400M achievable in 3 years\n\nCompetitive landscape:\n- 2 dominant players with 60% combined share\n- High customer switching costs\n- BUT: underserved mid-market segment (our sweet spot)\n\nKey insight: The market is attractive, but we need a differentiated entry strategy targeting underserved segments."', insight: 'CaseCoach Tip: Always declare your sizing approach (top-down vs bottom-up) upfront. Round numbers aggressively. State assumptions explicitly.' },
-              { title: 'Synthesis & Recommendation', prompt: 'Should the client enter this market? If so, how?', modelAnswer: '"My recommendation: YES, enter the market, but with a focused niche strategy.\n\nWHY ENTER:\n- $4B market growing at 12% CAGR\n- Underserved mid-market segment worth ~$800M\n- Leverages our existing capabilities in tech and distribution\n\nHOW TO ENTER:\n- PHASE 1 (Month 0-6): Partner with local distributor for market access\n- PHASE 2 (Month 6-18): Build direct sales team targeting top 50 mid-market accounts\n- PHASE 3 (Month 18-36): Evaluate acquisition of local player for scale\n\nFINANCIALS:\n- Investment: ~$50M over 3 years\n- Expected revenue: $80M by Year 3\n- Breakeven: Month 24\n- 5-year NPV: $120M\n\nKEY RISKS: Competitor response, regulatory changes, execution speed\nMITIGATION: Phased approach limits downside; partnership reduces initial investment."', insight: 'CaseCoach Tip: Always give a clear YES/NO recommendation with supporting logic. Include entry mode, phasing, and financial projections.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The client is considering entering a new market. How would you structure your analysis?",
+                modelAnswer:
+                  "\"I'd structure this around three key questions:\n\n1. IS THE MARKET ATTRACTIVE?\n   - Size: What's the TAM? SAM? SOM?\n   - Growth: What's the projected CAGR?\n   - Competition: How concentrated? Barriers to entry?\n   - Customer needs: What are they and how well-served?\n\n2. CAN WE WIN?\n   - Do we have the capabilities (brand, distribution, tech)?\n   - What's our competitive advantage?\n   - Do we need to build, buy, or partner?\n\n3. IS IT WORTH IT?\n   - Required investment and timeline to breakeven\n   - Expected market share and revenue\n   - Risk-adjusted returns vs alternatives\n\nLet me start by sizing the market opportunity.\"",
+                insight:
+                  "CaseCoach Tip: For market entry, always separate market attractiveness from company capabilities. The classic trap is a great market where YOU can't win.",
+              },
+              {
+                title: "Analysis & Market Sizing",
+                prompt:
+                  "Size the market opportunity and assess competitive dynamics. What data would you need?",
+                modelAnswer:
+                  '"For market sizing, I\'ll use a bottom-up approach:\n\nTarget population × adoption rate × spend per customer\n\nBased on the data provided:\n- Target customers: ~5M potential businesses\n- Addressable segment: ~2M (40% fit our profile)\n- Expected penetration: 5-8% in Year 3 (based on comparable entries)\n- Average revenue per customer: $2,000/year\n- Market size estimate: $4B TAM, $400M achievable in 3 years\n\nCompetitive landscape:\n- 2 dominant players with 60% combined share\n- High customer switching costs\n- BUT: underserved mid-market segment (our sweet spot)\n\nKey insight: The market is attractive, but we need a differentiated entry strategy targeting underserved segments."',
+                insight:
+                  "CaseCoach Tip: Always declare your sizing approach (top-down vs bottom-up) upfront. Round numbers aggressively. State assumptions explicitly.",
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt: "Should the client enter this market? If so, how?",
+                modelAnswer:
+                  '"My recommendation: YES, enter the market, but with a focused niche strategy.\n\nWHY ENTER:\n- $4B market growing at 12% CAGR\n- Underserved mid-market segment worth ~$800M\n- Leverages our existing capabilities in tech and distribution\n\nHOW TO ENTER:\n- PHASE 1 (Month 0-6): Partner with local distributor for market access\n- PHASE 2 (Month 6-18): Build direct sales team targeting top 50 mid-market accounts\n- PHASE 3 (Month 18-36): Evaluate acquisition of local player for scale\n\nFINANCIALS:\n- Investment: ~$50M over 3 years\n- Expected revenue: $80M by Year 3\n- Breakeven: Month 24\n- 5-year NPV: $120M\n\nKEY RISKS: Competitor response, regulatory changes, execution speed\nMITIGATION: Phased approach limits downside; partnership reduces initial investment."',
+                insight:
+                  "CaseCoach Tip: Always give a clear YES/NO recommendation with supporting logic. Include entry mode, phasing, and financial projections.",
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'O cliente quer entrar num novo mercado. Como estruturaria a análise?', modelAnswer: '"Estruturaria em 3 questões:\n\n1. O MERCADO É ATRATIVO? Tamanho, crescimento, concorrência, necessidades dos clientes.\n2. PODEMOS GANHAR? Capacidades, vantagem competitiva, modo de entrada.\n3. VALE A PENA? Investimento, breakeven, retorno ajustado ao risco."', insight: 'Dica: Separe sempre atratividade do mercado de capacidades da empresa.' },
-              { title: 'Análise & Dimensionamento', prompt: 'Dimensione a oportunidade e avalie a dinâmica competitiva.', modelAnswer: '"Bottom-up: 5M potenciais × 40% endereçáveis × 5-8% penetração × $2K/ano = TAM $4B, alcançável $400M em 3 anos. Segmento mid-market subservido é a nossa oportunidade."', insight: 'Dica: Declare a abordagem (top-down vs bottom-up). Arredonde. Explicite pressupostos.' },
-              { title: 'Síntese & Recomendação', prompt: 'Devem entrar? Se sim, como?', modelAnswer: '"SIM — estratégia de nicho focada.\n\nFase 1: Parceria local (0-6M)\nFase 2: Equipa de vendas direta (6-18M)\nFase 3: Avaliar aquisição (18-36M)\n\nInvestimento: $50M em 3 anos. Breakeven: Mês 24. NPV 5 anos: $120M."', insight: 'Dica: Sempre dar recomendação clara SIM/NÃO com faseamento e números.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt:
+                  "O cliente quer entrar num novo mercado. Como estruturaria a análise?",
+                modelAnswer:
+                  '"Estruturaria em 3 questões:\n\n1. O MERCADO É ATRATIVO? Tamanho, crescimento, concorrência, necessidades dos clientes.\n2. PODEMOS GANHAR? Capacidades, vantagem competitiva, modo de entrada.\n3. VALE A PENA? Investimento, breakeven, retorno ajustado ao risco."',
+                insight:
+                  "Dica: Separe sempre atratividade do mercado de capacidades da empresa.",
+              },
+              {
+                title: "Análise & Dimensionamento",
+                prompt:
+                  "Dimensione a oportunidade e avalie a dinâmica competitiva.",
+                modelAnswer:
+                  '"Bottom-up: 5M potenciais × 40% endereçáveis × 5-8% penetração × $2K/ano = TAM $4B, alcançável $400M em 3 anos. Segmento mid-market subservido é a nossa oportunidade."',
+                insight:
+                  "Dica: Declare a abordagem (top-down vs bottom-up). Arredonde. Explicite pressupostos.",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Devem entrar? Se sim, como?",
+                modelAnswer:
+                  '"SIM — estratégia de nicho focada.\n\nFase 1: Parceria local (0-6M)\nFase 2: Equipa de vendas direta (6-18M)\nFase 3: Avaliar aquisição (18-36M)\n\nInvestimento: $50M em 3 anos. Breakeven: Mês 24. NPV 5 anos: $120M."',
+                insight:
+                  "Dica: Sempre dar recomendação clara SIM/NÃO com faseamento e números.",
+              },
+            ],
+          },
         },
         ma: {
           framework: {
-            name: 'M&A Framework (Top-10 #8)',
-            tree: 'Whether to acquire?\n├── Standalone Value\n│   ├── Future Revenue\n│   ├── Future Costs\n│   └── Valuation Multiples\n├── Synergies\n│   ├── Revenue Growth (cross-sell, new markets)\n│   └── Cost Reduction (eliminate duplicates)\n└── Capabilities & Risks\n    ├── Cultural Fit\n    ├── Integration Complexity\n    └── Regulatory Approval',
-            approach: 'Evaluate strategic rationale → value standalone → quantify synergies → assess integration risks → compare to price.',
-            secondLevel: 'Valuation: DCF, comparables, precedent transactions. Synergies typically 50-70% realized within 2 years.'
+            name: "M&A Framework (Top-10 #8)",
+            tree: "Whether to acquire?\n├── Standalone Value\n│   ├── Future Revenue\n│   ├── Future Costs\n│   └── Valuation Multiples\n├── Synergies\n│   ├── Revenue Growth (cross-sell, new markets)\n│   └── Cost Reduction (eliminate duplicates)\n└── Capabilities & Risks\n    ├── Cultural Fit\n    ├── Integration Complexity\n    └── Regulatory Approval",
+            approach:
+              "Evaluate strategic rationale → value standalone → quantify synergies → assess integration risks → compare to price.",
+            secondLevel:
+              "Valuation: DCF, comparables, precedent transactions. Synergies typically 50-70% realized within 2 years.",
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The client is evaluating a potential acquisition. How would you frame your analysis?', modelAnswer: '"I\'d evaluate this acquisition across four dimensions:\n\n1. STRATEGIC RATIONALE: Why acquire? Revenue synergies, cost synergies, market access, talent, technology?\n\n2. STANDALONE VALUATION: What is the target worth on its own?\n   - Revenue trajectory and margins\n   - Comparable company multiples\n   - DCF analysis\n\n3. SYNERGY VALUE: What additional value does the combination create?\n   - Revenue synergies: Cross-selling, new geographies\n   - Cost synergies: Eliminate duplicates, procurement leverage\n   - Timeline to realize synergies\n\n4. INTEGRATION RISK: Can we actually capture the value?\n   - Cultural fit\n   - Key person retention\n   - Systems integration\n   - Regulatory hurdles\n\nLet me start with the strategic rationale."', insight: 'CaseCoach Tip: M&A = Strategic Fit + Standalone Value + Synergies - Integration Risks. Always question whether organic growth is a better alternative.' },
-              { title: 'Analysis & Valuation', prompt: 'Value the target and quantify the synergies.', modelAnswer: '"Standalone valuation:\n- Target revenue: $500M, growing 8% annually\n- EBITDA margin: 15% ($75M)\n- Comparable multiples: 10-12x EBITDA\n- Standalone value: $750M - $900M\n\nSynergy analysis:\n- Cost synergies: $30M/year (headcount overlap, shared procurement)\n- Revenue synergies: $50M/year by Year 3 (cross-sell to combined customer base)\n- Total synergy NPV at 10% discount: ~$500M\n\nCombined value: $1.25B - $1.4B\nAsking price: $1.1B\n→ Represents a 20-30% discount to combined value\n\nKey assumption: 70% synergy realization rate (conservative)."', insight: 'CaseCoach Tip: Always discount synergies — they\'re usually overstated. Use 50-70% realization rate. Separate valuation from price — what it\'s worth vs what we\'d pay.' },
-              { title: 'Synthesis & Recommendation', prompt: 'Should they proceed with the acquisition?', modelAnswer: '"RECOMMENDATION: Proceed, but negotiate on price.\n\nThe deal makes strategic sense:\n- Fills our gap in the mid-market segment\n- $30M in achievable cost synergies from Day 1\n- Revenue synergies potential of $50M by Year 3\n\nAt $1.1B, there\'s a comfortable margin of safety:\n- Combined value: $1.25-1.4B\n- Implied synergy capture needed: only 40% to break even on premium\n\nHowever, I\'d negotiate to $950M-1B, given:\n- Integration risks are real (different cultures, legacy IT systems)\n- 2 key executives have hinted at leaving\n\nNEXT STEPS:\n1. Deep-dive due diligence on top 10 customer contracts\n2. Retention packages for key talent\n3. Day-1 integration plan for IT and operations\n4. Regulatory pre-filing"', insight: 'CaseCoach Tip: M&A recommendations should always address price negotiation, key risks, and integration planning. Never just say "buy" — say at what price and under what conditions.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The client is evaluating a potential acquisition. How would you frame your analysis?",
+                modelAnswer:
+                  '"I\'d evaluate this acquisition across four dimensions:\n\n1. STRATEGIC RATIONALE: Why acquire? Revenue synergies, cost synergies, market access, talent, technology?\n\n2. STANDALONE VALUATION: What is the target worth on its own?\n   - Revenue trajectory and margins\n   - Comparable company multiples\n   - DCF analysis\n\n3. SYNERGY VALUE: What additional value does the combination create?\n   - Revenue synergies: Cross-selling, new geographies\n   - Cost synergies: Eliminate duplicates, procurement leverage\n   - Timeline to realize synergies\n\n4. INTEGRATION RISK: Can we actually capture the value?\n   - Cultural fit\n   - Key person retention\n   - Systems integration\n   - Regulatory hurdles\n\nLet me start with the strategic rationale."',
+                insight:
+                  "CaseCoach Tip: M&A = Strategic Fit + Standalone Value + Synergies - Integration Risks. Always question whether organic growth is a better alternative.",
+              },
+              {
+                title: "Analysis & Valuation",
+                prompt: "Value the target and quantify the synergies.",
+                modelAnswer:
+                  '"Standalone valuation:\n- Target revenue: $500M, growing 8% annually\n- EBITDA margin: 15% ($75M)\n- Comparable multiples: 10-12x EBITDA\n- Standalone value: $750M - $900M\n\nSynergy analysis:\n- Cost synergies: $30M/year (headcount overlap, shared procurement)\n- Revenue synergies: $50M/year by Year 3 (cross-sell to combined customer base)\n- Total synergy NPV at 10% discount: ~$500M\n\nCombined value: $1.25B - $1.4B\nAsking price: $1.1B\n→ Represents a 20-30% discount to combined value\n\nKey assumption: 70% synergy realization rate (conservative)."',
+                insight:
+                  "CaseCoach Tip: Always discount synergies — they're usually overstated. Use 50-70% realization rate. Separate valuation from price — what it's worth vs what we'd pay.",
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt: "Should they proceed with the acquisition?",
+                modelAnswer:
+                  "\"RECOMMENDATION: Proceed, but negotiate on price.\n\nThe deal makes strategic sense:\n- Fills our gap in the mid-market segment\n- $30M in achievable cost synergies from Day 1\n- Revenue synergies potential of $50M by Year 3\n\nAt $1.1B, there's a comfortable margin of safety:\n- Combined value: $1.25-1.4B\n- Implied synergy capture needed: only 40% to break even on premium\n\nHowever, I'd negotiate to $950M-1B, given:\n- Integration risks are real (different cultures, legacy IT systems)\n- 2 key executives have hinted at leaving\n\nNEXT STEPS:\n1. Deep-dive due diligence on top 10 customer contracts\n2. Retention packages for key talent\n3. Day-1 integration plan for IT and operations\n4. Regulatory pre-filing\"",
+                insight:
+                  'CaseCoach Tip: M&A recommendations should always address price negotiation, key risks, and integration planning. Never just say "buy" — say at what price and under what conditions.',
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'Como avaliaria esta potencial aquisição?', modelAnswer: '"Avalio em 4 dimensões: (1) Racional estratégico, (2) Valor standalone do alvo, (3) Valor das sinergias, (4) Risco de integração."', insight: 'Dica: M&A = Fit Estratégico + Valor Standalone + Sinergias - Riscos de Integração.' },
-              { title: 'Análise & Avaliação', prompt: 'Avalie o alvo e quantifique sinergias.', modelAnswer: '"Valor standalone: $750-900M (10-12x EBITDA de $75M). Sinergias: $30M custo + $50M receita. Valor combinado: $1.25-1.4B. Preço pedido: $1.1B — desconto de 20-30%."', insight: 'Dica: Aplique desconto às sinergias (50-70% de realização). Separe valor de preço.' },
-              { title: 'Síntese & Recomendação', prompt: 'Devem prosseguir?', modelAnswer: '"SIM, mas negociar preço para $950M-1B. Sinergias de custo realizáveis desde o Dia 1. Principais riscos: integração cultural e retenção de talento chave."', insight: 'Dica: Nunca diga apenas "comprar" — diga a que preço e condições.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt: "Como avaliaria esta potencial aquisição?",
+                modelAnswer:
+                  '"Avalio em 4 dimensões: (1) Racional estratégico, (2) Valor standalone do alvo, (3) Valor das sinergias, (4) Risco de integração."',
+                insight:
+                  "Dica: M&A = Fit Estratégico + Valor Standalone + Sinergias - Riscos de Integração.",
+              },
+              {
+                title: "Análise & Avaliação",
+                prompt: "Avalie o alvo e quantifique sinergias.",
+                modelAnswer:
+                  '"Valor standalone: $750-900M (10-12x EBITDA de $75M). Sinergias: $30M custo + $50M receita. Valor combinado: $1.25-1.4B. Preço pedido: $1.1B — desconto de 20-30%."',
+                insight:
+                  "Dica: Aplique desconto às sinergias (50-70% de realização). Separe valor de preço.",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Devem prosseguir?",
+                modelAnswer:
+                  '"SIM, mas negociar preço para $950M-1B. Sinergias de custo realizáveis desde o Dia 1. Principais riscos: integração cultural e retenção de talento chave."',
+                insight:
+                  'Dica: Nunca diga apenas "comprar" — diga a que preço e condições.',
+              },
+            ],
+          },
         },
         pricing: {
           framework: {
-            name: 'Pricing Framework (Top-10 #6)',
-            tree: 'How to price a product?\n├── Costs (floor price)\n│   ├── Variable Costs per unit\n│   ├── Fixed Costs allocation\n│   └── Investment Costs amortization\n├── Competitors/Substitutes (reference)\n│   └── Should we price above or below?\n└── Clients\' Willingness to Pay (ceiling)\n    └── Value-based pricing opportunity',
-            approach: 'Three pricing anchors: Cost-plus (floor), Competitive (reference), Value-based (ceiling). The optimal price balances all three. Plus: segmentation, bundling, dynamic pricing.',
-            secondLevel: 'Four Ps context (Academic Frameworks): Product features justify premium. Place/distribution affects price perception. Promotion communicates value.'
+            name: "Pricing Framework (Top-10 #6)",
+            tree: "How to price a product?\n├── Costs (floor price)\n│   ├── Variable Costs per unit\n│   ├── Fixed Costs allocation\n│   └── Investment Costs amortization\n├── Competitors/Substitutes (reference)\n│   └── Should we price above or below?\n└── Clients' Willingness to Pay (ceiling)\n    └── Value-based pricing opportunity",
+            approach:
+              "Three pricing anchors: Cost-plus (floor), Competitive (reference), Value-based (ceiling). The optimal price balances all three. Plus: segmentation, bundling, dynamic pricing.",
+            secondLevel:
+              "Four Ps context (Academic Frameworks): Product features justify premium. Place/distribution affects price perception. Promotion communicates value.",
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'Develop a pricing strategy for this client. Walk me through your approach.', modelAnswer: '"I\'d approach pricing from three angles:\n\n1. COST-BASED (floor): What\'s the minimum price to cover costs?\n   - Variable cost per unit\n   - Fixed cost allocation\n   - Required margin for investment recovery\n\n2. COMPETITION-BASED (reference): What are competitors charging?\n   - Direct competitors\' pricing\n   - Substitutes\' pricing\n   - Where do we sit on the value spectrum?\n\n3. VALUE-BASED (ceiling): What will customers pay?\n   - Willingness to pay research\n   - Value delivered vs alternatives\n   - Segmentation: different customers, different WTP\n\nThe optimal price is between the cost floor and WTP ceiling, positioned relative to competition based on our differentiation."', insight: 'CaseCoach Tip: Always mention all three pricing approaches. The best answer finds the intersection. Remember: customers pay for value, not for costs.' },
-              { title: 'Analysis & Pricing Math', prompt: 'Calculate the optimal price point using the data provided.', modelAnswer: '"Let me work through the numbers:\n\nCOST FLOOR:\n- Variable cost: $50/unit\n- Fixed costs: $10M/year ÷ 200K expected units = $50/unit\n- Minimum price: $100/unit (zero margin)\n- With 20% target margin: $125/unit\n\nCOMPETITOR REFERENCE:\n- Premium competitor: $180/unit\n- Standard competitors: $130-150/unit\n- Budget competitor: $95/unit\n\nVALUE CEILING:\n- Customer research shows WTP of $160-180 for our feature set\n- Key differentiator: 30% time savings worth ~$40/unit to customers\n\nRECOMMENDATION: Price at $155/unit\n- 24% margin (above $125 floor)\n- Positioned between standard and premium\n- Below WTP ceiling, leaving room for upsell\n- Consider: $145 base + $25 premium features tier"', insight: 'CaseCoach Tip: Show your math clearly. The interviewer wants to see you work through cost, competition, and value methodically. Propose a specific number with justification.' },
-              { title: 'Synthesis & Recommendation', prompt: 'Present your final pricing recommendation and go-to-market plan.', modelAnswer: '"RECOMMENDATION: Tiered pricing strategy at $145-180 range.\n\nSTRUCTURE:\n- Standard tier: $145/unit (targets cost-conscious segment, 60% of market)\n- Premium tier: $180/unit (targets quality-focused segment, 30% of market)\n- Enterprise: Custom pricing ($200+ with volume discounts)\n\nIMPACT:\n- Blended price: ~$158/unit (vs current $130)\n- Revenue uplift: 21% with same volume\n- Risk: 5-10% volume loss from price-sensitive customers → net 10-15% revenue growth\n\nIMPLEMENTATION:\n1. Launch premium tier first to anchor high\n2. Position standard as \'great value\' alternative\n3. Monitor competitor response and customer churn\n4. Review pricing quarterly based on elasticity data"', insight: 'CaseCoach Tip: Pricing recommendations should include segmentation, a specific price with math backing, and implementation phasing. Always quantify the expected impact.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "Develop a pricing strategy for this client. Walk me through your approach.",
+                modelAnswer:
+                  "\"I'd approach pricing from three angles:\n\n1. COST-BASED (floor): What's the minimum price to cover costs?\n   - Variable cost per unit\n   - Fixed cost allocation\n   - Required margin for investment recovery\n\n2. COMPETITION-BASED (reference): What are competitors charging?\n   - Direct competitors' pricing\n   - Substitutes' pricing\n   - Where do we sit on the value spectrum?\n\n3. VALUE-BASED (ceiling): What will customers pay?\n   - Willingness to pay research\n   - Value delivered vs alternatives\n   - Segmentation: different customers, different WTP\n\nThe optimal price is between the cost floor and WTP ceiling, positioned relative to competition based on our differentiation.\"",
+                insight:
+                  "CaseCoach Tip: Always mention all three pricing approaches. The best answer finds the intersection. Remember: customers pay for value, not for costs.",
+              },
+              {
+                title: "Analysis & Pricing Math",
+                prompt:
+                  "Calculate the optimal price point using the data provided.",
+                modelAnswer:
+                  '"Let me work through the numbers:\n\nCOST FLOOR:\n- Variable cost: $50/unit\n- Fixed costs: $10M/year ÷ 200K expected units = $50/unit\n- Minimum price: $100/unit (zero margin)\n- With 20% target margin: $125/unit\n\nCOMPETITOR REFERENCE:\n- Premium competitor: $180/unit\n- Standard competitors: $130-150/unit\n- Budget competitor: $95/unit\n\nVALUE CEILING:\n- Customer research shows WTP of $160-180 for our feature set\n- Key differentiator: 30% time savings worth ~$40/unit to customers\n\nRECOMMENDATION: Price at $155/unit\n- 24% margin (above $125 floor)\n- Positioned between standard and premium\n- Below WTP ceiling, leaving room for upsell\n- Consider: $145 base + $25 premium features tier"',
+                insight:
+                  "CaseCoach Tip: Show your math clearly. The interviewer wants to see you work through cost, competition, and value methodically. Propose a specific number with justification.",
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt:
+                  "Present your final pricing recommendation and go-to-market plan.",
+                modelAnswer:
+                  "\"RECOMMENDATION: Tiered pricing strategy at $145-180 range.\n\nSTRUCTURE:\n- Standard tier: $145/unit (targets cost-conscious segment, 60% of market)\n- Premium tier: $180/unit (targets quality-focused segment, 30% of market)\n- Enterprise: Custom pricing ($200+ with volume discounts)\n\nIMPACT:\n- Blended price: ~$158/unit (vs current $130)\n- Revenue uplift: 21% with same volume\n- Risk: 5-10% volume loss from price-sensitive customers → net 10-15% revenue growth\n\nIMPLEMENTATION:\n1. Launch premium tier first to anchor high\n2. Position standard as 'great value' alternative\n3. Monitor competitor response and customer churn\n4. Review pricing quarterly based on elasticity data\"",
+                insight:
+                  "CaseCoach Tip: Pricing recommendations should include segmentation, a specific price with math backing, and implementation phasing. Always quantify the expected impact.",
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'Desenvolva uma estratégia de pricing.', modelAnswer: '"Três perspetivas:\n1. CUSTO (piso): Preço mínimo para cobrir custos\n2. CONCORRÊNCIA (referência): O que cobram os concorrentes?\n3. VALOR (teto): Quanto o cliente está disposto a pagar?"', insight: 'Dica: Mencione sempre as 3 abordagens de pricing.' },
-              { title: 'Análise & Cálculos', prompt: 'Calcule o preço ótimo.', modelAnswer: '"Custo piso: $125/undivide (custo variável $50 + fixo $50 + margem 20%). Concorrentes: $130-180. WTP: $160-180. Recomendação: $155/unidade — acima do piso, abaixo do WTP."', insight: 'Dica: Mostre o cálculo claramente. O entrevistador quer ver rigor.' },
-              { title: 'Síntese & Recomendação', prompt: 'Recomendação final de pricing.', modelAnswer: '"Pricing por tiers: Standard $145, Premium $180, Enterprise custom. Impacto: receita +15-21%. Implementação faseada — lançar premium primeiro para ancorar alto."', insight: 'Dica: Inclua segmentação, número específico, e faseamento.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt: "Desenvolva uma estratégia de pricing.",
+                modelAnswer:
+                  '"Três perspetivas:\n1. CUSTO (piso): Preço mínimo para cobrir custos\n2. CONCORRÊNCIA (referência): O que cobram os concorrentes?\n3. VALOR (teto): Quanto o cliente está disposto a pagar?"',
+                insight: "Dica: Mencione sempre as 3 abordagens de pricing.",
+              },
+              {
+                title: "Análise & Cálculos",
+                prompt: "Calcule o preço ótimo.",
+                modelAnswer:
+                  '"Custo piso: $125/undivide (custo variável $50 + fixo $50 + margem 20%). Concorrentes: $130-180. WTP: $160-180. Recomendação: $155/unidade — acima do piso, abaixo do WTP."',
+                insight:
+                  "Dica: Mostre o cálculo claramente. O entrevistador quer ver rigor.",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Recomendação final de pricing.",
+                modelAnswer:
+                  '"Pricing por tiers: Standard $145, Premium $180, Enterprise custom. Impacto: receita +15-21%. Implementação faseada — lançar premium primeiro para ancorar alto."',
+                insight:
+                  "Dica: Inclua segmentação, número específico, e faseamento.",
+              },
+            ],
+          },
         },
         growth: {
           framework: {
-            name: 'Growth Framework (Top-10 #2)',
-            tree: 'How to grow a business?\n├── Grow the Core Business\n│   ├── Grow across current segments\n│   │   ├── Better products\n│   │   ├── Improved marketing\n│   │   └── Competitive prices\n│   └── Invest in fastest-growing segments\n└── Grow Outside the Core\n    ├── Sell new products to existing clients\n    └── Use capabilities to enter new businesses',
-            approach: 'Start with organic growth opportunities (cheaper, lower risk), then evaluate inorganic (M&A, partnerships). Prioritize by impact × feasibility matrix.',
-            secondLevel: 'Three Cs: Are we losing to Competitors? Are Customer needs changing? Is our Company positioned to capture growth?'
+            name: "Growth Framework (Top-10 #2)",
+            tree: "How to grow a business?\n├── Grow the Core Business\n│   ├── Grow across current segments\n│   │   ├── Better products\n│   │   ├── Improved marketing\n│   │   └── Competitive prices\n│   └── Invest in fastest-growing segments\n└── Grow Outside the Core\n    ├── Sell new products to existing clients\n    └── Use capabilities to enter new businesses",
+            approach:
+              "Start with organic growth opportunities (cheaper, lower risk), then evaluate inorganic (M&A, partnerships). Prioritize by impact × feasibility matrix.",
+            secondLevel:
+              "Three Cs: Are we losing to Competitors? Are Customer needs changing? Is our Company positioned to capture growth?",
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The client is struggling to grow. How would you structure the growth analysis?', modelAnswer: '"I\'d look at growth opportunities in two buckets:\n\n1. GROW THE CORE (lower risk, faster impact)\n   a) Current segments: Can we grow share? Better products, marketing, pricing?\n   b) Adjacent segments: Are there fast-growing segments we\'re underweight in?\n   c) Customer retention: Are we losing customers? Fix churn first.\n\n2. GROW OUTSIDE THE CORE (higher risk, higher potential)\n   a) New products to existing customers (cross-sell/upsell)\n   b) Existing products to new customer segments\n   c) New geographies\n   d) Inorganic: Acquisitions or partnerships\n\nI\'d prioritize these on a 2x2 of IMPACT vs FEASIBILITY.\n\nBefore jumping in — is the growth stagnation company-specific or market-wide? That changes our approach significantly."', insight: 'CaseCoach Tip: Always start with core growth before adjacencies. Cheapest growth is reducing churn / increasing retention. Ask if the problem is market-wide or company-specific.' },
-              { title: 'Analysis & Prioritization', prompt: 'Evaluate and prioritize the growth options.', modelAnswer: '"Based on the data, here\'s my prioritization:\n\nHIGH IMPACT + HIGH FEASIBILITY (do first):\n1. Reduce churn from 15% → 8% = $40M revenue saved (retention campaigns, loyalty program)\n2. Upsell premium tier to existing base = $25M (30% of customers eligible)\n\nHIGH IMPACT + MEDIUM FEASIBILITY (invest now):\n3. Enter adjacent market segment = $60M by Year 2 (requires new sales team)\n4. Launch product extension = $30M (6-month development cycle)\n\nMEDIUM IMPACT (evaluate):\n5. Geographic expansion to Asia = $20M+ but requires $50M investment\n\nTotal growth potential: $175M over 2 years (35% revenue increase)\nRequired investment: ~$30M for top 4 initiatives"', insight: 'CaseCoach Tip: Use the impact × feasibility framework to prioritize. Always quantify each initiative. Show that you can ruthlessly prioritize — consultants don\'t recommend doing everything.' },
-              { title: 'Synthesis & Recommendation', prompt: 'What is your growth strategy recommendation?', modelAnswer: '"RECOMMENDATION: Focus on 4 initiatives to deliver 35% revenue growth in 2 years.\n\nIMMADIATE (0-6 months):\n1. Launch retention program to cut churn in half → $40M saved\n2. Upsell campaign for existing customers → $25M new revenue\n\nSHORT-TERM (6-18 months):\n3. Enter adjacent segment with dedicated sales team → $60M\n4. Extend product line with 2 new SKUs → $30M\n\nDEFER: Geographic expansion — attractive but requires too much capital given current priorities.\n\nINVESTMENT: $30M total over 18 months\nEXPECTED RETURN: $155M incremental revenue, 5x ROI\n\nKEY RISK: Execution capacity — suggest phasing and tracking via quarterly OKRs."', insight: 'CaseCoach Tip: Growth recommendations should have a clear timeline, quantified impact per initiative, and explicit de-prioritization. The best candidates say NO to some opportunities.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The client is struggling to grow. How would you structure the growth analysis?",
+                modelAnswer:
+                  "\"I'd look at growth opportunities in two buckets:\n\n1. GROW THE CORE (lower risk, faster impact)\n   a) Current segments: Can we grow share? Better products, marketing, pricing?\n   b) Adjacent segments: Are there fast-growing segments we're underweight in?\n   c) Customer retention: Are we losing customers? Fix churn first.\n\n2. GROW OUTSIDE THE CORE (higher risk, higher potential)\n   a) New products to existing customers (cross-sell/upsell)\n   b) Existing products to new customer segments\n   c) New geographies\n   d) Inorganic: Acquisitions or partnerships\n\nI'd prioritize these on a 2x2 of IMPACT vs FEASIBILITY.\n\nBefore jumping in — is the growth stagnation company-specific or market-wide? That changes our approach significantly.\"",
+                insight:
+                  "CaseCoach Tip: Always start with core growth before adjacencies. Cheapest growth is reducing churn / increasing retention. Ask if the problem is market-wide or company-specific.",
+              },
+              {
+                title: "Analysis & Prioritization",
+                prompt: "Evaluate and prioritize the growth options.",
+                modelAnswer:
+                  '"Based on the data, here\'s my prioritization:\n\nHIGH IMPACT + HIGH FEASIBILITY (do first):\n1. Reduce churn from 15% → 8% = $40M revenue saved (retention campaigns, loyalty program)\n2. Upsell premium tier to existing base = $25M (30% of customers eligible)\n\nHIGH IMPACT + MEDIUM FEASIBILITY (invest now):\n3. Enter adjacent market segment = $60M by Year 2 (requires new sales team)\n4. Launch product extension = $30M (6-month development cycle)\n\nMEDIUM IMPACT (evaluate):\n5. Geographic expansion to Asia = $20M+ but requires $50M investment\n\nTotal growth potential: $175M over 2 years (35% revenue increase)\nRequired investment: ~$30M for top 4 initiatives"',
+                insight:
+                  "CaseCoach Tip: Use the impact × feasibility framework to prioritize. Always quantify each initiative. Show that you can ruthlessly prioritize — consultants don't recommend doing everything.",
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt: "What is your growth strategy recommendation?",
+                modelAnswer:
+                  '"RECOMMENDATION: Focus on 4 initiatives to deliver 35% revenue growth in 2 years.\n\nIMMADIATE (0-6 months):\n1. Launch retention program to cut churn in half → $40M saved\n2. Upsell campaign for existing customers → $25M new revenue\n\nSHORT-TERM (6-18 months):\n3. Enter adjacent segment with dedicated sales team → $60M\n4. Extend product line with 2 new SKUs → $30M\n\nDEFER: Geographic expansion — attractive but requires too much capital given current priorities.\n\nINVESTMENT: $30M total over 18 months\nEXPECTED RETURN: $155M incremental revenue, 5x ROI\n\nKEY RISK: Execution capacity — suggest phasing and tracking via quarterly OKRs."',
+                insight:
+                  "CaseCoach Tip: Growth recommendations should have a clear timeline, quantified impact per initiative, and explicit de-prioritization. The best candidates say NO to some opportunities.",
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'O cliente precisa crescer. Como estruturar?', modelAnswer: '"Dois blocos:\n1. CRESCER O CORE: Reter clientes, aumentar share, segmentos adjacentes\n2. CRESCER FORA DO CORE: Novos produtos, novos segmentos, aquisições\n\nPriorizar por impacto × viabilidade."', insight: 'Dica: Comece pelo core. O crescimento mais barato é reduzir churn.' },
-              { title: 'Análise & Priorização', prompt: 'Analise e priorize as opções de crescimento.', modelAnswer: '"Top 4: (1) Reduzir churn $40M, (2) Upsell $25M, (3) Segmento adjacente $60M, (4) Extensão de produto $30M. Total: $155M em 2 anos."', insight: 'Dica: Quantifique cada iniciativa. Priorize impiedosamente.' },
-              { title: 'Síntese & Recomendação', prompt: 'Qual a estratégia de crescimento?', modelAnswer: '"4 iniciativas, $30M investimento, $155M retorno em 2 anos. Adiar expansão geográfica. Faseamento trimestral com OKRs."', insight: 'Dica: Timeline claro + o que NÃO fazer é tão importante como o que fazer.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt: "O cliente precisa crescer. Como estruturar?",
+                modelAnswer:
+                  '"Dois blocos:\n1. CRESCER O CORE: Reter clientes, aumentar share, segmentos adjacentes\n2. CRESCER FORA DO CORE: Novos produtos, novos segmentos, aquisições\n\nPriorizar por impacto × viabilidade."',
+                insight:
+                  "Dica: Comece pelo core. O crescimento mais barato é reduzir churn.",
+              },
+              {
+                title: "Análise & Priorização",
+                prompt: "Analise e priorize as opções de crescimento.",
+                modelAnswer:
+                  '"Top 4: (1) Reduzir churn $40M, (2) Upsell $25M, (3) Segmento adjacente $60M, (4) Extensão de produto $30M. Total: $155M em 2 anos."',
+                insight:
+                  "Dica: Quantifique cada iniciativa. Priorize impiedosamente.",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Qual a estratégia de crescimento?",
+                modelAnswer:
+                  '"4 iniciativas, $30M investimento, $155M retorno em 2 anos. Adiar expansão geográfica. Faseamento trimestral com OKRs."',
+                insight:
+                  "Dica: Timeline claro + o que NÃO fazer é tão importante como o que fazer.",
+              },
+            ],
+          },
         },
-        'cost-cutting': {
+        "cost-cutting": {
           framework: {
-            name: 'Cost Reduction Framework (Top-10 #3)',
-            tree: 'How to cut costs?\n├── Reduce the Need\n│   ├── Eliminate entirely (do we need this?)\n│   └── Reduce service level\n├── Meet Need with Less Resource\n│   ├── Eliminate waste\n│   └── Improve productivity\n└── Reduce Cost of Resources\n    ├── Find cheaper alternatives\n    └── Renegotiate costs',
-            approach: 'Map cost structure → Benchmark vs industry → Apply the three levers (eliminate, optimize, reduce). Think process map: for each step, can we eliminate, automate, or offshore?',
-            secondLevel: 'Process optimization (Logical Frameworks): Map current process → Look at each step → Eliminate, Anticipate, or Improve.'
+            name: "Cost Reduction Framework (Top-10 #3)",
+            tree: "How to cut costs?\n├── Reduce the Need\n│   ├── Eliminate entirely (do we need this?)\n│   └── Reduce service level\n├── Meet Need with Less Resource\n│   ├── Eliminate waste\n│   └── Improve productivity\n└── Reduce Cost of Resources\n    ├── Find cheaper alternatives\n    └── Renegotiate costs",
+            approach:
+              "Map cost structure → Benchmark vs industry → Apply the three levers (eliminate, optimize, reduce). Think process map: for each step, can we eliminate, automate, or offshore?",
+            secondLevel:
+              "Process optimization (Logical Frameworks): Map current process → Look at each step → Eliminate, Anticipate, or Improve.",
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The client needs to reduce costs by 15-20%. Walk me through your approach.', modelAnswer: '"To find 15-20% cost reduction, I\'d start by mapping the full cost structure, then apply three lenses:\n\n1. ELIMINATE THE NEED\n   - Are there activities we can stop entirely?\n   - Can we reduce service levels without impacting customers?\n   - Example: Self-service portal instead of call center\n\n2. DO MORE WITH LESS\n   - Eliminate waste in processes\n   - Improve productivity (automation, training)\n   - Consolidate operations\n\n3. PAY LESS FOR WHAT WE BUY\n   - Renegotiate supplier contracts\n   - Switch to cheaper alternatives\n   - Consolidate procurement\n\nFirst, I need to see the cost breakdown: what are the top 5 cost categories and what % of total does each represent?"', insight: 'CaseCoach Tip: The 3-lever framework (eliminate need, optimize, reduce cost) is powerful because it\'s exhaustive. Always start by mapping costs before jumping to solutions.' },
-              { title: 'Analysis & Quantification', prompt: 'Analyze the cost structure and identify the top savings opportunities.', modelAnswer: '"Here\'s the cost analysis:\n\nTOP 5 COSTS (% of total):\n1. Personnel: 45% ($180M) — 20% above benchmark\n2. Raw materials: 25% ($100M) — at market rate\n3. Logistics: 15% ($60M) — 15% above benchmark\n4. IT/Systems: 8% ($32M) — legacy overhead\n5. Facilities: 7% ($28M) — underutilized offices\n\nSAVINGS OPPORTUNITIES:\n- Personnel: Automate 3 manual processes (-$20M), consolidate back office (-$10M)\n- Logistics: Renegotiate carrier contracts (-$5M), optimize routing (-$4M)\n- Facilities: Close 2 underutilized offices (-$8M), shift to hybrid (-$3M)\n- IT: Migrate to cloud (-$5M), eliminate redundant systems (-$3M)\n\nTOTAL IDENTIFIED: $58M (14.5% of costs)\nSTRETCH TARGET: $72M (18%) with procurement renegotiation"', insight: 'CaseCoach Tip: Always benchmark costs against industry. Focus on the biggest cost categories — a 10% cut on a 45% cost line beats a 50% cut on a 5% line.' },
-              { title: 'Synthesis & Recommendation', prompt: 'Present your cost reduction plan.', modelAnswer: '"RECOMMENDATION: $58-72M cost reduction (15-18%) achievable in 12-18 months.\n\nQUICK WINS (0-6 months, $21M savings):\n- Close 2 offices, shift to hybrid ($8M)\n- Renegotiate logistics contracts ($5M)\n- Eliminate redundant IT systems ($5M)\n- Procurement consolidation ($3M)\n\nMEDIUM-TERM (6-18 months, $37-51M savings):\n- Process automation ($20M) — requires $5M investment\n- Back-office consolidation ($10M)\n- Cloud migration ($5M)\n- Supply chain optimization ($2-14M depending on scope)\n\nIMPLEMENTATION:\n- Establish PMO for tracking\n- Monthly savings dashboard\n- Ring-fence 20% of savings for reinvestment in growth\n\nRISKS: Employee morale, capability loss, service quality. Mitigate with transparent communication and reskilling programs."', insight: 'CaseCoach Tip: Split savings into quick wins and medium-term. Always address implementation and risks. Smart candidates reinvest some savings into growth.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The client needs to reduce costs by 15-20%. Walk me through your approach.",
+                modelAnswer:
+                  '"To find 15-20% cost reduction, I\'d start by mapping the full cost structure, then apply three lenses:\n\n1. ELIMINATE THE NEED\n   - Are there activities we can stop entirely?\n   - Can we reduce service levels without impacting customers?\n   - Example: Self-service portal instead of call center\n\n2. DO MORE WITH LESS\n   - Eliminate waste in processes\n   - Improve productivity (automation, training)\n   - Consolidate operations\n\n3. PAY LESS FOR WHAT WE BUY\n   - Renegotiate supplier contracts\n   - Switch to cheaper alternatives\n   - Consolidate procurement\n\nFirst, I need to see the cost breakdown: what are the top 5 cost categories and what % of total does each represent?"',
+                insight:
+                  "CaseCoach Tip: The 3-lever framework (eliminate need, optimize, reduce cost) is powerful because it's exhaustive. Always start by mapping costs before jumping to solutions.",
+              },
+              {
+                title: "Analysis & Quantification",
+                prompt:
+                  "Analyze the cost structure and identify the top savings opportunities.",
+                modelAnswer:
+                  '"Here\'s the cost analysis:\n\nTOP 5 COSTS (% of total):\n1. Personnel: 45% ($180M) — 20% above benchmark\n2. Raw materials: 25% ($100M) — at market rate\n3. Logistics: 15% ($60M) — 15% above benchmark\n4. IT/Systems: 8% ($32M) — legacy overhead\n5. Facilities: 7% ($28M) — underutilized offices\n\nSAVINGS OPPORTUNITIES:\n- Personnel: Automate 3 manual processes (-$20M), consolidate back office (-$10M)\n- Logistics: Renegotiate carrier contracts (-$5M), optimize routing (-$4M)\n- Facilities: Close 2 underutilized offices (-$8M), shift to hybrid (-$3M)\n- IT: Migrate to cloud (-$5M), eliminate redundant systems (-$3M)\n\nTOTAL IDENTIFIED: $58M (14.5% of costs)\nSTRETCH TARGET: $72M (18%) with procurement renegotiation"',
+                insight:
+                  "CaseCoach Tip: Always benchmark costs against industry. Focus on the biggest cost categories — a 10% cut on a 45% cost line beats a 50% cut on a 5% line.",
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt: "Present your cost reduction plan.",
+                modelAnswer:
+                  '"RECOMMENDATION: $58-72M cost reduction (15-18%) achievable in 12-18 months.\n\nQUICK WINS (0-6 months, $21M savings):\n- Close 2 offices, shift to hybrid ($8M)\n- Renegotiate logistics contracts ($5M)\n- Eliminate redundant IT systems ($5M)\n- Procurement consolidation ($3M)\n\nMEDIUM-TERM (6-18 months, $37-51M savings):\n- Process automation ($20M) — requires $5M investment\n- Back-office consolidation ($10M)\n- Cloud migration ($5M)\n- Supply chain optimization ($2-14M depending on scope)\n\nIMPLEMENTATION:\n- Establish PMO for tracking\n- Monthly savings dashboard\n- Ring-fence 20% of savings for reinvestment in growth\n\nRISKS: Employee morale, capability loss, service quality. Mitigate with transparent communication and reskilling programs."',
+                insight:
+                  "CaseCoach Tip: Split savings into quick wins and medium-term. Always address implementation and risks. Smart candidates reinvest some savings into growth.",
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'O cliente precisa cortar 15-20% dos custos. Como abordaria?', modelAnswer: '"Mapear custos, depois aplicar 3 alavancas:\n1. ELIMINAR a necessidade\n2. FAZER MAIS COM MENOS\n3. PAGAR MENOS pelo que compramos"', insight: 'Dica: As 3 alavancas (eliminar, otimizar, renegociar) são exaustivas.' },
-              { title: 'Análise & Quantificação', prompt: 'Analise a estrutura de custos e identifique oportunidades.', modelAnswer: '"Top custos: Pessoal 45% (20% acima benchmark), Logística 15% (15% acima). Poupanças identificadas: $58M (14.5%), até $72M com renegociação."', insight: 'Dica: Faça benchmark. Foque nas maiores categorias de custo.' },
-              { title: 'Síntese & Recomendação', prompt: 'Plano de redução de custos.', modelAnswer: '"Quick wins: $21M em 6 meses (escritórios, logística, IT). Médio prazo: $37-51M (automação, consolidação). Total: 15-18%. Reinvestir 20% em crescimento."', insight: 'Dica: Quick wins + médio prazo. Sempre abordar implementação e riscos.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt:
+                  "O cliente precisa cortar 15-20% dos custos. Como abordaria?",
+                modelAnswer:
+                  '"Mapear custos, depois aplicar 3 alavancas:\n1. ELIMINAR a necessidade\n2. FAZER MAIS COM MENOS\n3. PAGAR MENOS pelo que compramos"',
+                insight:
+                  "Dica: As 3 alavancas (eliminar, otimizar, renegociar) são exaustivas.",
+              },
+              {
+                title: "Análise & Quantificação",
+                prompt:
+                  "Analise a estrutura de custos e identifique oportunidades.",
+                modelAnswer:
+                  '"Top custos: Pessoal 45% (20% acima benchmark), Logística 15% (15% acima). Poupanças identificadas: $58M (14.5%), até $72M com renegociação."',
+                insight:
+                  "Dica: Faça benchmark. Foque nas maiores categorias de custo.",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Plano de redução de custos.",
+                modelAnswer:
+                  '"Quick wins: $21M em 6 meses (escritórios, logística, IT). Médio prazo: $37-51M (automação, consolidação). Total: 15-18%. Reinvestir 20% em crescimento."',
+                insight:
+                  "Dica: Quick wins + médio prazo. Sempre abordar implementação e riscos.",
+              },
+            ],
+          },
         },
         operations: {
           framework: {
-            name: 'Process Optimization (Top-10 #10 + Logical: Process Map)',
-            tree: 'How to optimize a process?\n├── Map Current Process\n│   ├── Each step: capacity, utilization, bottleneck?\n│   └── Identify waste and redundancy\n├── Look Into Each Step\n│   ├── Eliminate unnecessary steps\n│   ├── Anticipate issues before they occur\n│   └── Improve efficiency of remaining steps\n└── Estimate Gains\n    ├── Reduce cost\n    ├── Increase speed\n    └── Increase quality',
-            approach: 'Logical Frameworks approach: Structure with a PROCESS MAP. Map the typical steps → identify bottleneck → root cause analysis → solutions. For root causes, use the ROOT CAUSE tree: trace back through possible causes systematically.',
-            secondLevel: 'Root cause thinking: Why is this happening? → Longer journey? Waited for driver? Waited for loading? Truck not ready? Each branch leads to a specific fix.'
+            name: "Process Optimization (Top-10 #10 + Logical: Process Map)",
+            tree: "How to optimize a process?\n├── Map Current Process\n│   ├── Each step: capacity, utilization, bottleneck?\n│   └── Identify waste and redundancy\n├── Look Into Each Step\n│   ├── Eliminate unnecessary steps\n│   ├── Anticipate issues before they occur\n│   └── Improve efficiency of remaining steps\n└── Estimate Gains\n    ├── Reduce cost\n    ├── Increase speed\n    └── Increase quality",
+            approach:
+              "Logical Frameworks approach: Structure with a PROCESS MAP. Map the typical steps → identify bottleneck → root cause analysis → solutions. For root causes, use the ROOT CAUSE tree: trace back through possible causes systematically.",
+            secondLevel:
+              "Root cause thinking: Why is this happening? → Longer journey? Waited for driver? Waited for loading? Truck not ready? Each branch leads to a specific fix.",
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The client has operational inefficiencies. How would you approach this?', modelAnswer: '"I\'d use a process mapping approach:\n\nSTEP 1: MAP THE CURRENT PROCESS\n- Identify all steps from input to output\n- For each step: What\'s the capacity? What\'s the utilization? Where\'s the bottleneck?\n- Measure: cycle time, throughput, defect rate, wait times\n\nSTEP 2: DIAGNOSE ROOT CAUSES\n- For each bottleneck: WHY is it happening?\n- Use root cause tree: Is it a capacity issue? Utilization issue? Quality issue?\n- Trace backwards until you find the true root cause\n\nSTEP 3: DESIGN SOLUTIONS\n- Can we eliminate this step entirely?\n- Can we anticipate the problem (prevent rather than fix)?\n- Can we improve the step (automate, train, redesign)?\n\nSTEP 4: QUANTIFY IMPACT\n- Cost savings, speed improvement, quality improvement\n\nCan you walk me through the current process?"', insight: 'CaseCoach Tip: Operations cases need a systematic process map. Never jump to solutions before understanding the current state. Always identify the bottleneck — the constraint that limits overall throughput.' },
-              { title: 'Analysis & Root Cause', prompt: 'Identify the bottleneck and root cause.', modelAnswer: '"Process mapping reveals:\n\n1. Order intake: 10 min (no issue)\n2. Processing: 25 min (capacity: 40/hour, running at 35 = 87% utilized)\n3. Quality check: 45 min ← BOTTLENECK (capacity: 20/hr, running at 18 = 90%)\n4. Packaging: 15 min (no issue)\n5. Shipping: 20 min (no issue)\n\nTotal cycle time: 115 min (target: 60 min)\n\nRoot cause of QC bottleneck:\n- 40% of items need rework (defect rate too high)\n- 2 of 5 QC stations are broken\n- QC inspectors lack training on new product line\n\nThe real problem isn\'t QC speed — it\'s upstream quality. If we fix the defect rate from 40% to 10%, QC throughput doubles without adding headcount."', insight: 'CaseCoach Tip: The obvious bottleneck often has a deeper root cause upstream. Always ask "WHY is this step slow?" until you get to the genuine root cause.' },
-              { title: 'Synthesis & Recommendation', prompt: 'What operational improvements do you recommend?', modelAnswer: '"RECOMMENDATION: Three-phase operational transformation.\n\nROOT CAUSE FIX (reduce defects):\n- Implement upstream quality controls at Step 2 (reduces defects 40% → 10%)\n- Cost: $500K for sensors + training\n- Impact: QC throughput +100%, rework cost -75%\n\nQUICK WIN (restore capacity):\n- Repair 2 broken QC stations ($50K)\n- Train all inspectors on new product line (2 weeks)\n- Impact: QC capacity +40%\n\nMEDIUM-TERM (redesign process):\n- Automate Steps 1 and 4 (-$2M/year labor)\n- Implement predictive maintenance (-15% downtime)\n\nNET IMPACT:\n- Cycle time: 115 min → 55 min (-52%)\n- Throughput: +80%\n- Annual savings: $5M\n- Investment: $1.5M (4-month payback)"', insight: 'CaseCoach Tip: Fix root causes, not symptoms. The best operations recommendations combine quick wins (restore what\'s broken) with structural fixes (prevent future issues).' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The client has operational inefficiencies. How would you approach this?",
+                modelAnswer:
+                  "\"I'd use a process mapping approach:\n\nSTEP 1: MAP THE CURRENT PROCESS\n- Identify all steps from input to output\n- For each step: What's the capacity? What's the utilization? Where's the bottleneck?\n- Measure: cycle time, throughput, defect rate, wait times\n\nSTEP 2: DIAGNOSE ROOT CAUSES\n- For each bottleneck: WHY is it happening?\n- Use root cause tree: Is it a capacity issue? Utilization issue? Quality issue?\n- Trace backwards until you find the true root cause\n\nSTEP 3: DESIGN SOLUTIONS\n- Can we eliminate this step entirely?\n- Can we anticipate the problem (prevent rather than fix)?\n- Can we improve the step (automate, train, redesign)?\n\nSTEP 4: QUANTIFY IMPACT\n- Cost savings, speed improvement, quality improvement\n\nCan you walk me through the current process?\"",
+                insight:
+                  "CaseCoach Tip: Operations cases need a systematic process map. Never jump to solutions before understanding the current state. Always identify the bottleneck — the constraint that limits overall throughput.",
+              },
+              {
+                title: "Analysis & Root Cause",
+                prompt: "Identify the bottleneck and root cause.",
+                modelAnswer:
+                  "\"Process mapping reveals:\n\n1. Order intake: 10 min (no issue)\n2. Processing: 25 min (capacity: 40/hour, running at 35 = 87% utilized)\n3. Quality check: 45 min ← BOTTLENECK (capacity: 20/hr, running at 18 = 90%)\n4. Packaging: 15 min (no issue)\n5. Shipping: 20 min (no issue)\n\nTotal cycle time: 115 min (target: 60 min)\n\nRoot cause of QC bottleneck:\n- 40% of items need rework (defect rate too high)\n- 2 of 5 QC stations are broken\n- QC inspectors lack training on new product line\n\nThe real problem isn't QC speed — it's upstream quality. If we fix the defect rate from 40% to 10%, QC throughput doubles without adding headcount.\"",
+                insight:
+                  'CaseCoach Tip: The obvious bottleneck often has a deeper root cause upstream. Always ask "WHY is this step slow?" until you get to the genuine root cause.',
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt: "What operational improvements do you recommend?",
+                modelAnswer:
+                  '"RECOMMENDATION: Three-phase operational transformation.\n\nROOT CAUSE FIX (reduce defects):\n- Implement upstream quality controls at Step 2 (reduces defects 40% → 10%)\n- Cost: $500K for sensors + training\n- Impact: QC throughput +100%, rework cost -75%\n\nQUICK WIN (restore capacity):\n- Repair 2 broken QC stations ($50K)\n- Train all inspectors on new product line (2 weeks)\n- Impact: QC capacity +40%\n\nMEDIUM-TERM (redesign process):\n- Automate Steps 1 and 4 (-$2M/year labor)\n- Implement predictive maintenance (-15% downtime)\n\nNET IMPACT:\n- Cycle time: 115 min → 55 min (-52%)\n- Throughput: +80%\n- Annual savings: $5M\n- Investment: $1.5M (4-month payback)"',
+                insight:
+                  "CaseCoach Tip: Fix root causes, not symptoms. The best operations recommendations combine quick wins (restore what's broken) with structural fixes (prevent future issues).",
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'O cliente tem ineficiências operacionais. Como abordaria?', modelAnswer: '"Mapeamento de processo: (1) Mapear passos, (2) Diagnosticar root causes, (3) Desenhar soluções, (4) Quantificar impacto."', insight: 'Dica: Nunca salte para soluções antes de mapear o processo atual.' },
-              { title: 'Análise & Root Cause', prompt: 'Identifique o bottleneck e a causa raiz.', modelAnswer: '"Bottleneck no QC (45 min, 90% utilização). Root cause: taxa de defeitos de 40% a montante. Corrigir defeitos upstream duplica throughput do QC."', insight: 'Dica: O bottleneck óbvio tem root cause mais profunda. Pergunte PORQUÊ até chegar à causa real.' },
-              { title: 'Síntese & Recomendação', prompt: 'Que melhorias operacionais recomenda?', modelAnswer: '"Fix root cause (defeitos), quick win (reparar estações), automação. Cycle time: 115→55 min. Poupança: $5M/ano. Investimento: $1.5M."', insight: 'Dica: Corrija causas, não sintomas. Combine quick wins com fixes estruturais.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt:
+                  "O cliente tem ineficiências operacionais. Como abordaria?",
+                modelAnswer:
+                  '"Mapeamento de processo: (1) Mapear passos, (2) Diagnosticar root causes, (3) Desenhar soluções, (4) Quantificar impacto."',
+                insight:
+                  "Dica: Nunca salte para soluções antes de mapear o processo atual.",
+              },
+              {
+                title: "Análise & Root Cause",
+                prompt: "Identifique o bottleneck e a causa raiz.",
+                modelAnswer:
+                  '"Bottleneck no QC (45 min, 90% utilização). Root cause: taxa de defeitos de 40% a montante. Corrigir defeitos upstream duplica throughput do QC."',
+                insight:
+                  "Dica: O bottleneck óbvio tem root cause mais profunda. Pergunte PORQUÊ até chegar à causa real.",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Que melhorias operacionais recomenda?",
+                modelAnswer:
+                  '"Fix root cause (defeitos), quick win (reparar estações), automação. Cycle time: 115→55 min. Poupança: $5M/ano. Investimento: $1.5M."',
+                insight:
+                  "Dica: Corrija causas, não sintomas. Combine quick wins com fixes estruturais.",
+              },
+            ],
+          },
         },
         digital: {
           framework: {
-            name: 'Digital Transformation (From-To + Project Plan)',
-            tree: 'Digital Transformation Strategy\n├── Current State Assessment\n│   ├── Digital maturity level\n│   ├── Legacy systems & tech debt\n│   └── Digital capabilities (talent, data, infra)\n├── Target State (From-To)\n│   ├── Customer experience\n│   ├── Operations / automation\n│   └── Business model (new revenue)\n└── Roadmap\n    ├── Quick wins (0-6 months)\n    ├── Core transformation (6-18 months)\n    └── Innovation (18-36 months)',
-            approach: 'Logical Frameworks: FROM-TO structure. Define objectives, establish current state, measure gap, create roadmap. Also use PROJECT PLAN: understand requirements → identify advantages → prepare approach.',
-            secondLevel: 'Academic: Three Cs — digital impact on Company capabilities, Customer expectations, Competitive landscape.'
+            name: "Digital Transformation (From-To + Project Plan)",
+            tree: "Digital Transformation Strategy\n├── Current State Assessment\n│   ├── Digital maturity level\n│   ├── Legacy systems & tech debt\n│   └── Digital capabilities (talent, data, infra)\n├── Target State (From-To)\n│   ├── Customer experience\n│   ├── Operations / automation\n│   └── Business model (new revenue)\n└── Roadmap\n    ├── Quick wins (0-6 months)\n    ├── Core transformation (6-18 months)\n    └── Innovation (18-36 months)",
+            approach:
+              "Logical Frameworks: FROM-TO structure. Define objectives, establish current state, measure gap, create roadmap. Also use PROJECT PLAN: understand requirements → identify advantages → prepare approach.",
+            secondLevel:
+              "Academic: Three Cs — digital impact on Company capabilities, Customer expectations, Competitive landscape.",
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The client wants a digital transformation roadmap. How do you structure this?', modelAnswer: '"I\'d use a FROM-TO framework:\n\n1. WHERE ARE WE NOW? (Current State)\n   - Digital maturity assessment (1-5 scale)\n   - Current tech stack and capabilities\n   - Pain points and inefficiencies\n   - Customer digital experience vs expectations\n\n2. WHERE DO WE WANT TO BE? (Target State)\n   - Customer experience: omnichannel, personalized, self-service\n   - Operations: automated, data-driven, agile\n   - Business model: new digital revenue streams\n\n3. HOW DO WE GET THERE? (Roadmap)\n   - Gap analysis between current and target\n   - Prioritized initiatives by value and complexity\n   - Build vs buy vs partner decisions\n   - Change management and talent plan\n\nLet me start by understanding the current digital maturity."', insight: 'CaseCoach Tip: The FROM-TO framework from CaseCoach is perfect for transformation cases. Always define clearly where you are and where you\'re going before planning the journey.' },
-              { title: 'Analysis & Prioritization', prompt: 'Assess the digital maturity and prioritize transformation initiatives.', modelAnswer: '"Digital Maturity Assessment (1-5):\n- Customer channels: 2/5 (no mobile app, basic website)\n- Data & analytics: 2/5 (fragmented, no real-time dashboards)\n- Operations: 3/5 (some automation, legacy ERP)\n- Talent: 2/5 (limited digital skills)\n- Innovation: 1/5 (no experimentation culture)\n\nGap is significant. Priority initiatives:\n\n1. HIGH VALUE + QUICK ($5M investment, 6-month payback):\n   - Launch mobile app + digital customer portal\n   - Unified data warehouse for real-time analytics\n\n2. HIGH VALUE + COMPLEX ($15M, 18-month horizon):\n   - End-to-end process automation\n   - AI/ML for demand forecasting\n   - Cloud migration from legacy systems\n\n3. TRANSFORMATIONAL ($10M, 24+ months):\n   - New digital product line (SaaS offering)\n   - Platform business model exploration"', insight: 'CaseCoach Tip: Digital transformation is overwhelming — the key is sequencing. Build foundational capabilities (data, cloud) before advanced ones (AI, new business models).' },
-              { title: 'Synthesis & Recommendation', prompt: 'Present the digital transformation roadmap.', modelAnswer: '"THREE-HORIZON DIGITAL ROADMAP:\n\nHORIZON 1: DIGITIZE (0-6 months, $5M)\n- Launch mobile app and self-service portal\n- Build unified data lake\n- Quick ROI: 15% cost reduction in customer service\n\nHORIZON 2: OPTIMIZE (6-18 months, $15M)\n- Automate core processes (order-to-cash, supply chain)\n- Deploy predictive analytics\n- Cloud migration\n- Expected impact: 25% efficiency gain, $20M annual savings\n\nHORIZON 3: TRANSFORM (18-36 months, $10M)\n- Launch digital product offering (new revenue stream)\n- AI-driven personalization\n- Platform/ecosystem strategy\n- Expected impact: 10% new revenue ($30M)\n\nTOTAL INVESTMENT: $30M over 3 years\nEXPECTED RETURN: $50M+ annual impact by Year 3\n\nCRITICAL SUCCESS FACTOR: Invest $5M in talent — hire CDO, 20 digital specialists, and upskill 200 employees."', insight: 'CaseCoach Tip: Three-horizon frameworks work brilliantly for transformation. Always include the people/talent angle — technology without talent fails.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The client wants a digital transformation roadmap. How do you structure this?",
+                modelAnswer:
+                  '"I\'d use a FROM-TO framework:\n\n1. WHERE ARE WE NOW? (Current State)\n   - Digital maturity assessment (1-5 scale)\n   - Current tech stack and capabilities\n   - Pain points and inefficiencies\n   - Customer digital experience vs expectations\n\n2. WHERE DO WE WANT TO BE? (Target State)\n   - Customer experience: omnichannel, personalized, self-service\n   - Operations: automated, data-driven, agile\n   - Business model: new digital revenue streams\n\n3. HOW DO WE GET THERE? (Roadmap)\n   - Gap analysis between current and target\n   - Prioritized initiatives by value and complexity\n   - Build vs buy vs partner decisions\n   - Change management and talent plan\n\nLet me start by understanding the current digital maturity."',
+                insight:
+                  "CaseCoach Tip: The FROM-TO framework from CaseCoach is perfect for transformation cases. Always define clearly where you are and where you're going before planning the journey.",
+              },
+              {
+                title: "Analysis & Prioritization",
+                prompt:
+                  "Assess the digital maturity and prioritize transformation initiatives.",
+                modelAnswer:
+                  '"Digital Maturity Assessment (1-5):\n- Customer channels: 2/5 (no mobile app, basic website)\n- Data & analytics: 2/5 (fragmented, no real-time dashboards)\n- Operations: 3/5 (some automation, legacy ERP)\n- Talent: 2/5 (limited digital skills)\n- Innovation: 1/5 (no experimentation culture)\n\nGap is significant. Priority initiatives:\n\n1. HIGH VALUE + QUICK ($5M investment, 6-month payback):\n   - Launch mobile app + digital customer portal\n   - Unified data warehouse for real-time analytics\n\n2. HIGH VALUE + COMPLEX ($15M, 18-month horizon):\n   - End-to-end process automation\n   - AI/ML for demand forecasting\n   - Cloud migration from legacy systems\n\n3. TRANSFORMATIONAL ($10M, 24+ months):\n   - New digital product line (SaaS offering)\n   - Platform business model exploration"',
+                insight:
+                  "CaseCoach Tip: Digital transformation is overwhelming — the key is sequencing. Build foundational capabilities (data, cloud) before advanced ones (AI, new business models).",
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt: "Present the digital transformation roadmap.",
+                modelAnswer:
+                  '"THREE-HORIZON DIGITAL ROADMAP:\n\nHORIZON 1: DIGITIZE (0-6 months, $5M)\n- Launch mobile app and self-service portal\n- Build unified data lake\n- Quick ROI: 15% cost reduction in customer service\n\nHORIZON 2: OPTIMIZE (6-18 months, $15M)\n- Automate core processes (order-to-cash, supply chain)\n- Deploy predictive analytics\n- Cloud migration\n- Expected impact: 25% efficiency gain, $20M annual savings\n\nHORIZON 3: TRANSFORM (18-36 months, $10M)\n- Launch digital product offering (new revenue stream)\n- AI-driven personalization\n- Platform/ecosystem strategy\n- Expected impact: 10% new revenue ($30M)\n\nTOTAL INVESTMENT: $30M over 3 years\nEXPECTED RETURN: $50M+ annual impact by Year 3\n\nCRITICAL SUCCESS FACTOR: Invest $5M in talent — hire CDO, 20 digital specialists, and upskill 200 employees."',
+                insight:
+                  "CaseCoach Tip: Three-horizon frameworks work brilliantly for transformation. Always include the people/talent angle — technology without talent fails.",
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'Desenvolva um roadmap de transformação digital.', modelAnswer: '"Framework FROM-TO: (1) Onde estamos? Maturidade digital. (2) Onde queremos estar? (3) Como chegamos lá? Gap analysis + roadmap."', insight: 'Dica: Sempre defina claramente de-para antes de planear.' },
-              { title: 'Análise & Priorização', prompt: 'Avalie maturidade digital e priorize.', modelAnswer: '"Maturidade: 2/5 média. Prioridades: (1) Quick wins — app mobile + data lake ($5M), (2) Automação + cloud ($15M), (3) Novo produto digital ($10M)."', insight: 'Dica: Sequenciar — fundações primeiro (dados, cloud) antes de avançados (IA, novos modelos).' },
-              { title: 'Síntese & Recomendação', prompt: 'Roadmap de transformação digital.', modelAnswer: '"3 horizontes: Digitalizar (0-6M, $5M), Otimizar (6-18M, $15M), Transformar (18-36M, $10M). Investimento total: $30M. Retorno: $50M+/ano. Não esquecer talento."', insight: 'Dica: 3 horizontes + sempre incluir pessoas/talento.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt: "Desenvolva um roadmap de transformação digital.",
+                modelAnswer:
+                  '"Framework FROM-TO: (1) Onde estamos? Maturidade digital. (2) Onde queremos estar? (3) Como chegamos lá? Gap analysis + roadmap."',
+                insight:
+                  "Dica: Sempre defina claramente de-para antes de planear.",
+              },
+              {
+                title: "Análise & Priorização",
+                prompt: "Avalie maturidade digital e priorize.",
+                modelAnswer:
+                  '"Maturidade: 2/5 média. Prioridades: (1) Quick wins — app mobile + data lake ($5M), (2) Automação + cloud ($15M), (3) Novo produto digital ($10M)."',
+                insight:
+                  "Dica: Sequenciar — fundações primeiro (dados, cloud) antes de avançados (IA, novos modelos).",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Roadmap de transformação digital.",
+                modelAnswer:
+                  '"3 horizontes: Digitalizar (0-6M, $5M), Otimizar (6-18M, $15M), Transformar (18-36M, $10M). Investimento total: $30M. Retorno: $50M+/ano. Não esquecer talento."',
+                insight: "Dica: 3 horizontes + sempre incluir pessoas/talento.",
+              },
+            ],
+          },
         },
-        'new-product': {
+        "new-product": {
           framework: {
-            name: 'New Product Launch (Top-10 #5 + Four Ps)',
-            tree: 'How to launch a new product?\n├── Choose Target Segments\n│   ├── Size & Growth\n│   ├── Competition\n│   └── Customer Needs\n├── Define Marketing Strategy (4 Ps)\n│   ├── Product: features, design, branding\n│   ├── Price: strategy, competitiveness\n│   ├── Place: distribution channels\n│   └── Promotion: advertising, communication\n└── Implementation\n    ├── Product design & production\n    ├── Marketing & sales\n    ├── Logistics\n    └── Aftercare',
-            approach: 'Academic Frameworks: Four Ps (Product, Price, Place, Promotion). Start with customer needs and target segment, then design the 4Ps around them. Validate with breakeven analysis.',
-            secondLevel: 'Supply & Demand: Understand the market equilibrium. Three Cs: Company capabilities, Customer needs, Competitor offerings.'
+            name: "New Product Launch (Top-10 #5 + Four Ps)",
+            tree: "How to launch a new product?\n├── Choose Target Segments\n│   ├── Size & Growth\n│   ├── Competition\n│   └── Customer Needs\n├── Define Marketing Strategy (4 Ps)\n│   ├── Product: features, design, branding\n│   ├── Price: strategy, competitiveness\n│   ├── Place: distribution channels\n│   └── Promotion: advertising, communication\n└── Implementation\n    ├── Product design & production\n    ├── Marketing & sales\n    ├── Logistics\n    └── Aftercare",
+            approach:
+              "Academic Frameworks: Four Ps (Product, Price, Place, Promotion). Start with customer needs and target segment, then design the 4Ps around them. Validate with breakeven analysis.",
+            secondLevel:
+              "Supply & Demand: Understand the market equilibrium. Three Cs: Company capabilities, Customer needs, Competitor offerings.",
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The client wants to launch a new product. How do you structure the analysis?', modelAnswer: '"I\'d structure this in three phases:\n\n1. TARGET SEGMENT SELECTION\n   - Who is the target customer? What are their unmet needs?\n   - How big is this segment? Growing?\n   - What competition exists? What\'s their offering?\n\n2. MARKETING STRATEGY (4Ps)\n   - PRODUCT: What features/design meets the need?\n   - PRICE: What pricing model? Cost-plus vs value-based?\n   - PLACE: What distribution channels? Direct, retail, online?\n   - PROMOTION: How do we build awareness? Launch strategy?\n\n3. IMPLEMENTATION & FINANCIALS\n   - Development timeline and cost\n   - Go-to-market plan\n   - Revenue forecast and breakeven analysis\n   - Key risks and mitigation\n\nLet me start by understanding the target customer."', insight: 'CaseCoach Tip: New product cases are about the 4Ps (Product, Price, Place, Promotion) from academic frameworks. Always start with the customer, not the product.' },
-              { title: 'Analysis & Go-to-Market', prompt: 'Design the go-to-market strategy using the 4Ps framework.', modelAnswer: '"Based on customer research:\n\nPRODUCT:\n- Core feature: solves [specific pain point] 3x better than alternatives\n- MVP with 5 key features (vs competitor\'s 20 — focused value prop)\n- Premium positioning: quality + simplicity\n\nPRICE:\n- Value-based at $99/month (competitor: $79 basic, $149 premium)\n- Free trial (14 days) to reduce adoption friction\n- Annual discount: $79/month (lock-in + cash flow)\n\nPLACE:\n- Digital-first: direct sales via website\n- Channel partnerships with 3 industry distributors\n- Enterprise: direct sales team for deals >$50K\n\nPROMOTION:\n- Launch campaign: product hunt + industry PR + influencer partnerships\n- Content marketing: weekly webinars + case studies\n- Budget: $2M for first 6 months\n- Target: 1,000 customers in first 90 days"', insight: 'CaseCoach Tip: The 4Ps should be internally consistent. A premium product needs premium pricing, selective distribution, and aspirational promotion.' },
-              { title: 'Synthesis & Recommendation', prompt: 'Should the client launch? What\'s the financial case?', modelAnswer: '"RECOMMENDATION: Launch with phased approach.\n\nFINANCIALS:\n- Development cost: $3M (6 months)\n- Launch marketing: $2M\n- Total investment: $5M\n\nREVENUE FORECAST:\n- Month 3: 500 customers × $99 = $50K MRR\n- Month 6: 1,500 customers = $150K MRR\n- Month 12: 4,000 customers = $400K MRR ($4.8M ARR)\n- Breakeven: Month 10\n\nKEY METRICS TO TRACK:\n- CAC target: <$300 (LTV:CAC > 3:1 with 24-month avg lifetime)\n- Free trial conversion: target 15%+\n- NPS: target 50+\n\nPHASING:\n1. Soft launch with 50 beta customers (Month 1-2)\n2. Public launch (Month 3)\n3. Channel partnerships (Month 4-6)\n4. Enterprise sales (Month 6+)\n\nKILL CRITERIA: If trial conversion <8% or NPS <30 after Month 3, reassess product-market fit."', insight: 'CaseCoach Tip: Great product launch recommendations include kill criteria — conditions under which you\'d stop or pivot. Shows sophisticated strategic thinking.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The client wants to launch a new product. How do you structure the analysis?",
+                modelAnswer:
+                  "\"I'd structure this in three phases:\n\n1. TARGET SEGMENT SELECTION\n   - Who is the target customer? What are their unmet needs?\n   - How big is this segment? Growing?\n   - What competition exists? What's their offering?\n\n2. MARKETING STRATEGY (4Ps)\n   - PRODUCT: What features/design meets the need?\n   - PRICE: What pricing model? Cost-plus vs value-based?\n   - PLACE: What distribution channels? Direct, retail, online?\n   - PROMOTION: How do we build awareness? Launch strategy?\n\n3. IMPLEMENTATION & FINANCIALS\n   - Development timeline and cost\n   - Go-to-market plan\n   - Revenue forecast and breakeven analysis\n   - Key risks and mitigation\n\nLet me start by understanding the target customer.\"",
+                insight:
+                  "CaseCoach Tip: New product cases are about the 4Ps (Product, Price, Place, Promotion) from academic frameworks. Always start with the customer, not the product.",
+              },
+              {
+                title: "Analysis & Go-to-Market",
+                prompt:
+                  "Design the go-to-market strategy using the 4Ps framework.",
+                modelAnswer:
+                  '"Based on customer research:\n\nPRODUCT:\n- Core feature: solves [specific pain point] 3x better than alternatives\n- MVP with 5 key features (vs competitor\'s 20 — focused value prop)\n- Premium positioning: quality + simplicity\n\nPRICE:\n- Value-based at $99/month (competitor: $79 basic, $149 premium)\n- Free trial (14 days) to reduce adoption friction\n- Annual discount: $79/month (lock-in + cash flow)\n\nPLACE:\n- Digital-first: direct sales via website\n- Channel partnerships with 3 industry distributors\n- Enterprise: direct sales team for deals >$50K\n\nPROMOTION:\n- Launch campaign: product hunt + industry PR + influencer partnerships\n- Content marketing: weekly webinars + case studies\n- Budget: $2M for first 6 months\n- Target: 1,000 customers in first 90 days"',
+                insight:
+                  "CaseCoach Tip: The 4Ps should be internally consistent. A premium product needs premium pricing, selective distribution, and aspirational promotion.",
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt: "Should the client launch? What's the financial case?",
+                modelAnswer:
+                  '"RECOMMENDATION: Launch with phased approach.\n\nFINANCIALS:\n- Development cost: $3M (6 months)\n- Launch marketing: $2M\n- Total investment: $5M\n\nREVENUE FORECAST:\n- Month 3: 500 customers × $99 = $50K MRR\n- Month 6: 1,500 customers = $150K MRR\n- Month 12: 4,000 customers = $400K MRR ($4.8M ARR)\n- Breakeven: Month 10\n\nKEY METRICS TO TRACK:\n- CAC target: <$300 (LTV:CAC > 3:1 with 24-month avg lifetime)\n- Free trial conversion: target 15%+\n- NPS: target 50+\n\nPHASING:\n1. Soft launch with 50 beta customers (Month 1-2)\n2. Public launch (Month 3)\n3. Channel partnerships (Month 4-6)\n4. Enterprise sales (Month 6+)\n\nKILL CRITERIA: If trial conversion <8% or NPS <30 after Month 3, reassess product-market fit."',
+                insight:
+                  "CaseCoach Tip: Great product launch recommendations include kill criteria — conditions under which you'd stop or pivot. Shows sophisticated strategic thinking.",
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'O cliente quer lançar um novo produto. Como estrutura?', modelAnswer: '"3 fases: (1) Selecionar segmento alvo — necessidades, tamanho, concorrência. (2) 4Ps — Produto, Preço, Distribuição, Promoção. (3) Implementação + financials."', insight: 'Dica: Comece pelo cliente, não pelo produto.' },
-              { title: 'Análise & Go-to-Market', prompt: 'Desenhe a estratégia go-to-market (4Ps).', modelAnswer: '"Produto: MVP focado em 5 features. Preço: $99/mês value-based. Distribuição: digital-first + parceiros. Promoção: $2M para 1000 clientes em 90 dias."', insight: 'Dica: Os 4Ps devem ser internamente consistentes.' },
-              { title: 'Síntese & Recomendação', prompt: 'Devem lançar? Caso financeiro?', modelAnswer: '"SIM. Investimento: $5M. Breakeven: Mês 10. ARR Ano 1: $4.8M. Kill criteria: se conversão <8% no Mês 3, reavaliar product-market fit."', insight: 'Dica: Inclua kill criteria — quando parar ou pivotar.' }
-            ]
-          }
+              {
+                title: "Estruturar o Problema",
+                prompt:
+                  "O cliente quer lançar um novo produto. Como estrutura?",
+                modelAnswer:
+                  '"3 fases: (1) Selecionar segmento alvo — necessidades, tamanho, concorrência. (2) 4Ps — Produto, Preço, Distribuição, Promoção. (3) Implementação + financials."',
+                insight: "Dica: Comece pelo cliente, não pelo produto.",
+              },
+              {
+                title: "Análise & Go-to-Market",
+                prompt: "Desenhe a estratégia go-to-market (4Ps).",
+                modelAnswer:
+                  '"Produto: MVP focado em 5 features. Preço: $99/mês value-based. Distribuição: digital-first + parceiros. Promoção: $2M para 1000 clientes em 90 dias."',
+                insight: "Dica: Os 4Ps devem ser internamente consistentes.",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Devem lançar? Caso financeiro?",
+                modelAnswer:
+                  '"SIM. Investimento: $5M. Breakeven: Mês 10. ARR Ano 1: $4.8M. Kill criteria: se conversão <8% no Mês 3, reavaliar product-market fit."',
+                insight:
+                  "Dica: Inclua kill criteria — quando parar ou pivotar.",
+              },
+            ],
+          },
         },
         investment: {
           framework: {
-            name: 'Investment Decision (Top-10 #7)',
-            tree: 'Whether to make an investment?\n├── Impact on Revenue\n│   └── How much additional revenue?\n├── Impact on Costs\n│   └── Cost savings or increases?\n├── Break Even\n│   └── When do we recover the investment?\n└── Implementation\n    ├── Timeline and milestones\n    ├── Risks and mitigation\n    └── Alternative uses of capital',
-            approach: 'Calculate NPV/IRR → Assess strategic fit → Evaluate alternatives → Perform sensitivity analysis. The key question: does this investment earn above our cost of capital?',
-            secondLevel: 'Hypothesis-based approach (Logical Frameworks): "We should invest IF: (1) returns exceed hurdle rate, (2) strategic fit is strong, (3) implementation risk is manageable."'
+            name: "Investment Decision (Top-10 #7)",
+            tree: "Whether to make an investment?\n├── Impact on Revenue\n│   └── How much additional revenue?\n├── Impact on Costs\n│   └── Cost savings or increases?\n├── Break Even\n│   └── When do we recover the investment?\n└── Implementation\n    ├── Timeline and milestones\n    ├── Risks and mitigation\n    └── Alternative uses of capital",
+            approach:
+              "Calculate NPV/IRR → Assess strategic fit → Evaluate alternatives → Perform sensitivity analysis. The key question: does this investment earn above our cost of capital?",
+            secondLevel:
+              'Hypothesis-based approach (Logical Frameworks): "We should invest IF: (1) returns exceed hurdle rate, (2) strategic fit is strong, (3) implementation risk is manageable."',
           },
           sections: {
             en: [
-              { title: 'Structuring the Problem', prompt: 'The client is evaluating a major investment. How would you structure the analysis?', modelAnswer: '"I\'d structure this as a go/no-go decision using four lenses:\n\n1. FINANCIAL RETURNS\n   - What\'s the investment amount and timeline?\n   - Impact on revenue: How much incremental revenue?\n   - Impact on costs: Savings or new cost structure?\n   - NPV, IRR, payback period\n   - Sensitivity: What if assumptions are 20% worse?\n\n2. STRATEGIC FIT\n   - Does this align with the company\'s strategy?\n   - Does it build competitive advantages?\n   - What\'s the opportunity cost? Best alternative use of capital?\n\n3. IMPLEMENTATION FEASIBILITY\n   - Do we have the capabilities to execute?\n   - Timeline and milestones\n   - Key risks and mitigation strategies\n\n4. COMPARISON TO ALTERNATIVES\n   - What else could we do with this capital?\n   - Do nothing scenario — what happens?\n\nLet me start with the financial analysis."', insight: 'CaseCoach Tip: Investment decisions are hypothesis-driven: "We SHOULD invest IF returns exceed our hurdle rate AND strategic fit is strong AND risks are manageable." Each section tests one condition.' },
-              { title: 'Analysis & Financial Modeling', prompt: 'Perform the financial analysis — NPV, breakeven, and sensitivity.', modelAnswer: '"FINANCIAL ANALYSIS:\n\nINVESTMENT: $200M upfront + $20M/year operating\n\nREVENUE IMPACT:\n- Year 1: $30M (ramp-up)\n- Year 2: $80M\n- Year 3: $120M\n- Year 4+: $150M (steady state)\n\nCOST IMPACT:\n- Operating savings: $15M/year from Year 2\n\nNET CASH FLOWS:\n- Year 0: -$200M\n- Year 1: +$10M ($30M revenue - $20M opex)\n- Year 2: +$75M ($80M + $15M savings - $20M opex)\n- Year 3: +$115M\n- Year 4: +$145M\n\nNPV (at 10% WACC): +$180M → positive\nIRR: 22% → above 15% hurdle rate\nPayback: 2.5 years\n\nSENSITIVITY:\n- If revenue is 20% lower: NPV = +$80M (still positive)\n- If revenue is 40% lower: NPV = -$20M (breakeven threshold)\n- We need at least 65% of projected revenue to break even."', insight: 'CaseCoach Tip: Always show NPV, IRR, and payback. Then stress test with sensitivity analysis — the interviewer wants to see you think about what could go wrong.' },
-              { title: 'Synthesis & Recommendation', prompt: 'Go or no-go? Present your recommendation.', modelAnswer: '"RECOMMENDATION: GO — with risk mitigation measures.\n\nWHY INVEST:\n- NPV of +$180M at 10% WACC\n- IRR of 22% vs 15% hurdle rate\n- Strong strategic fit: builds competitive moat\n- Sensitivity: break-even at just 65% of revenue projections\n\nHOW TO DE-RISK:\n1. Phased investment: $100M now, $100M conditional on Year 1 milestones\n2. Build in decision gates every 6 months\n3. Secure 2 anchor customers before full commitment\n4. Hedge commodity exposure\n\nCOMPARISON TO ALTERNATIVES:\n- Do nothing: lose $50M/year in competitive disadvantage by Year 3\n- Smaller investment ($80M): only captures 40% of value\n- Partnership: lower risk but shares 50% of upside\n\n→ Full investment with phased approach captures most value while managing risk.\n\nNEXT STEPS: Board presentation with detailed sensitivity model, anchor customer conversations, detailed project plan."', insight: 'CaseCoach Tip: The best investment recommendations include phased approach with decision gates, comparison to alternatives (including "do nothing"), and specific de-risking measures.' }
+              {
+                title: "Structuring the Problem",
+                prompt:
+                  "The client is evaluating a major investment. How would you structure the analysis?",
+                modelAnswer:
+                  "\"I'd structure this as a go/no-go decision using four lenses:\n\n1. FINANCIAL RETURNS\n   - What's the investment amount and timeline?\n   - Impact on revenue: How much incremental revenue?\n   - Impact on costs: Savings or new cost structure?\n   - NPV, IRR, payback period\n   - Sensitivity: What if assumptions are 20% worse?\n\n2. STRATEGIC FIT\n   - Does this align with the company's strategy?\n   - Does it build competitive advantages?\n   - What's the opportunity cost? Best alternative use of capital?\n\n3. IMPLEMENTATION FEASIBILITY\n   - Do we have the capabilities to execute?\n   - Timeline and milestones\n   - Key risks and mitigation strategies\n\n4. COMPARISON TO ALTERNATIVES\n   - What else could we do with this capital?\n   - Do nothing scenario — what happens?\n\nLet me start with the financial analysis.\"",
+                insight:
+                  'CaseCoach Tip: Investment decisions are hypothesis-driven: "We SHOULD invest IF returns exceed our hurdle rate AND strategic fit is strong AND risks are manageable." Each section tests one condition.',
+              },
+              {
+                title: "Analysis & Financial Modeling",
+                prompt:
+                  "Perform the financial analysis — NPV, breakeven, and sensitivity.",
+                modelAnswer:
+                  '"FINANCIAL ANALYSIS:\n\nINVESTMENT: $200M upfront + $20M/year operating\n\nREVENUE IMPACT:\n- Year 1: $30M (ramp-up)\n- Year 2: $80M\n- Year 3: $120M\n- Year 4+: $150M (steady state)\n\nCOST IMPACT:\n- Operating savings: $15M/year from Year 2\n\nNET CASH FLOWS:\n- Year 0: -$200M\n- Year 1: +$10M ($30M revenue - $20M opex)\n- Year 2: +$75M ($80M + $15M savings - $20M opex)\n- Year 3: +$115M\n- Year 4: +$145M\n\nNPV (at 10% WACC): +$180M → positive\nIRR: 22% → above 15% hurdle rate\nPayback: 2.5 years\n\nSENSITIVITY:\n- If revenue is 20% lower: NPV = +$80M (still positive)\n- If revenue is 40% lower: NPV = -$20M (breakeven threshold)\n- We need at least 65% of projected revenue to break even."',
+                insight:
+                  "CaseCoach Tip: Always show NPV, IRR, and payback. Then stress test with sensitivity analysis — the interviewer wants to see you think about what could go wrong.",
+              },
+              {
+                title: "Synthesis & Recommendation",
+                prompt: "Go or no-go? Present your recommendation.",
+                modelAnswer:
+                  '"RECOMMENDATION: GO — with risk mitigation measures.\n\nWHY INVEST:\n- NPV of +$180M at 10% WACC\n- IRR of 22% vs 15% hurdle rate\n- Strong strategic fit: builds competitive moat\n- Sensitivity: break-even at just 65% of revenue projections\n\nHOW TO DE-RISK:\n1. Phased investment: $100M now, $100M conditional on Year 1 milestones\n2. Build in decision gates every 6 months\n3. Secure 2 anchor customers before full commitment\n4. Hedge commodity exposure\n\nCOMPARISON TO ALTERNATIVES:\n- Do nothing: lose $50M/year in competitive disadvantage by Year 3\n- Smaller investment ($80M): only captures 40% of value\n- Partnership: lower risk but shares 50% of upside\n\n→ Full investment with phased approach captures most value while managing risk.\n\nNEXT STEPS: Board presentation with detailed sensitivity model, anchor customer conversations, detailed project plan."',
+                insight:
+                  'CaseCoach Tip: The best investment recommendations include phased approach with decision gates, comparison to alternatives (including "do nothing"), and specific de-risking measures.',
+              },
             ],
             pt: [
-              { title: 'Estruturar o Problema', prompt: 'O cliente avalia um grande investimento. Como estrutura?', modelAnswer: '"4 lentes: (1) Retorno financeiro (NPV, IRR, payback), (2) Fit estratégico, (3) Viabilidade de implementação, (4) Comparação com alternativas."', insight: 'Dica: Decisões de investimento são baseadas em hipótese: "Devemos investir SE retorno > hurdle rate E fit estratégico E riscos geríveis."' },
-              { title: 'Análise Financeira', prompt: 'NPV, breakeven, e análise de sensibilidade.', modelAnswer: '"Investimento: $200M. NPV (+10% WACC): +$180M. IRR: 22% (acima de hurdle 15%). Payback: 2.5 anos. Sensibilidade: breakeven com 65% da receita projetada."', insight: 'Dica: Sempre mostre NPV, IRR e payback + stress test.' },
-              { title: 'Síntese & Recomendação', prompt: 'Go ou no-go?', modelAnswer: '"GO — investimento faseado. $100M agora, $100M condicional a milestones. Decision gates semestrais. NPV +$180M. Alternativas inferior (não fazer perde $50M/ano)."', insight: 'Dica: Faseamento + decisdon gates + comparação com alternativas.' }
-            ]
-          }
-        }
+              {
+                title: "Estruturar o Problema",
+                prompt:
+                  "O cliente avalia um grande investimento. Como estrutura?",
+                modelAnswer:
+                  '"4 lentes: (1) Retorno financeiro (NPV, IRR, payback), (2) Fit estratégico, (3) Viabilidade de implementação, (4) Comparação com alternativas."',
+                insight:
+                  'Dica: Decisões de investimento são baseadas em hipótese: "Devemos investir SE retorno > hurdle rate E fit estratégico E riscos geríveis."',
+              },
+              {
+                title: "Análise Financeira",
+                prompt: "NPV, breakeven, e análise de sensibilidade.",
+                modelAnswer:
+                  '"Investimento: $200M. NPV (+10% WACC): +$180M. IRR: 22% (acima de hurdle 15%). Payback: 2.5 anos. Sensibilidade: breakeven com 65% da receita projetada."',
+                insight:
+                  "Dica: Sempre mostre NPV, IRR e payback + stress test.",
+              },
+              {
+                title: "Síntese & Recomendação",
+                prompt: "Go ou no-go?",
+                modelAnswer:
+                  '"GO — investimento faseado. $100M agora, $100M condicional a milestones. Decision gates semestrais. NPV +$180M. Alternativas inferior (não fazer perde $50M/ano)."',
+                insight:
+                  "Dica: Faseamento + decisdon gates + comparação com alternativas.",
+              },
+            ],
+          },
+        },
       };
 
       // ═══════════════════════════════════════════════════
@@ -13690,26 +14174,26 @@
         currentSection: 1,
         totalSections: 3,
         sections: [],
-        caseText: '',
-        lang: 'en',
-        fwKey: '',
-        indKey: '',
-        mathKey: '',
-        userAnswers: ['', '', '']
+        caseText: "",
+        lang: "en",
+        fwKey: "",
+        indKey: "",
+        mathKey: "",
+        userAnswers: ["", "", ""],
       };
 
       function generateCase(isPT) {
-        const lang = isPT ? 'pt' : 'en';
-        let indKey = document.getElementById('cg-industry').value;
-        let fwKey = document.getElementById('cg-framework').value;
-        let mathKey = document.getElementById('cg-math').value;
+        const lang = isPT ? "pt" : "en";
+        let indKey = document.getElementById("cg-industry").value;
+        let fwKey = document.getElementById("cg-framework").value;
+        let mathKey = document.getElementById("cg-math").value;
 
         const indKeys = Object.keys(CG_DATA.industries);
         const fwKeys = Object.keys(CG_DATA.frameworks);
         const mathKeys = Object.keys(CG_DATA.math);
-        if (indKey === 'random') indKey = pick(indKeys);
-        if (fwKey === 'random') fwKey = pick(fwKeys);
-        if (mathKey === 'random') mathKey = pick(mathKeys);
+        if (indKey === "random") indKey = pick(indKeys);
+        if (fwKey === "random") fwKey = pick(fwKeys);
+        if (mathKey === "random") mathKey = pick(mathKeys);
 
         const ind = CG_DATA.industries[indKey];
         const fw = CG_DATA.frameworks[fwKey];
@@ -13718,15 +14202,42 @@
         const company = pick(ind.companies);
         const context = isPT ? pick(ind.contextPT) : pick(ind.context);
         const template = pick(CG_TEMPLATES[lang]);
-        const problems = CG_PROBLEMS[fwKey] || CG_PROBLEMS['profitability'];
-        const objectives = CG_OBJECTIVES[fwKey] || CG_OBJECTIVES['profitability'];
+        const problems = CG_PROBLEMS[fwKey] || CG_PROBLEMS["profitability"];
+        const objectives =
+          CG_OBJECTIVES[fwKey] || CG_OBJECTIVES["profitability"];
         const problem = pick(problems[lang]);
         const objective = objectives[lang];
 
-        const timeframes = isPT ? ['2 anos','18 meses','6 meses','3 anos'] : ['2 years','18 months','6 months','3 years'];
-        const markets = isPT ? ['o mercado europeu','a Ásia-Pacífico','a América Latina','mercados emergentes'] : ['the European market','Asia-Pacific','Latin America','emerging markets'];
-        const actions = isPT ? ['expandir para novos mercados','adquirir um concorrente','lançar um novo produto','reestruturar operações'] : ['expand into new markets','acquire a competitor','launch a new product line','restructure operations'];
-        const investments = ['50M','100M','200M','500M','1B'];
+        const timeframes = isPT
+          ? ["2 anos", "18 meses", "6 meses", "3 anos"]
+          : ["2 years", "18 months", "6 months", "3 years"];
+        const markets = isPT
+          ? [
+              "o mercado europeu",
+              "a Ásia-Pacífico",
+              "a América Latina",
+              "mercados emergentes",
+            ]
+          : [
+              "the European market",
+              "Asia-Pacific",
+              "Latin America",
+              "emerging markets",
+            ];
+        const actions = isPT
+          ? [
+              "expandir para novos mercados",
+              "adquirir um concorrente",
+              "lançar um novo produto",
+              "reestruturar operações",
+            ]
+          : [
+              "expand into new markets",
+              "acquire a competitor",
+              "launch a new product line",
+              "restructure operations",
+            ];
+        const investments = ["50M", "100M", "200M", "500M", "1B"];
 
         var text = template
           .replace(/{company}/g, company)
@@ -13739,8 +14250,8 @@
           .replace(/{investment}/g, pick(investments));
 
         // Get solutions for this framework
-        var sol = CG_SOLUTIONS[fwKey] || CG_SOLUTIONS['profitability'];
-        var sections = sol.sections[lang] || sol.sections['en'];
+        var sol = CG_SOLUTIONS[fwKey] || CG_SOLUTIONS["profitability"];
+        var sections = sol.sections[lang] || sol.sections["en"];
 
         // Store state
         cgState = {
@@ -13753,38 +14264,66 @@
           indKey: indKey,
           mathKey: mathKey,
           framework: sol.framework,
-          userAnswers: ['', '', ''],
+          userAnswers: ["", "", ""],
           fw: fw,
           mt: mt,
           ind: ind,
-          isPT: isPT
+          isPT: isPT,
         };
 
         // Display
-        document.getElementById('cg-output').style.display = 'block';
-        document.getElementById('cg-case-text').textContent = text;
+        document.getElementById("cg-output").style.display = "block";
+        document.getElementById("cg-case-text").textContent = text;
 
-        // Set hints
-        document.getElementById('cg-hint-framework').innerHTML = '<span class="cg-hint-hidden" style="display:none">' + (isPT ? fw.hintPT : fw.hint) + '</span><em>Click "Reveal Hints" after attempting</em>';
-        document.getElementById('cg-hint-math').innerHTML = '<span class="cg-hint-hidden" style="display:none">' + (isPT ? mt.hintPT : mt.hint) + '</span><em>Click "Reveal Hints" after attempting</em>';
-        document.getElementById('cg-hint-industry').innerHTML = '<span class="cg-hint-hidden" style="display:none">' + ind.metrics + '</span><em>Click "Reveal Hints" after attempting</em>';
-        document.getElementById('cg-reveal-btn').style.display = 'block';
-        document.querySelectorAll('.cg-hint-hidden').forEach(function(e) { e.style.display = 'none'; });
+        // Show industry intro
+        var introEl = document.getElementById("cg-industry-intro");
+        var introText = isPT ? (ind.introPT || ind.intro) : ind.intro;
+        if (introText) {
+          document.getElementById("cg-industry-intro-title").textContent = (isPT ? '🏭 ' : '🏭 ') + (isPT ? ind.namePT : ind.name);
+          document.getElementById("cg-industry-intro-text").textContent = introText;
+          introEl.style.display = "block";
+        } else {
+          introEl.style.display = "none";
+        }
+
+        // Set hints (now inside <details>, auto-hidden)
+        document.getElementById("cg-hint-framework").textContent = isPT ? fw.hintPT : fw.hint;
+        document.getElementById("cg-hint-math").textContent = isPT ? mt.hintPT : mt.hint;
+        document.getElementById("cg-hint-industry").textContent = ind.metrics;
+        // Close the hints panel by default
+        var hintsPanel = document.getElementById("cg-hints-panel");
+        if (hintsPanel) hintsPanel.removeAttribute("open");
 
         // Render first section
         cgRenderSection(1);
 
         // Stats
-        var stats = JSON.parse(localStorage.getItem('cg-stats') || '{"total":0,"industries":{},"frameworks":{},"math":{}}');
+        var stats = JSON.parse(
+          localStorage.getItem("cg-stats") ||
+            '{"total":0,"industries":{},"frameworks":{},"math":{}}',
+        );
         stats.total++;
         stats.industries[indKey] = (stats.industries[indKey] || 0) + 1;
         stats.frameworks[fwKey] = (stats.frameworks[fwKey] || 0) + 1;
         stats.math[mathKey] = (stats.math[mathKey] || 0) + 1;
-        localStorage.setItem('cg-stats', JSON.stringify(stats));
-        document.getElementById('cg-stats').textContent = stats.total + ' cases generated | Most practiced: ' + Object.entries(stats.frameworks).sort(function(a,b){return b[1]-a[1]}).map(function(e){return e[0]}).slice(0,3).join(', ');
+        localStorage.setItem("cg-stats", JSON.stringify(stats));
+        document.getElementById("cg-stats").textContent =
+          stats.total +
+          " cases generated | Most practiced: " +
+          Object.entries(stats.frameworks)
+            .sort(function (a, b) {
+              return b[1] - a[1];
+            })
+            .map(function (e) {
+              return e[0];
+            })
+            .slice(0, 3)
+            .join(", ");
 
         // Scroll to output
-        document.getElementById('cg-output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document
+          .getElementById("cg-output")
+          .scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
       function cgRenderSection(n) {
@@ -13794,162 +14333,269 @@
         cgState.currentSection = n;
 
         // Update progress bar
-        document.querySelectorAll('#cg-progress .cg-step').forEach(function(el) {
-          var step = parseInt(el.getAttribute('data-step'));
-          if (step <= n) {
-            el.style.background = 'var(--bcg-green)';
-          } else {
-            el.style.background = '#e0e0e0';
-          }
-          if (step === n) {
-            el.style.height = '8px';
-            el.style.boxShadow = '0 0 8px rgba(0,166,81,0.4)';
-          } else {
-            el.style.height = '6px';
-            el.style.boxShadow = 'none';
-          }
-        });
+        document
+          .querySelectorAll("#cg-progress .cg-step")
+          .forEach(function (el) {
+            var step = parseInt(el.getAttribute("data-step"));
+            if (step <= n) {
+              el.style.background = "var(--bcg-green)";
+            } else {
+              el.style.background = "#e0e0e0";
+            }
+            if (step === n) {
+              el.style.height = "8px";
+              el.style.boxShadow = "0 0 8px rgba(0,166,81,0.4)";
+            } else {
+              el.style.height = "6px";
+              el.style.boxShadow = "none";
+            }
+          });
 
         // Update section label
         var sectionLabels = cgState.isPT
-          ? ['Estruturar o Problema', 'Análise & Dados', 'Síntese & Recomendação']
-          : ['Structuring the Problem', 'Analysis & Data', 'Synthesis & Recommendation'];
-        document.getElementById('cg-section-label').textContent = (cgState.isPT ? 'Secção ' : 'Section ') + n + (cgState.isPT ? ' de 3 — ' : ' of 3 — ') + (sec.title || sectionLabels[n-1]);
+          ? [
+              "Estruturar o Problema",
+              "Análise & Dados",
+              "Síntese & Recomendação",
+            ]
+          : [
+              "Structuring the Problem",
+              "Analysis & Data",
+              "Synthesis & Recommendation",
+            ];
+        document.getElementById("cg-section-label").textContent =
+          (cgState.isPT ? "Secção " : "Section ") +
+          n +
+          (cgState.isPT ? " de 3 — " : " of 3 — ") +
+          (sec.title || sectionLabels[n - 1]);
 
         // Update section prompt
         var fwInfo = cgState.framework;
-        var promptHTML = '<div style="font-weight:600; color:var(--bcg-green); margin-bottom:8px; font-size:1.05em;">' + sec.title + '</div>';
-        promptHTML += '<div style="margin-bottom:12px;">' + sec.prompt + '</div>';
+        var promptHTML =
+          '<div style="font-weight:600; color:var(--bcg-green); margin-bottom:8px; font-size:1.05em;">' +
+          sec.title +
+          "</div>";
+        promptHTML +=
+          '<div style="margin-bottom:12px;">' + sec.prompt + "</div>";
         if (n === 1 && fwInfo) {
-          promptHTML += '<div style="margin-top:12px; padding:12px; background:white; border-radius:8px; border:1px solid #e0e0e0;">';
-          promptHTML += '<div style="font-weight:600; font-size:0.85em; color:#555; margin-bottom:6px;">📐 ' + fwInfo.name + '</div>';
-          promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' + fwInfo.tree + '</pre>';
-          promptHTML += '</div>';
+          promptHTML +=
+            '<div style="margin-top:12px; padding:12px; background:white; border-radius:8px; border:1px solid #e0e0e0;">';
+          promptHTML +=
+            '<div style="font-weight:600; font-size:0.85em; color:#555; margin-bottom:6px;">📐 ' +
+            fwInfo.name +
+            "</div>";
+          promptHTML +=
+            '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' +
+            fwInfo.tree +
+            "</pre>";
+          promptHTML += "</div>";
         }
-        document.getElementById('cg-section-prompt').innerHTML = promptHTML;
+        document.getElementById("cg-section-prompt").innerHTML = promptHTML;
 
         // Restore user answer for this section
-        var textarea = document.getElementById('cg-user-answer');
-        textarea.value = cgState.userAnswers[n - 1] || '';
-        textarea.style.borderColor = '#e5e5e5';
+        var textarea = document.getElementById("cg-user-answer");
+        textarea.value = cgState.userAnswers[n - 1] || "";
+        textarea.style.borderColor = "#e5e5e5";
 
         // Hide solution
-        document.getElementById('cg-solution-area').style.display = 'none';
-        document.getElementById('cg-show-solution-btn').textContent = cgState.isPT ? '👁️ Mostrar Solução CaseCoach' : '👁️ Show CaseCoach Solution';
-        document.getElementById('cg-show-solution-btn').style.background = 'linear-gradient(135deg,#1a1a1a,#333)';
+        document.getElementById("cg-solution-area").style.display = "none";
+        document.getElementById("cg-show-solution-btn").textContent =
+          cgState.isPT
+            ? "👁️ Mostrar Solução CaseCoach"
+            : "👁️ Show CaseCoach Solution";
+        document.getElementById("cg-show-solution-btn").style.background =
+          "linear-gradient(135deg,#1a1a1a,#333)";
 
         // Update nav buttons
-        document.getElementById('cg-prev-btn').style.display = n > 1 ? 'block' : 'none';
-        var nextBtn = document.getElementById('cg-next-btn');
+        document.getElementById("cg-prev-btn").style.display =
+          n > 1 ? "block" : "none";
+        var nextBtn = document.getElementById("cg-next-btn");
         if (n >= 3) {
-          nextBtn.textContent = cgState.isPT ? '✅ Caso Completo!' : '✅ Case Complete!';
-          nextBtn.style.background = 'linear-gradient(135deg, #2e7d32, #4caf50)';
-          nextBtn.onclick = function() { cgCompletionSummary(); };
+          nextBtn.textContent = cgState.isPT
+            ? "✅ Caso Completo!"
+            : "✅ Case Complete!";
+          nextBtn.style.background =
+            "linear-gradient(135deg, #2e7d32, #4caf50)";
+          nextBtn.onclick = function () {
+            cgCompletionSummary();
+          };
         } else {
-          nextBtn.textContent = (cgState.isPT ? 'Próxima Secção →' : 'Next Section →');
-          nextBtn.style.background = 'var(--bcg-green)';
-          nextBtn.onclick = function() { cgNextSection(); };
+          nextBtn.textContent = cgState.isPT
+            ? "Próxima Secção →"
+            : "Next Section →";
+          nextBtn.style.background = "var(--bcg-green)";
+          nextBtn.onclick = function () {
+            cgNextSection();
+          };
         }
       }
 
       function cgNextSection() {
         // Save current answer
-        cgState.userAnswers[cgState.currentSection - 1] = document.getElementById('cg-user-answer').value;
+        cgState.userAnswers[cgState.currentSection - 1] =
+          document.getElementById("cg-user-answer").value;
         if (cgState.currentSection < 3) {
           cgRenderSection(cgState.currentSection + 1);
-          document.getElementById('cg-section-prompt').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          document
+            .getElementById("cg-section-prompt")
+            .scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
 
       function cgPrevSection() {
-        cgState.userAnswers[cgState.currentSection - 1] = document.getElementById('cg-user-answer').value;
+        cgState.userAnswers[cgState.currentSection - 1] =
+          document.getElementById("cg-user-answer").value;
         if (cgState.currentSection > 1) {
           cgRenderSection(cgState.currentSection - 1);
-          document.getElementById('cg-section-prompt').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          document
+            .getElementById("cg-section-prompt")
+            .scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
 
       function cgGoToSection(n) {
-        cgState.userAnswers[cgState.currentSection - 1] = document.getElementById('cg-user-answer').value;
+        cgState.userAnswers[cgState.currentSection - 1] =
+          document.getElementById("cg-user-answer").value;
         cgRenderSection(n);
       }
 
       function cgToggleSolution() {
-        var area = document.getElementById('cg-solution-area');
-        var btn = document.getElementById('cg-show-solution-btn');
-        if (area.style.display === 'none') {
+        var area = document.getElementById("cg-solution-area");
+        var btn = document.getElementById("cg-show-solution-btn");
+        if (area.style.display === "none") {
           var sec = cgState.sections[cgState.currentSection - 1];
           var fwInfo = cgState.framework;
 
           // Framework solution
-          var fwHTML = '<div style="font-weight:700; color:#1565c0; margin-bottom:10px; font-size:1em;">🧩 ' + (cgState.isPT ? 'Framework Recomendado' : 'Recommended Framework') + '</div>';
+          var fwHTML =
+            '<div style="font-weight:700; color:#1565c0; margin-bottom:10px; font-size:1em;">🧩 ' +
+            (cgState.isPT ? "Framework Recomendado" : "Recommended Framework") +
+            "</div>";
           if (cgState.currentSection === 1 && fwInfo) {
-            fwHTML += '<div style="font-weight:600; font-size:0.9em; margin-bottom:6px;">' + fwInfo.name + '</div>';
-            fwHTML += '<div style="font-size:0.85em; color:#444; margin-bottom:8px;">' + fwInfo.approach + '</div>';
+            fwHTML +=
+              '<div style="font-weight:600; font-size:0.9em; margin-bottom:6px;">' +
+              fwInfo.name +
+              "</div>";
+            fwHTML +=
+              '<div style="font-size:0.85em; color:#444; margin-bottom:8px;">' +
+              fwInfo.approach +
+              "</div>";
             if (fwInfo.secondLevel) {
-              fwHTML += '<div style="font-size:0.82em; color:#666; font-style:italic;">' + fwInfo.secondLevel + '</div>';
+              fwHTML +=
+                '<div style="font-size:0.82em; color:#666; font-style:italic;">' +
+                fwInfo.secondLevel +
+                "</div>";
             }
           } else {
-            fwHTML += '<div style="font-size:0.85em; color:#444;">' + (cgState.isPT ? 'Aplique o framework da Secção 1 a esta fase de análise.' : 'Apply the framework from Section 1 to this analysis phase.') + '</div>';
+            fwHTML +=
+              '<div style="font-size:0.85em; color:#444;">' +
+              (cgState.isPT
+                ? "Aplique o framework da Secção 1 a esta fase de análise."
+                : "Apply the framework from Section 1 to this analysis phase.") +
+              "</div>";
           }
-          document.getElementById('cg-solution-framework').innerHTML = fwHTML;
+          document.getElementById("cg-solution-framework").innerHTML = fwHTML;
 
           // Model answer
-          var ansHTML = '<div style="font-weight:700; color:#2e7d32; margin-bottom:10px; font-size:1em;">💬 ' + (cgState.isPT ? 'Resposta Modelo (CaseCoach Standard)' : 'Model Answer (CaseCoach Standard)') + '</div>';
-          ansHTML += '<div style="font-size:0.9em; color:#333; white-space:pre-wrap; line-height:1.7; font-family:inherit;">' + sec.modelAnswer + '</div>';
-          document.getElementById('cg-solution-answer').innerHTML = ansHTML;
+          var ansHTML =
+            '<div style="font-weight:700; color:#2e7d32; margin-bottom:10px; font-size:1em;">💬 ' +
+            (cgState.isPT
+              ? "Resposta Modelo (CaseCoach Standard)"
+              : "Model Answer (CaseCoach Standard)") +
+            "</div>";
+          ansHTML +=
+            '<div style="font-size:0.9em; color:#333; white-space:pre-wrap; line-height:1.7; font-family:inherit;">' +
+            sec.modelAnswer +
+            "</div>";
+          document.getElementById("cg-solution-answer").innerHTML = ansHTML;
 
           // Key insight
-          var insightHTML = '<div style="font-weight:700; color:#e65100; margin-bottom:6px; font-size:0.95em;">💡 ' + (cgState.isPT ? 'Insight Chave' : 'Key Insight') + '</div>';
-          insightHTML += '<div style="font-size:0.88em; color:#555;">' + sec.insight + '</div>';
-          document.getElementById('cg-solution-insight').innerHTML = insightHTML;
+          var insightHTML =
+            '<div style="font-weight:700; color:#e65100; margin-bottom:6px; font-size:0.95em;">💡 ' +
+            (cgState.isPT ? "Insight Chave" : "Key Insight") +
+            "</div>";
+          insightHTML +=
+            '<div style="font-size:0.88em; color:#555;">' +
+            sec.insight +
+            "</div>";
+          document.getElementById("cg-solution-insight").innerHTML =
+            insightHTML;
 
-          area.style.display = 'block';
-          btn.textContent = cgState.isPT ? '🙈 Esconder Solução' : '🙈 Hide Solution';
-          btn.style.background = 'linear-gradient(135deg,#666,#888)';
+          area.style.display = "block";
+          btn.textContent = cgState.isPT
+            ? "🙈 Esconder Solução"
+            : "🙈 Hide Solution";
+          btn.style.background = "linear-gradient(135deg,#666,#888)";
 
-          area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          area.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
-          area.style.display = 'none';
-          btn.textContent = cgState.isPT ? '👁️ Mostrar Solução CaseCoach' : '👁️ Show CaseCoach Solution';
-          btn.style.background = 'linear-gradient(135deg,#1a1a1a,#333)';
+          area.style.display = "none";
+          btn.textContent = cgState.isPT
+            ? "👁️ Mostrar Solução CaseCoach"
+            : "👁️ Show CaseCoach Solution";
+          btn.style.background = "linear-gradient(135deg,#1a1a1a,#333)";
         }
       }
 
       function cgCompletionSummary() {
-        cgState.userAnswers[cgState.currentSection - 1] = document.getElementById('cg-user-answer').value;
-        var answered = cgState.userAnswers.filter(function(a) { return a.trim().length > 0; }).length;
+        cgState.userAnswers[cgState.currentSection - 1] =
+          document.getElementById("cg-user-answer").value;
+        var answered = cgState.userAnswers.filter(function (a) {
+          return a.trim().length > 0;
+        }).length;
         var isPT = cgState.isPT;
 
         var msg = isPT
-          ? '🎉 Caso completo!\n\nSecções respondidas: ' + answered + '/3\n'
-          : '🎉 Case complete!\n\nSections answered: ' + answered + '/3\n';
+          ? "🎉 Caso completo!\n\nSecções respondidas: " + answered + "/3\n"
+          : "🎉 Case complete!\n\nSections answered: " + answered + "/3\n";
 
         for (var i = 0; i < 3; i++) {
           var sec = cgState.sections[i];
-          msg += '\n' + (i+1) + '. ' + sec.title + ': ';
-          msg += cgState.userAnswers[i] ? '✅' : '⬜ (skipped)';
+          msg += "\n" + (i + 1) + ". " + sec.title + ": ";
+          msg += cgState.userAnswers[i] ? "✅" : "⬜ (skipped)";
         }
 
         msg += isPT
-          ? '\n\n💡 Dica: Reveja as soluções modelo para cada secção para melhorar.'
-          : '\n\n💡 Tip: Review model solutions for each section to improve.';
+          ? "\n\n💡 Dica: Reveja as soluções modelo para cada secção para melhorar."
+          : "\n\n💡 Tip: Review model solutions for each section to improve.";
 
         alert(msg);
       }
 
       function copyCasePrompt() {
-        var allText = cgState.caseText || document.getElementById('cg-case-text').textContent;
+        var allText =
+          cgState.caseText ||
+          document.getElementById("cg-case-text").textContent;
         // Also include current section prompt
         var sec = cgState.sections[cgState.currentSection - 1];
         if (sec) {
-          allText += '\n\n--- Section ' + cgState.currentSection + ': ' + sec.title + ' ---\n' + sec.prompt;
+          allText +=
+            "\n\n--- Section " +
+            cgState.currentSection +
+            ": " +
+            sec.title +
+            " ---\n" +
+            sec.prompt;
         }
-        navigator.clipboard.writeText(allText).then(function() {
-          var btn = document.querySelector('#cg-output button');
-          btn.textContent = '✅ Copied!';
-          setTimeout(function() { btn.textContent = '📋 Copy'; }, 1500);
+        navigator.clipboard.writeText(allText).then(function () {
+          var btn = document.querySelector("#cg-output button");
+          btn.textContent = "✅ Copied!";
+          setTimeout(function () {
+            btn.textContent = "📋 Copy";
+          }, 1500);
         });
+      }
+
+      function cgPreviewIndustry(val) {
+        var preview = document.getElementById('cg-industry-preview');
+        var text = document.getElementById('cg-industry-preview-text');
+        if (val === 'random' || !CG_DATA.industries[val]) {
+          preview.style.display = 'none';
+          return;
+        }
+        var ind = CG_DATA.industries[val];
+        text.textContent = '💡 ' + ind.name + ' — ' + (ind.intro || '');
+        preview.style.display = 'block';
       }
 
       function copyMedPlanForDoctor() {
