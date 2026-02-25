@@ -6685,18 +6685,52 @@
           🎲 Case Prompt Generator / Gerador de Casos
         </div>
         <div class="section-subtitle">
-          Pick an industry, framework, and math type — or hit Random for a surprise. Each case has 3 guided sections with model solutions.
+          Pick an industry, framework, and math type — or hit Random for a
+          surprise. Each case has 3 guided sections with model solutions.
         </div>
 
         <div class="card" style="padding: 24px">
           <div
             style="
               display: grid;
-              grid-template-columns: 1fr 1fr 1fr;
+              grid-template-columns: 1fr 1fr 1fr 1fr;
               gap: 16px;
               margin-bottom: 20px;
             "
           >
+            <!-- DIFFICULTY DROPDOWN -->
+            <div>
+              <label
+                style="
+                  font-weight: 600;
+                  font-size: 0.9em;
+                  display: block;
+                  margin-bottom: 6px;
+                "
+                >🎯 Difficulty / Dificuldade</label
+              >
+              <select
+                id="cg-difficulty"
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #e5e5e5;
+                  font-size: 0.95em;
+                  background: #fafafa;
+                "
+              >
+                <option value="easy" style="color: #2e7d32">
+                  🟢 Easy — Guided
+                </option>
+                <option value="medium" selected style="color: #e65100">
+                  🟡 Medium — Standard
+                </option>
+                <option value="hard" style="color: #c62828">
+                  🔴 Hard — Expert
+                </option>
+              </select>
+            </div>
             <!-- INDUSTRY DROPDOWN -->
             <div>
               <label
@@ -6806,7 +6840,20 @@
           </div>
 
           <!-- INDUSTRY PREVIEW (before generating) -->
-          <div id="cg-industry-preview" style="display:none; background:#f8fafe; border:1px solid #e0ecf8; border-radius:8px; padding:12px 16px; margin-bottom:16px; font-size:0.85em; color:#444; line-height:1.5;">
+          <div
+            id="cg-industry-preview"
+            style="
+              display: none;
+              background: #f8fafe;
+              border: 1px solid #e0ecf8;
+              border-radius: 8px;
+              padding: 12px 16px;
+              margin-bottom: 16px;
+              font-size: 0.85em;
+              color: #444;
+              line-height: 1.5;
+            "
+          >
             <span id="cg-industry-preview-text"></span>
           </div>
 
@@ -7108,26 +7155,67 @@
             </div>
 
             <!-- HINTS (single collapsible panel) -->
-            <details id="cg-hints-panel" style="margin-top:16px; background:#fafafa; border:1px solid #eee; border-radius:10px; overflow:hidden;">
-              <summary style="padding:12px 16px; cursor:pointer; font-weight:600; font-size:0.88em; color:#666; user-select:none;">
+            <details
+              id="cg-hints-panel"
+              style="
+                margin-top: 16px;
+                background: #fafafa;
+                border: 1px solid #eee;
+                border-radius: 10px;
+                overflow: hidden;
+              "
+            >
+              <summary
+                style="
+                  padding: 12px 16px;
+                  cursor: pointer;
+                  font-weight: 600;
+                  font-size: 0.88em;
+                  color: #666;
+                  user-select: none;
+                "
+              >
                 💡 Hints &amp; Context (click to reveal after attempting)
               </summary>
-              <div style="padding:4px 16px 16px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; font-size:0.83em;">
-                <div style="padding:10px; background:#f0f7ff; border-radius:8px;">
-                  <strong style="color:#1565c0;">🧩 Structure</strong>
-                  <div id="cg-hint-framework" style="margin-top:4px; color:#555;"></div>
+              <div
+                style="
+                  padding: 4px 16px 16px;
+                  display: grid;
+                  grid-template-columns: 1fr 1fr 1fr;
+                  gap: 10px;
+                  font-size: 0.83em;
+                "
+              >
+                <div
+                  style="padding: 10px; background: #f0f7ff; border-radius: 8px"
+                >
+                  <strong style="color: #1565c0">🧩 Structure</strong>
+                  <div
+                    id="cg-hint-framework"
+                    style="margin-top: 4px; color: #555"
+                  ></div>
                 </div>
-                <div style="padding:10px; background:#fff3e0; border-radius:8px;">
-                  <strong style="color:#e65100;">🔢 Math</strong>
-                  <div id="cg-hint-math" style="margin-top:4px; color:#555;"></div>
+                <div
+                  style="padding: 10px; background: #fff3e0; border-radius: 8px"
+                >
+                  <strong style="color: #e65100">🔢 Math</strong>
+                  <div
+                    id="cg-hint-math"
+                    style="margin-top: 4px; color: #555"
+                  ></div>
                 </div>
-                <div style="padding:10px; background:#f0fff0; border-radius:8px;">
-                  <strong style="color:#2e7d32;">🏭 Industry</strong>
-                  <div id="cg-hint-industry" style="margin-top:4px; color:#555;"></div>
+                <div
+                  style="padding: 10px; background: #f0fff0; border-radius: 8px"
+                >
+                  <strong style="color: #2e7d32">🏭 Industry</strong>
+                  <div
+                    id="cg-hint-industry"
+                    style="margin-top: 4px; color: #555"
+                  ></div>
                 </div>
               </div>
             </details>
-            <div id="cg-reveal-btn" style="display:none;"></div>
+            <div id="cg-reveal-btn" style="display: none"></div>
           </div>
         </div>
 
@@ -14184,6 +14272,7 @@
 
       function generateCase(isPT) {
         const lang = isPT ? "pt" : "en";
+        var difficulty = document.getElementById("cg-difficulty").value;
         let indKey = document.getElementById("cg-industry").value;
         let fwKey = document.getElementById("cg-framework").value;
         let mathKey = document.getElementById("cg-math").value;
@@ -14263,6 +14352,7 @@
           fwKey: fwKey,
           indKey: indKey,
           mathKey: mathKey,
+          difficulty: difficulty,
           framework: sol.framework,
           userAnswers: ["", "", ""],
           fw: fw,
@@ -14277,22 +14367,39 @@
 
         // Show industry intro
         var introEl = document.getElementById("cg-industry-intro");
-        var introText = isPT ? (ind.introPT || ind.intro) : ind.intro;
+        var introText = isPT ? ind.introPT || ind.intro : ind.intro;
         if (introText) {
-          document.getElementById("cg-industry-intro-title").textContent = (isPT ? '🏭 ' : '🏭 ') + (isPT ? ind.namePT : ind.name);
-          document.getElementById("cg-industry-intro-text").textContent = introText;
+          document.getElementById("cg-industry-intro-title").textContent =
+            (isPT ? "🏭 " : "🏭 ") + (isPT ? ind.namePT : ind.name);
+          document.getElementById("cg-industry-intro-text").textContent =
+            introText;
           introEl.style.display = "block";
         } else {
           introEl.style.display = "none";
         }
 
         // Set hints (now inside <details>, auto-hidden)
-        document.getElementById("cg-hint-framework").textContent = isPT ? fw.hintPT : fw.hint;
-        document.getElementById("cg-hint-math").textContent = isPT ? mt.hintPT : mt.hint;
+        document.getElementById("cg-hint-framework").textContent = isPT
+          ? fw.hintPT
+          : fw.hint;
+        document.getElementById("cg-hint-math").textContent = isPT
+          ? mt.hintPT
+          : mt.hint;
         document.getElementById("cg-hint-industry").textContent = ind.metrics;
-        // Close the hints panel by default
+        // Close the hints panel by default (difficulty adjusts in cgRenderSection)
         var hintsPanel = document.getElementById("cg-hints-panel");
-        if (hintsPanel) hintsPanel.removeAttribute("open");
+        if (hintsPanel) {
+          if (difficulty === 'easy') {
+            hintsPanel.removeAttribute("open");
+            hintsPanel.style.display = '';
+          } else if (difficulty === 'hard') {
+            hintsPanel.removeAttribute("open");
+            hintsPanel.style.display = 'none';
+          } else {
+            hintsPanel.removeAttribute("open");
+            hintsPanel.style.display = '';
+          }
+        }
 
         // Render first section
         cgRenderSection(1);
@@ -14331,6 +14438,7 @@
         if (!sec) return;
 
         cgState.currentSection = n;
+        var diff = cgState.difficulty || 'medium';
 
         // Update progress bar
         document
@@ -14351,6 +14459,12 @@
             }
           });
 
+        // Difficulty badge
+        var diffBadge = '';
+        if (diff === 'easy') diffBadge = '<span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🟢 EASY</span>';
+        else if (diff === 'hard') diffBadge = '<span style="background:#ffebee;color:#c62828;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🔴 HARD</span>';
+        else diffBadge = '<span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🟡 MEDIUM</span>';
+
         // Update section label
         var sectionLabels = cgState.isPT
           ? [
@@ -14363,32 +14477,64 @@
               "Analysis & Data",
               "Synthesis & Recommendation",
             ];
-        document.getElementById("cg-section-label").textContent =
+        document.getElementById("cg-section-label").innerHTML =
           (cgState.isPT ? "Secção " : "Section ") +
           n +
           (cgState.isPT ? " de 3 — " : " of 3 — ") +
-          (sec.title || sectionLabels[n - 1]);
+          (sec.title || sectionLabels[n - 1]) + diffBadge;
 
-        // Update section prompt
+        // Update section prompt (adapts to difficulty)
         var fwInfo = cgState.framework;
-        var promptHTML =
-          '<div style="font-weight:600; color:var(--bcg-green); margin-bottom:8px; font-size:1.05em;">' +
-          sec.title +
-          "</div>";
-        promptHTML +=
-          '<div style="margin-bottom:12px;">' + sec.prompt + "</div>";
-        if (n === 1 && fwInfo) {
-          promptHTML +=
-            '<div style="margin-top:12px; padding:12px; background:white; border-radius:8px; border:1px solid #e0e0e0;">';
-          promptHTML +=
-            '<div style="font-weight:600; font-size:0.85em; color:#555; margin-bottom:6px;">📐 ' +
-            fwInfo.name +
-            "</div>";
-          promptHTML +=
-            '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' +
-            fwInfo.tree +
-            "</pre>";
-          promptHTML += "</div>";
+        var promptHTML = '<div style="font-weight:600; color:var(--bcg-green); margin-bottom:8px; font-size:1.05em;">' + sec.title + '</div>';
+
+        if (diff === 'easy') {
+          // EASY: full guidance, framework tree always visible, coaching hints
+          promptHTML += '<div style="margin-bottom:12px;">' + sec.prompt + '</div>';
+          // Always show framework tree in easy mode (every section)
+          if (fwInfo) {
+            promptHTML += '<div style="margin-top:12px; padding:12px; background:#e8f5e9; border-radius:8px; border:1px solid #c8e6c9;">';
+            promptHTML += '<div style="font-weight:600; font-size:0.85em; color:#2e7d32; margin-bottom:6px;">📐 ' + fwInfo.name + ' (shown because Easy mode)</div>';
+            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' + fwInfo.tree + '</pre>';
+            promptHTML += '</div>';
+          }
+          // Add coaching tip for this section
+          var easyTips = cgState.isPT
+            ? ['💡 Dica: Comece por dividir o problema em 2-3 blocos principais. Use a árvore acima como guia.',
+               '💡 Dica: Leia os dados com calma. Identifique o número mais importante primeiro. Depois explique o "e então?".',
+               '💡 Dica: Use a estrutura Situação → Diagnóstico → Recomendação. Seja específico com números.']
+            : ['💡 Tip: Start by splitting the problem into 2-3 main buckets. Use the tree above as your guide.',
+               '💡 Tip: Read the data carefully. Identify the single most important number first. Then explain the "so what?".',
+               '💡 Tip: Use the Situation → Finding → Recommendation structure. Be specific with numbers.'];
+          promptHTML += '<div style="margin-top:10px; padding:10px; background:#fff8e1; border-radius:6px; font-size:0.85em; color:#795548;">' + easyTips[n-1] + '</div>';
+          // Auto-open hints in easy mode
+          var hintsPanel = document.getElementById("cg-hints-panel");
+          if (hintsPanel) hintsPanel.setAttribute("open", "");
+        } else if (diff === 'hard') {
+          // HARD: minimal prompt, no framework tree, no coaching
+          var hardPrompts = cgState.isPT
+            ? ['O entrevistador descreveu o caso. Estruture a sua abordagem.',
+               'Aqui estão os dados. O que vê?',
+               'Qual é a sua recomendação final ao CEO?']
+            : ['The interviewer has described the case. Structure your approach.',
+               'Here is the data. What do you see?',
+               'What is your final recommendation to the CEO?'];
+          promptHTML += '<div style="margin-bottom:12px; color:#555;">' + hardPrompts[n-1] + '</div>';
+          // No framework tree shown in hard mode
+          // Close hints panel
+          var hintsPanel = document.getElementById("cg-hints-panel");
+          if (hintsPanel) hintsPanel.removeAttribute("open");
+          // Hide industry intro in hard mode
+          var introEl = document.getElementById("cg-industry-intro");
+          if (introEl) introEl.style.display = 'none';
+        } else {
+          // MEDIUM: standard behavior — framework tree only in Section 1
+          promptHTML += '<div style="margin-bottom:12px;">' + sec.prompt + '</div>';
+          if (n === 1 && fwInfo) {
+            promptHTML += '<div style="margin-top:12px; padding:12px; background:white; border-radius:8px; border:1px solid #e0e0e0;">';
+            promptHTML += '<div style="font-weight:600; font-size:0.85em; color:#555; margin-bottom:6px;">📐 ' + fwInfo.name + '</div>';
+            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' + fwInfo.tree + '</pre>';
+            promptHTML += '</div>';
+          }
         }
         document.getElementById("cg-section-prompt").innerHTML = promptHTML;
 
@@ -14397,14 +14543,32 @@
         textarea.value = cgState.userAnswers[n - 1] || "";
         textarea.style.borderColor = "#e5e5e5";
 
+        // Adjust placeholder by difficulty
+        if (diff === 'easy') {
+          textarea.placeholder = cgState.isPT
+            ? 'Escreva a sua resposta aqui... Não se preocupe com perfeição — use os pontos-guia acima para estruturar.'
+            : 'Type your answer here... Don\'t worry about perfection — use the guidance above to structure your thinking.';
+        } else if (diff === 'hard') {
+          textarea.placeholder = cgState.isPT
+            ? 'A sua resposta...'
+            : 'Your answer...';
+        } else {
+          textarea.placeholder = cgState.isPT
+            ? 'Escreva a sua resposta aqui...'
+            : 'Type your answer here...';
+        }
+
         // Hide solution
         document.getElementById("cg-solution-area").style.display = "none";
-        document.getElementById("cg-show-solution-btn").textContent =
-          cgState.isPT
+        var solBtn = document.getElementById("cg-show-solution-btn");
+        solBtn.textContent = cgState.isPT
             ? "👁️ Mostrar Solução CaseCoach"
             : "👁️ Show CaseCoach Solution";
-        document.getElementById("cg-show-solution-btn").style.background =
-          "linear-gradient(135deg,#1a1a1a,#333)";
+        solBtn.style.background = "linear-gradient(135deg,#1a1a1a,#333)";
+        // In hard mode, change solution button text to be less hand-holding
+        if (diff === 'hard') {
+          solBtn.textContent = cgState.isPT ? '👁️ Ver Resposta' : '👁️ Reveal Answer';
+        }
 
         // Update nav buttons
         document.getElementById("cg-prev-btn").style.display =
@@ -14587,15 +14751,15 @@
       }
 
       function cgPreviewIndustry(val) {
-        var preview = document.getElementById('cg-industry-preview');
-        var text = document.getElementById('cg-industry-preview-text');
-        if (val === 'random' || !CG_DATA.industries[val]) {
-          preview.style.display = 'none';
+        var preview = document.getElementById("cg-industry-preview");
+        var text = document.getElementById("cg-industry-preview-text");
+        if (val === "random" || !CG_DATA.industries[val]) {
+          preview.style.display = "none";
           return;
         }
         var ind = CG_DATA.industries[val];
-        text.textContent = '💡 ' + ind.name + ' — ' + (ind.intro || '');
-        preview.style.display = 'block';
+        text.textContent = "💡 " + ind.name + " — " + (ind.intro || "");
+        preview.style.display = "block";
       }
 
       function copyMedPlanForDoctor() {
