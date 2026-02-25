@@ -1965,11 +1965,11 @@
           <div class="card">
             <h3>
               Quarta 25 Feb
-              <span class="badge badge-red">🔥 DAY 2 — PEAK INTENSITY</span>
+              <span class="badge badge-red">🔥 DAY 2 — THEORY + PRACTICE BLOCKS</span>
             </h3>
             <p style="color: var(--text-muted); margin-bottom: 12px">
-              Courses Bloco 3-4 + Math Bloco 2-3. Target: 5 casos. 3 Practice
-              Room + Drills blitz. Todas as áreas fracas atacadas.
+              Alternating 1h Learn → 1h Apply. FIT/SCAR session. COMBO DOSE TEST ~14:00.
+              Wake 08:30, stop 20:30. Industry knowledge + framework application.
             </p>
             <table>
               <thead>
@@ -1982,422 +1982,181 @@
               </thead>
               <tbody>
                 <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-1" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">08:30-09:00</td>
+                  <td>☀️ Acordar + pequeno-almoço + 💊 Concerta 27mg</td>
+                  <td>Proteína + carbos. Tomar Concerta com comida.</td>
+                </tr>
+                <tr style="background:#f0f7ff">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-2" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">09:00-10:00</td>
+                  <td class="activity-col">📹 THEORY 1 — Structuring + Creativity (2x)</td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-1"
-                      onchange="saveCheck(this)"
-                    />
+                    CaseCoach videos at 2x speed: Structuring recap + Creativity + Judgment & Insights. AIM check após.
+                    🔗 <a href="https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-generate-ideas/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Creativity</a>
+                    · <a href="https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-identify-insights/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Judgment & Insights</a>
+                    <button class="open-all-btn" onclick="openAllLinks(this)">▶ Open All</button>
                   </td>
-                  <td class="time-col">10:00-10:15</td>
-                  <td>☀️ Acordar + meds</td>
-                  <td></td>
+                </tr>
+                <tr style="background:#f0fff0">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-3" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">10:00-11:00</td>
+                  <td class="activity-col">📚 PRACTICE 1 — Solo Case (Profitability)</td>
+                  <td>
+                    Apply frameworks from Theory 1. Full protocol: 2 min structure → solve → synthesize.
+                    CaseCoach Case Library — pick profitability type.
+                    <a href="https://casecoach.com/c/case-library/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Case Library</a>
+                  </td>
+                </tr>
+                <tr style="background:#f0f7ff">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-4" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">11:00-12:00</td>
+                  <td class="activity-col">📹 THEORY 2 — Math Course Bloco 2</td>
+                  <td>
+                    Weighted avg, growth, breakeven, compounding, probability. at 2x.
+                    🔗 <a href="https://casecoach.com/c/courses/case-math-course/class/weighted-averages/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Weighted Avg</a>
+                    · <a href="https://casecoach.com/c/courses/case-math-course/class/compounding/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Compounding</a>
+                    · <a href="https://casecoach.com/c/courses/case-math-course/class/probability/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Probability</a>
+                    · <a href="https://casecoach.com/c/courses/case-math-course/class/algebra/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Algebra</a>
+                    <button class="open-all-btn" onclick="openAllLinks(this)">▶ Open All</button>
+                  </td>
+                </tr>
+                <tr style="background:#f0fff0">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-5" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">12:00-12:30</td>
+                  <td class="activity-col">🎯 PRACTICE 2 — Math Drills Sprint</td>
+                  <td>
+                    10 Calculation drills + 5 Market Sizing drills. Aplicar o que acabaste de aprender.
+                    <a href="https://casecoach.com/c/drills/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Drills</a>
+                  </td>
                 </tr>
                 <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-2"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">10:15-11:15</td>
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-6" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">12:30-13:00</td>
+                  <td>🍽️ Almoço + 💊 Rubifen 20mg</td>
+                  <td>Tomar Rubifen com comida. Refeição leve.</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-7" onchange="saveCheck(this)" /></td>
+                  <td class="time-col" style="color:var(--bcg-green)">13:00</td>
+                  <td><strong>💊🧪 COMBO: Propranolol 20mg + Alprazolam 0,5mg</strong></td>
+                  <td>Dress rehearsal da sexta! Peak em ~45-60 min = Practice Room.</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-8" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">13:00-14:00</td>
+                  <td>😌 Rest + combo kick-in</td>
+                  <td>Walk, música, relaxar. Deixar meds ativar. NÃO estudar.</td>
+                </tr>
+                <tr style="background:#fff3e0;border-left:3px solid var(--highlight)">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-9" onchange="saveCheck(this)" /></td>
+                  <td class="time-col" style="color:var(--highlight)">14:00-15:00</td>
                   <td class="activity-col">
-                    📹 CaseCoach: Case Prep Course Bloco 3
+                    🤝 <a href="https://casecoach.com/c/practice-room/" target="_blank" style="color:inherit;text-decoration:underline">Practice Room #2</a> — 💊 COMBO TEST
                   </td>
                   <td>
-                    Creativity & Judgment aulas. + 5 Creativity drills após. AIM
-                    check. 🔗
-                    <a
-                      href="https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-generate-ideas/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Creativity</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-identify-insights/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Judgment & Insights</a
-                    >
-                    <button class="open-all-btn" onclick="openAllLinks(this)">
-                      ▶ Open All
-                    </button>
+                    <strong style="color:var(--bcg-green)">DRESS REHEARSAL!</strong> Simular condições de entrevista.
+                    Observar: math ok? Sonolência? Tremor? Criatividade? Este é O teste decisivo.
+                    <a href="https://casecoach.com/c/practice-room/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Reservar</a>
                   </td>
                 </tr>
-                <tr>
+                <tr style="background:#fce4ec;border-left:3px solid var(--danger)">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-10" onchange="saveCheck(this)" /></td>
+                  <td class="time-col" style="color:var(--danger)">15:00-16:00</td>
+                  <td class="activity-col"><strong>🎤 FIT/SCAR Story Session — CRITICAL GAP</strong></td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-3"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">11:15-12:15</td>
-                  <td class="activity-col">
-                    🤝
-                    <a
-                      href="https://casecoach.com/c/practice-room/"
-                      target="_blank"
-                      style="color: inherit; text-decoration: underline"
-                      >CaseCoach Practice Room #2</a
-                    >
-                  </td>
-                  <td>
-                    Market Entry/Operations (BCG favorites). Praticar hipótese
-                    inicial + brainstorming criativo.
-                    <a
-                      href="https://casecoach.com/c/practice-room/"
-                      target="_blank"
-                      style="color: var(--highlight); font-size: 0.85em"
-                      >🔗 Reservar</a
-                    >
+                    Craft 5 SCAR stories with keyword anchors (3 words each).<br>
+                    BCG dimensions: Leadership, Teamwork, Challenge, Impact.<br>
+                    Mix: 2 Google stories (recalled) + 2 Pairwire startup + 1 NOVA/exchange.<br>
+                    Say each out loud 2x. Record on phone. This is 30% of the interview!
                   </td>
                 </tr>
-                <tr>
+                <tr style="background:#f0f7ff">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-11" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">16:00-17:00</td>
+                  <td class="activity-col">📹 THEORY 3 — Synthesis + Case Leadership (2x)</td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-4"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">12:30-13:30</td>
-                  <td class="activity-col">
-                    📹 CaseCoach: Case Prep Course Bloco 4
-                  </td>
-                  <td>
-                    Synthesis & Case Leadership. Watch 1 sample interview (MBB
-                    candidate). 🔗
-                    <a
-                      href="https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-synthesize-your-recommendation/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Synthesis</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-lead-the-case-and-conquer-candidate-led-interviews/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Case Leadership</a
-                    >
-                    <button class="open-all-btn" onclick="openAllLinks(this)">
-                      ▶ Open All
-                    </button>
+                    CaseCoach Synthesis + Case Leadership videos at 2x. Watch 1 sample MBB interview.
+                    🔗 <a href="https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-synthesize-your-recommendation/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Synthesis</a>
+                    · <a href="https://casecoach.com/c/courses/case-interview-prep-course/class/how-to-lead-the-case-and-conquer-candidate-led-interviews/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Case Leadership</a>
+                    <button class="open-all-btn" onclick="openAllLinks(this)">▶ Open All</button>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-5"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">14:00-15:00</td>
-                  <td class="activity-col">
-                    🤝 CaseCoach Practice Room #3 — 💊 COMBO PRIME DOSE TEST
-                  </td>
-                  <td>
-                    <strong style="color: var(--bcg-green)"
-                      >💊 ~13:00: Propranolol 20mg + Alprazolam 0,5mg
-                      JUNTOS</strong
-                    >
-                    — dress rehearsal da sexta! Simular condições de entrevista.
-                    Profitability case. Observar: math ok? Sonolência? Tremor?
-                    Este é O teste decisivo.
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-6"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col" style="color: var(--highlight)">
-                    15:00-16:00
-                  </td>
-                  <td class="activity-col">
-                    <strong
-                      >🎯 CASO #4: AMIGA PT — CaseCoach Case (Canadian
-                      Wildlife)</strong
-                    >
-                  </td>
-                  <td>
-                    Strategy/Non-profit. Mock completo em PT. Entrevistadora
-                    dura. Foco: comunicação.
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-7"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
+                <tr style="background:#f0fff0">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-12" onchange="saveCheck(this)" /></td>
                   <td class="time-col">17:00-18:00</td>
-                  <td class="activity-col">
-                    📹 CaseCoach: Math Course Bloco 2 + Drills
-                  </td>
+                  <td class="activity-col">📚 PRACTICE 3 — Solo Case (Market Entry)</td>
                   <td>
-                    Weighted avg, growth, breakeven. + 10 Calculations + 5
-                    Market Sizing drills. 🔗
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/weighted-averages/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Weighted Avg</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/compounding/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Compounding</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/probability/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Probability</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/algebra/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Algebra</a
-                    >
-                    <a
-                      href="https://casecoach.com/c/drills/"
-                      target="_blank"
-                      style="color: var(--highlight); font-size: 0.85em"
-                      >🔗 Drills</a
-                    >
-                    <button class="open-all-btn" onclick="openAllLinks(this)">
-                      ▶ Open All
-                    </button>
+                    Apply synthesis + leadership from Theory 3. Market entry or cost cutting case.
+                    Focus on structured recommendation at end.
+                    <a href="https://casecoach.com/c/case-library/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Case Library</a>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-8"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
+                <tr style="background:#f0f7ff">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-13" onchange="saveCheck(this)" /></td>
                   <td class="time-col">18:00-19:00</td>
+                  <td class="activity-col">📹 THEORY 4 — Math Course Bloco 3 (Pro Tips)</td>
+                  <td>
+                    Track Zeros, Rounding, Factors, Distributive, Fraction Values. At 2x.
+                    🔗 <a href="https://casecoach.com/c/courses/case-math-course/class/keeping-track-of-zeros/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Track Zeros</a>
+                    · <a href="https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-rounding/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Rounding</a>
+                    · <a href="https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-factors/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Factors</a>
+                    · <a href="https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-distributive-properties/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Distributive</a>
+                    · <a href="https://casecoach.com/c/courses/case-math-course/class/fraction-values-to-remember/" target="_blank" style="color:var(--highlight);text-decoration:underline;font-size:0.85em">Fraction Values</a>
+                    <button class="open-all-btn" onclick="openAllLinks(this)">▶ Open All</button>
+                  </td>
+                </tr>
+                <tr style="background:#f0fff0">
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-14" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">19:00-20:00</td>
                   <td class="activity-col">
-                    📚 CaseCoach Caso Solo #5: A-EYE (Pricing/Tech)
+                    🤝 <a href="https://casecoach.com/c/practice-room/" target="_blank" style="color:inherit;text-decoration:underline">Practice Room #3</a> — Last hard case
                   </td>
                   <td>
-                    Market entry + pricing. Full solo protocol. Caso médio.
-                    Foco: Math + criatividade.
+                    Cost Cutting/Operations (BCG favorites). Push for excellence.
+                    <a href="https://casecoach.com/c/practice-room/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Reservar</a>
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-9"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">20:00-21:00</td>
-                  <td class="activity-col">
-                    📹 CaseCoach: Math Course Bloco 3
-                  </td>
-                  <td>
-                    Pro Tips: atalhos, arredondamento, simplificação. +
-                    CaseCoach Charts drills. 🔗
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/keeping-track-of-zeros/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Track Zeros</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-rounding/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Rounding</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-factors/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Factors</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/simplifying-calculations-with-distributive-properties/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Distributive</a
-                    >
-                    ·
-                    <a
-                      href="https://casecoach.com/c/courses/case-math-course/class/fraction-values-to-remember/"
-                      target="_blank"
-                      style="
-                        color: var(--highlight);
-                        text-decoration: underline;
-                        font-size: 0.85em;
-                      "
-                      >Fraction Values</a
-                    >
-                    <button class="open-all-btn" onclick="openAllLinks(this)">
-                      ▶ Open All
-                    </button>
-                  </td>
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-15" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">20:00-20:30</td>
+                  <td class="activity-col">📝 Confidence check + COMBO test notes</td>
+                  <td>Escrever avaliacao do dia. Anotar resultado do combo test. Decisao para Sexta.</td>
                 </tr>
                 <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-10"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">21:00-22:00</td>
-                  <td class="activity-col">
-                    🤝
-                    <a
-                      href="https://casecoach.com/c/practice-room/"
-                      target="_blank"
-                      style="color: inherit; text-decoration: underline"
-                      >CaseCoach Practice Room #4</a
-                    >
-                  </td>
-                  <td>
-                    Cost Cutting/Operations (BCG favorites). Último caso hard do
-                    dia.
-                    <a
-                      href="https://casecoach.com/c/practice-room/"
-                      target="_blank"
-                      style="color: var(--highlight); font-size: 0.85em"
-                      >🔗 Reservar</a
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-11"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">22:00-22:30</td>
-                  <td class="activity-col">📝 Confidence check</td>
-                  <td>Escrever avaliação do dia</td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-wed-12"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">22:30</td>
-                  <td>🛌 Cama cedo</td>
-                  <td>Descanso é crítico!</td>
+                  <td><input type="checkbox" class="schedule-check" id="chk-wed-16" onchange="saveCheck(this)" /></td>
+                  <td class="time-col" style="color:var(--success)">20:30</td>
+                  <td><strong>🛌 PARAR — Cama cedo</strong></td>
+                  <td>12h de prep hoje. Descanso é critico! Cama antes das 22:30.</td>
                 </tr>
               </tbody>
             </table>
-            <div class="card card-accent" style="margin-top: 12px">
-              <strong>💊🧪 COMBO PRIME DOSE TEST — Quarta:</strong><br />
-              <strong>~13:00:</strong> Propranolol 20mg (2 cp) + Alprazolam
-              0,5mg (2 cp) — JUNTOS.<br />
-              <strong>14:00-15:00:</strong> Practice Room #3 = dress rehearsal
-              da sexta!<br />
+            <div class="card card-accent" style="margin-top:12px">
+              <strong>📊 Schedule Pattern — Theory (blue) + Practice (green):</strong><br>
+              <span style="display:inline-block;width:14px;height:14px;background:#f0f7ff;border:1px solid #ccc;vertical-align:middle"></span> Theory blocks (videos 2x) →
+              <span style="display:inline-block;width:14px;height:14px;background:#f0fff0;border:1px solid #ccc;vertical-align:middle"></span> Apply immediately in practice<br>
+              <span style="display:inline-block;width:14px;height:14px;background:#fff3e0;border:1px solid #ccc;vertical-align:middle"></span> COMBO test (highlight) —
+              <span style="display:inline-block;width:14px;height:14px;background:#fce4ec;border:1px solid #ccc;vertical-align:middle"></span> FIT/SCAR (critical gap)
+            </div>
+            <div class="card card-accent" style="margin-top:12px">
+              <strong>💊🧪 COMBO PRIME DOSE TEST — Quarta:</strong><br>
+              <strong>~13:00:</strong> Propranolol 20mg (2 cp) + Alprazolam 0,5mg (2 cp) — JUNTOS.<br>
+              <strong>14:00-15:00:</strong> Practice Room #2 = dress rehearsal da sexta!<br>
               <strong>O que observar durante o caso:</strong>
-              <ul style="margin: 6px 0 0 18px; font-size: 0.92em">
-                <li>Sonolência? Pensamento "muddy"?</li>
-                <li>Tonturas? Mãos frias? Demasiado calmo?</li>
+              <ul style="margin:6px 0 0 18px;font-size:0.92em">
+                <li>Sonolencia? Pensamento "muddy"?</li>
+                <li>Tonturas? Maos frias? Demasiado calmo?</li>
                 <li>Math ok? Criatividade intacta?</li>
-                <li>
-                  Performance no caso: melhor, igual ou pior que sem meds?
-                </li>
+                <li>Performance no caso: melhor, igual ou pior que sem meds?</li>
               </ul>
-              <strong>📊 Decisão para Sexta:</strong>
-              <ul style="margin: 6px 0 0 18px; font-size: 0.92em">
+              <strong>📊 Decisao para Sexta:</strong>
+              <ul style="margin:6px 0 0 18px;font-size:0.92em">
                 <li>Combo ok → usar 20mg + 0,5mg na sexta ✅</li>
                 <li>Demasiado forte → voltar a 10mg + 0,25mg</li>
-                <li>Um causou problemas → usar só o outro</li>
+                <li>Um causou problemas → usar so o outro</li>
                 <li>Ambos problemas → zero meds SOS, confiar no prep</li>
               </ul>
-              <strong>✅ Anotar resultado</strong> no Confidence Check (22:00).
+              <strong>✅ Anotar resultado</strong> no Confidence Check (20:00).
             </div>
           </div>
         </div>
@@ -2407,12 +2166,11 @@
           <div class="card">
             <h3>
               Quinta 26 Feb
-              <span class="badge badge-green">🇵🇹 DAY 3 — CONSOLIDATION</span>
+              <span class="badge badge-green">🇵🇹 DAY 3 — CONSOLIDATION + CONFIDENCE</span>
             </h3>
             <p style="color: var(--text-muted); margin-bottom: 12px">
-              Math Course Bloco 4 + Fit Course + Practice Room #5. Target: 4
-              casos (2 amiga PT). BCG research. Sample interview. Noite cedo.
-              Plan A: remoto | Plan B: uni
+              FIT rehearsal + Solo cases + Practice Room + Friend mocks + BCG research.
+              No new theory — apply everything. Wake 09:00, STOP 17:00. Rest for Game Day.
             </p>
             <table>
               <thead>
@@ -2425,201 +2183,111 @@
               </thead>
               <tbody>
                 <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-1" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">09:00-09:30</td>
+                  <td>☀️ Acordar + pequeno-almoço + 💊 Concerta 27mg</td>
+                  <td>Proteína + carbos. Último dia de prep — foco e calma.</td>
+                </tr>
+                <tr style="background:#fce4ec">
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-2" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">09:30-10:30</td>
+                  <td class="activity-col"><strong>🎤 FIT Review — Rehearse 5 SCAR Stories</strong></td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-1"
-                      onchange="saveCheck(this)"
-                    />
+                    Dizer cada SCAR 1x em voz alta em PT. Gravar no telemóvel.
+                    Usar keyword anchors de ontem. BCG 5 qualities check.
+                    Não memorizar — sentir as histórias naturalmente.
                   </td>
-                  <td class="time-col">10:00-10:15</td>
-                  <td>☀️ Acordar + meds</td>
-                  <td></td>
                 </tr>
                 <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-3" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">10:30-11:30</td>
+                  <td class="activity-col">📚 Solo Case #3 (variety)</td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-2"
-                      onchange="saveCheck(this)"
-                    />
+                    Pick a type you haven't done yet. Full protocol: structure → solve → synthesize.
+                    <a href="https://casecoach.com/c/case-library/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Case Library</a>
                   </td>
-                  <td class="time-col">10:15-11:15</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-4" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">11:30-12:30</td>
                   <td class="activity-col">
-                    📹 CaseCoach: Math Course Bloco 4 + Fit Course
+                    🤝 <a href="https://casecoach.com/c/practice-room/" target="_blank" style="color:inherit;text-decoration:underline">Practice Room #4</a> — Revenue Growth / BCG favorite
                   </td>
                   <td>
-                    Business Math (Revenue, Cost, Profit) + Fit Interview Prep
-                    (7 aulas, ~1h). Consolidar fórmulas + BCG fit format.
+                    Push for excellence. Apply everything from Wed.
+                    <a href="https://casecoach.com/c/practice-room/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Reservar</a>
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-3"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col" style="color: var(--highlight)">
-                    11:15-12:15
-                  </td>
-                  <td class="activity-col">
-                    <strong
-                      >🎯 CASO #6: Mock PT com amiga — CaseCoach Case (Fruit
-                      Nation)</strong
-                    >
-                  </td>
-                  <td>
-                    Market Entry/Chemicals. CRITICAL SESSION. Simular condições
-                    reais: timer, sem notas, formal.
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-4"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">12:00-12:30</td>
-                  <td class="activity-col">📝 Debrief detalhado</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-5"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-5" onchange="saveCheck(this)" /></td>
                   <td class="time-col">12:30-13:00</td>
-                  <td>🔄 Ajudar amiga (Google prep)</td>
-                  <td></td>
+                  <td>🍽️ Almoço + 💊 Rubifen 20mg</td>
+                  <td>Refeição leve. Sem SOS hoje — baseline day.</td>
                 </tr>
-                <tr>
+                <tr style="background:#fff3e0">
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-6" onchange="saveCheck(this)" /></td>
+                  <td class="time-col" style="color:var(--highlight)">13:00-14:00</td>
+                  <td class="activity-col"><strong>🎯 Mock PT com amiga — CaseCoach Case</strong></td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-6"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col" style="color: var(--highlight)">
-                    13:30-14:30
-                  </td>
-                  <td class="activity-col">
-                    <strong>🎯 CASO #7: 2º mock PT — CaseCoach Case</strong>
-                  </td>
-                  <td>
-                    Tipo diferente do anterior. Entrevistadora tough. Foco: Math
-                    + criatividade.
+                    CRITICAL SESSION. Simular condições reais: timer, sem notas, formal.
+                    Market Entry ou Profitability. Entrevistadora tough.
                   </td>
                 </tr>
                 <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-7" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">14:00-14:30</td>
+                  <td class="activity-col">📝 Debrief + ajudar amiga (Google prep)</td>
+                  <td>Feedback mútuo. Trocar impressões.</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-8" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">14:30-15:30</td>
+                  <td class="activity-col">📹 BCG Research + Sample Interview + Fit Course</td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-7"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">15:00-16:00</td>
-                  <td class="activity-col">
-                    🤝
-                    <a
-                      href="https://casecoach.com/c/practice-room/"
-                      target="_blank"
-                      style="color: inherit; text-decoration: underline"
-                      >CaseCoach Practice Room #5</a
-                    >
-                  </td>
-                  <td>
-                    Revenue Growth/Cost Cutting. Last Practice Room session.
-                    Push for excellence.
+                    Watch 1 top-rated MBB interview. BCG recent cases/announcements.
+                    Fit Course refresh (7 aulas at 2x = 30min). BCG 5 qualities checklist.
                   </td>
                 </tr>
                 <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-9" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">15:30-16:00</td>
+                  <td class="activity-col">🎯 Math Drills Sprint — 20 calcs</td>
                   <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-8"
-                      onchange="saveCheck(this)"
-                    />
+                    20 Calculation drills. Speed focus. Last chance to sharpen.
+                    <a href="https://casecoach.com/c/drills/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Drills</a>
                   </td>
-                  <td class="time-col">16:00-17:00</td>
-                  <td class="activity-col">
-                    📹 CaseCoach Sample Interview + BCG Research
-                  </td>
+                </tr>
+                <tr style="background:#fce4ec">
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-10" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">16:00-16:30</td>
+                  <td class="activity-col"><strong>🎤 FIT Final Rehearsal</strong></td>
+                  <td>Dizer cada SCAR 1x em PT — ultima vez. Não forçar. Sentir natural.</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-11" onchange="saveCheck(this)" /></td>
+                  <td class="time-col">16:30-17:00</td>
+                  <td class="activity-col">📚 Solo Case #4 — Confidence Builder 💪</td>
                   <td>
-                    Watch 1 top-rated MBB interview. Verificar checklist BCG.
-                    Recent BCG cases/announcements.
+                    Caso FÁCIL. Acabar com VITÓRIA. Full protocol, minimal notes.
+                    <a href="https://casecoach.com/c/case-library/" target="_blank" style="color:var(--highlight);font-size:0.85em">🔗 Case Library</a>
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-9"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">17:00-18:00</td>
-                  <td class="activity-col">
-                    📝 FIT: Final SCAR stories + All Notes Review
-                  </td>
-                  <td>
-                    Dizer cada SCAR 1x em voz alta em PT. Gravar. BCG 5
-                    qualities. Top 3 takeaways.
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-10"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col">18:00-18:30</td>
-                  <td class="activity-col">
-                    📚 CaseCoach Caso Solo #8: Confidence Builder
-                  </td>
-                  <td>
-                    Caso fácil da Case Library. Acabar com VITÓRIA. Full
-                    protocol minimal notes.
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="checkbox"
-                      class="schedule-check"
-                      id="chk-thu-11"
-                      onchange="saveCheck(this)"
-                    />
-                  </td>
-                  <td class="time-col" style="color: var(--success)">18:30+</td>
+                  <td><input type="checkbox" class="schedule-check" id="chk-thu-12" onchange="saveCheck(this)" /></td>
+                  <td class="time-col" style="color:var(--success)">17:00+</td>
                   <td><strong>🛌 PARAR DE ESTUDAR</strong></td>
                   <td>
-                    Relaxar. Ver algo. Walk. Comer bem. Cama antes da
-                    meia-noite.
+                    Relaxar. Ver algo. Walk. Comer bem. Cama antes das 23:00.
+                    Amanhã é Game Day — confia no prep que fizeste!
                   </td>
                 </tr>
               </tbody>
             </table>
+            <div class="card card-accent" style="margin-top:12px">
+              <strong>💊 Quinta — Baseline Day (sem SOS):</strong><br>
+              Concerta 27mg (09:30) + Rubifen 20mg (12:30). Zero Propranolol/Alprazolam.<br>
+              Objetivo: verificar performance natural sem SOS meds, para comparar com combo de quarta.
+            </div>
           </div>
         </div>
 
@@ -11264,17 +10932,17 @@
             // QUARTA — COMBO PRIME DOSE (se Terça correu bem)
             // Full stack: Concerta + Rubifen + Propranolol 20mg + Alprazolam 0,5mg
             // Testar COMBO antes do Practice Room #3
-            concerta: { time: "10:00", dose: "27mg" },
+            concerta: { time: "09:00", dose: "27mg" },
             rubifen: { time: "12:30", dose: "20mg" },
             propranolol: { time: "13:00", dose: "20mg" },
             alprazolam: { time: "13:00", dose: "0,5mg" },
           },
           "2026-02-26": {
-            // QUINTA — DESCANSO / LIGHT DAY
+            // QUINTA — CONSOLIDATION (sem SOS — baseline day)
             // Só Concerta + Rubifen (sem SOS) para comparar performance baseline
             // Se quarta combo teve problemas → NÃO repetir
             concerta: { time: "09:30", dose: "27mg" },
-            rubifen: { time: "13:00", dose: "20mg" },
+            rubifen: { time: "12:30", dose: "20mg" },
           },
           "2026-02-26-night": {
             // QUINTA À NOITE — Aerius para dia seguinte
