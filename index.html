@@ -6755,15 +6755,15 @@
                 "
               >
                 <option value="random">🎲 Random</option>
-                <option value="retail">🛒 Retail & Consumer Goods</option>
-                <option value="healthcare">💊 Healthcare & Pharma</option>
-                <option value="tech">💻 Technology / SaaS</option>
-                <option value="financial">🏦 Financial Services</option>
-                <option value="energy">⚡ Energy & Utilities</option>
-                <option value="airlines">✈️ Airlines & Transport</option>
-                <option value="manufacturing">🏭 Manufacturing</option>
-                <option value="telecom">📡 Telecom & Media</option>
-                <option value="nonprofit">🏛️ Non-Profit / Public Sector</option>
+                <option value="retail">🛒 Retail — margins 2-5%, volume-driven</option>
+                <option value="healthcare">💊 Healthcare — margins 70-90%, regulated</option>
+                <option value="tech">💻 Tech/SaaS — margins 70-85%, ARR-driven</option>
+                <option value="financial">🏦 Financial — NIM-based, regulated</option>
+                <option value="energy">⚡ Energy — capital-intensive, long horizon</option>
+                <option value="airlines">✈️ Airlines — margins 2-3%, high fixed costs</option>
+                <option value="manufacturing">🏭 Manufacturing — OEE, capacity-driven</option>
+                <option value="telecom">📡 Telecom — ARPU, infrastructure-heavy</option>
+                <option value="nonprofit">🏛️ Non-Profit — impact/$ optimized</option>
               </select>
             </div>
             <!-- FRAMEWORK DROPDOWN -->
@@ -6839,22 +6839,35 @@
             </div>
           </div>
 
-          <!-- INDUSTRY PREVIEW (before generating) -->
+          <!-- INDUSTRY PREVIEW CARD (rich info before generating) -->
           <div
             id="cg-industry-preview"
             style="
               display: none;
-              background: #f8fafe;
-              border: 1px solid #e0ecf8;
-              border-radius: 8px;
-              padding: 12px 16px;
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 12px;
+              padding: 16px 20px;
               margin-bottom: 16px;
-              font-size: 0.85em;
-              color: #444;
-              line-height: 1.5;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             "
           >
-            <span id="cg-industry-preview-text"></span>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span id="cg-preview-icon" style="font-size:1.4em;"></span>
+              <span id="cg-preview-name" style="font-weight:700; font-size:1em; color:#1565c0;"></span>
+            </div>
+            <div id="cg-preview-intro" style="font-size:0.85em; color:#444; line-height:1.55; margin-bottom:10px;"></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div style="background:white; border-radius:8px; padding:8px 12px; border:1px solid #e8e8e8;">
+                <div style="font-size:0.7em; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:0.5px;">📊 Key Metrics</div>
+                <div id="cg-preview-metrics" style="font-size:0.8em; color:#333; margin-top:3px; line-height:1.4;"></div>
+              </div>
+              <div style="background:white; border-radius:8px; padding:8px 12px; border:1px solid #e8e8e8;">
+                <div style="font-size:0.7em; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:0.5px;">🏢 Example Companies</div>
+                <div id="cg-preview-companies" style="font-size:0.8em; color:#333; margin-top:3px; line-height:1.4;"></div>
+              </div>
+            </div>
+            <div id="cg-preview-hint" style="margin-top:8px; padding:8px 12px; background:#fff8e1; border-radius:6px; font-size:0.78em; color:#795548; line-height:1.4;"></div>
           </div>
 
           <div style="display: flex; gap: 12px; margin-bottom: 20px">
@@ -6986,31 +6999,33 @@
               <div id="cg-case-text"></div>
             </div>
 
-            <!-- INDUSTRY INTRO (plain text context) -->
+            <!-- INDUSTRY INTRO CARD (context during case) -->
             <div
               id="cg-industry-intro"
               style="
                 background: linear-gradient(135deg, #f8fafe, #eef5ff);
-                border: 1px solid #d0e0f0;
-                border-radius: 10px;
-                padding: 14px 18px;
+                border: 1px solid #cde0f5;
+                border-radius: 12px;
+                padding: 16px 20px;
                 margin-bottom: 16px;
                 display: none;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
               "
             >
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                <span id="cg-industry-intro-icon" style="font-size:1.3em;"></span>
+                <span
+                  style="font-weight: 700; font-size: 0.92em; color: #1565c0;"
+                  id="cg-industry-intro-title"
+                ></span>
+              </div>
               <div
-                style="
-                  font-weight: 700;
-                  font-size: 0.88em;
-                  color: #1565c0;
-                  margin-bottom: 4px;
-                "
-                id="cg-industry-intro-title"
-              ></div>
-              <div
-                style="font-size: 0.85em; color: #444; line-height: 1.55"
+                style="font-size: 0.85em; color: #444; line-height: 1.55; margin-bottom:8px;"
                 id="cg-industry-intro-text"
               ></div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <span id="cg-industry-intro-metrics" style="background:white; border:1px solid #e0e0e0; border-radius:6px; padding:4px 10px; font-size:0.75em; color:#555;"></span>
+              </div>
             </div>
 
             <!-- SECTION CONTENT (swapped by navigation) -->
@@ -14365,14 +14380,18 @@
         document.getElementById("cg-output").style.display = "block";
         document.getElementById("cg-case-text").textContent = text;
 
-        // Show industry intro
+        // Show industry intro card
         var introEl = document.getElementById("cg-industry-intro");
         var introText = isPT ? ind.introPT || ind.intro : ind.intro;
+        var indIcons = { retail: '🛒', healthcare: '💊', tech: '💻', financial: '🏦', energy: '⚡', airlines: '✈️', manufacturing: '🏭', telecom: '📡', nonprofit: '🏛️' };
         if (introText) {
+          document.getElementById("cg-industry-intro-icon").textContent = indIcons[indKey] || '🏭';
           document.getElementById("cg-industry-intro-title").textContent =
-            (isPT ? "🏭 " : "🏭 ") + (isPT ? ind.namePT : ind.name);
+            isPT ? ind.namePT : ind.name;
           document.getElementById("cg-industry-intro-text").textContent =
             introText;
+          document.getElementById("cg-industry-intro-metrics").textContent =
+            '📊 ' + (ind.metrics || '');
           introEl.style.display = "block";
         } else {
           introEl.style.display = "none";
@@ -14389,15 +14408,15 @@
         // Close the hints panel by default (difficulty adjusts in cgRenderSection)
         var hintsPanel = document.getElementById("cg-hints-panel");
         if (hintsPanel) {
-          if (difficulty === 'easy') {
+          if (difficulty === "easy") {
             hintsPanel.removeAttribute("open");
-            hintsPanel.style.display = '';
-          } else if (difficulty === 'hard') {
+            hintsPanel.style.display = "";
+          } else if (difficulty === "hard") {
             hintsPanel.removeAttribute("open");
-            hintsPanel.style.display = 'none';
+            hintsPanel.style.display = "none";
           } else {
             hintsPanel.removeAttribute("open");
-            hintsPanel.style.display = '';
+            hintsPanel.style.display = "";
           }
         }
 
@@ -14438,7 +14457,7 @@
         if (!sec) return;
 
         cgState.currentSection = n;
-        var diff = cgState.difficulty || 'medium';
+        var diff = cgState.difficulty || "medium";
 
         // Update progress bar
         document
@@ -14460,10 +14479,16 @@
           });
 
         // Difficulty badge
-        var diffBadge = '';
-        if (diff === 'easy') diffBadge = '<span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🟢 EASY</span>';
-        else if (diff === 'hard') diffBadge = '<span style="background:#ffebee;color:#c62828;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🔴 HARD</span>';
-        else diffBadge = '<span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🟡 MEDIUM</span>';
+        var diffBadge = "";
+        if (diff === "easy")
+          diffBadge =
+            '<span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🟢 EASY</span>';
+        else if (diff === "hard")
+          diffBadge =
+            '<span style="background:#ffebee;color:#c62828;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🔴 HARD</span>';
+        else
+          diffBadge =
+            '<span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:700;margin-left:8px;">🟡 MEDIUM</span>';
 
         // Update section label
         var sectionLabels = cgState.isPT
@@ -14481,59 +14506,93 @@
           (cgState.isPT ? "Secção " : "Section ") +
           n +
           (cgState.isPT ? " de 3 — " : " of 3 — ") +
-          (sec.title || sectionLabels[n - 1]) + diffBadge;
+          (sec.title || sectionLabels[n - 1]) +
+          diffBadge;
 
         // Update section prompt (adapts to difficulty)
         var fwInfo = cgState.framework;
-        var promptHTML = '<div style="font-weight:600; color:var(--bcg-green); margin-bottom:8px; font-size:1.05em;">' + sec.title + '</div>';
+        var promptHTML =
+          '<div style="font-weight:600; color:var(--bcg-green); margin-bottom:8px; font-size:1.05em;">' +
+          sec.title +
+          "</div>";
 
-        if (diff === 'easy') {
+        if (diff === "easy") {
           // EASY: full guidance, framework tree always visible, coaching hints
-          promptHTML += '<div style="margin-bottom:12px;">' + sec.prompt + '</div>';
+          promptHTML +=
+            '<div style="margin-bottom:12px;">' + sec.prompt + "</div>";
           // Always show framework tree in easy mode (every section)
           if (fwInfo) {
-            promptHTML += '<div style="margin-top:12px; padding:12px; background:#e8f5e9; border-radius:8px; border:1px solid #c8e6c9;">';
-            promptHTML += '<div style="font-weight:600; font-size:0.85em; color:#2e7d32; margin-bottom:6px;">📐 ' + fwInfo.name + ' (shown because Easy mode)</div>';
-            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' + fwInfo.tree + '</pre>';
-            promptHTML += '</div>';
+            promptHTML +=
+              '<div style="margin-top:12px; padding:12px; background:#e8f5e9; border-radius:8px; border:1px solid #c8e6c9;">';
+            promptHTML +=
+              '<div style="font-weight:600; font-size:0.85em; color:#2e7d32; margin-bottom:6px;">📐 ' +
+              fwInfo.name +
+              " (shown because Easy mode)</div>";
+            promptHTML +=
+              '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' +
+              fwInfo.tree +
+              "</pre>";
+            promptHTML += "</div>";
           }
           // Add coaching tip for this section
           var easyTips = cgState.isPT
-            ? ['💡 Dica: Comece por dividir o problema em 2-3 blocos principais. Use a árvore acima como guia.',
-               '💡 Dica: Leia os dados com calma. Identifique o número mais importante primeiro. Depois explique o "e então?".',
-               '💡 Dica: Use a estrutura Situação → Diagnóstico → Recomendação. Seja específico com números.']
-            : ['💡 Tip: Start by splitting the problem into 2-3 main buckets. Use the tree above as your guide.',
-               '💡 Tip: Read the data carefully. Identify the single most important number first. Then explain the "so what?".',
-               '💡 Tip: Use the Situation → Finding → Recommendation structure. Be specific with numbers.'];
-          promptHTML += '<div style="margin-top:10px; padding:10px; background:#fff8e1; border-radius:6px; font-size:0.85em; color:#795548;">' + easyTips[n-1] + '</div>';
+            ? [
+                "💡 Dica: Comece por dividir o problema em 2-3 blocos principais. Use a árvore acima como guia.",
+                '💡 Dica: Leia os dados com calma. Identifique o número mais importante primeiro. Depois explique o "e então?".',
+                "💡 Dica: Use a estrutura Situação → Diagnóstico → Recomendação. Seja específico com números.",
+              ]
+            : [
+                "💡 Tip: Start by splitting the problem into 2-3 main buckets. Use the tree above as your guide.",
+                '💡 Tip: Read the data carefully. Identify the single most important number first. Then explain the "so what?".',
+                "💡 Tip: Use the Situation → Finding → Recommendation structure. Be specific with numbers.",
+              ];
+          promptHTML +=
+            '<div style="margin-top:10px; padding:10px; background:#fff8e1; border-radius:6px; font-size:0.85em; color:#795548;">' +
+            easyTips[n - 1] +
+            "</div>";
           // Auto-open hints in easy mode
           var hintsPanel = document.getElementById("cg-hints-panel");
           if (hintsPanel) hintsPanel.setAttribute("open", "");
-        } else if (diff === 'hard') {
+        } else if (diff === "hard") {
           // HARD: minimal prompt, no framework tree, no coaching
           var hardPrompts = cgState.isPT
-            ? ['O entrevistador descreveu o caso. Estruture a sua abordagem.',
-               'Aqui estão os dados. O que vê?',
-               'Qual é a sua recomendação final ao CEO?']
-            : ['The interviewer has described the case. Structure your approach.',
-               'Here is the data. What do you see?',
-               'What is your final recommendation to the CEO?'];
-          promptHTML += '<div style="margin-bottom:12px; color:#555;">' + hardPrompts[n-1] + '</div>';
+            ? [
+                "O entrevistador descreveu o caso. Estruture a sua abordagem.",
+                "Aqui estão os dados. O que vê?",
+                "Qual é a sua recomendação final ao CEO?",
+              ]
+            : [
+                "The interviewer has described the case. Structure your approach.",
+                "Here is the data. What do you see?",
+                "What is your final recommendation to the CEO?",
+              ];
+          promptHTML +=
+            '<div style="margin-bottom:12px; color:#555;">' +
+            hardPrompts[n - 1] +
+            "</div>";
           // No framework tree shown in hard mode
           // Close hints panel
           var hintsPanel = document.getElementById("cg-hints-panel");
           if (hintsPanel) hintsPanel.removeAttribute("open");
           // Hide industry intro in hard mode
           var introEl = document.getElementById("cg-industry-intro");
-          if (introEl) introEl.style.display = 'none';
+          if (introEl) introEl.style.display = "none";
         } else {
           // MEDIUM: standard behavior — framework tree only in Section 1
-          promptHTML += '<div style="margin-bottom:12px;">' + sec.prompt + '</div>';
+          promptHTML +=
+            '<div style="margin-bottom:12px;">' + sec.prompt + "</div>";
           if (n === 1 && fwInfo) {
-            promptHTML += '<div style="margin-top:12px; padding:12px; background:white; border-radius:8px; border:1px solid #e0e0e0;">';
-            promptHTML += '<div style="font-weight:600; font-size:0.85em; color:#555; margin-bottom:6px;">📐 ' + fwInfo.name + '</div>';
-            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' + fwInfo.tree + '</pre>';
-            promptHTML += '</div>';
+            promptHTML +=
+              '<div style="margin-top:12px; padding:12px; background:white; border-radius:8px; border:1px solid #e0e0e0;">';
+            promptHTML +=
+              '<div style="font-weight:600; font-size:0.85em; color:#555; margin-bottom:6px;">📐 ' +
+              fwInfo.name +
+              "</div>";
+            promptHTML +=
+              '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' +
+              fwInfo.tree +
+              "</pre>";
+            promptHTML += "</div>";
           }
         }
         document.getElementById("cg-section-prompt").innerHTML = promptHTML;
@@ -14544,30 +14603,32 @@
         textarea.style.borderColor = "#e5e5e5";
 
         // Adjust placeholder by difficulty
-        if (diff === 'easy') {
+        if (diff === "easy") {
           textarea.placeholder = cgState.isPT
-            ? 'Escreva a sua resposta aqui... Não se preocupe com perfeição — use os pontos-guia acima para estruturar.'
-            : 'Type your answer here... Don\'t worry about perfection — use the guidance above to structure your thinking.';
-        } else if (diff === 'hard') {
+            ? "Escreva a sua resposta aqui... Não se preocupe com perfeição — use os pontos-guia acima para estruturar."
+            : "Type your answer here... Don't worry about perfection — use the guidance above to structure your thinking.";
+        } else if (diff === "hard") {
           textarea.placeholder = cgState.isPT
-            ? 'A sua resposta...'
-            : 'Your answer...';
+            ? "A sua resposta..."
+            : "Your answer...";
         } else {
           textarea.placeholder = cgState.isPT
-            ? 'Escreva a sua resposta aqui...'
-            : 'Type your answer here...';
+            ? "Escreva a sua resposta aqui..."
+            : "Type your answer here...";
         }
 
         // Hide solution
         document.getElementById("cg-solution-area").style.display = "none";
         var solBtn = document.getElementById("cg-show-solution-btn");
         solBtn.textContent = cgState.isPT
-            ? "👁️ Mostrar Solução CaseCoach"
-            : "👁️ Show CaseCoach Solution";
+          ? "👁️ Mostrar Solução CaseCoach"
+          : "👁️ Show CaseCoach Solution";
         solBtn.style.background = "linear-gradient(135deg,#1a1a1a,#333)";
         // In hard mode, change solution button text to be less hand-holding
-        if (diff === 'hard') {
-          solBtn.textContent = cgState.isPT ? '👁️ Ver Resposta' : '👁️ Reveal Answer';
+        if (diff === "hard") {
+          solBtn.textContent = cgState.isPT
+            ? "👁️ Ver Resposta"
+            : "👁️ Reveal Answer";
         }
 
         // Update nav buttons
@@ -14752,13 +14813,18 @@
 
       function cgPreviewIndustry(val) {
         var preview = document.getElementById("cg-industry-preview");
-        var text = document.getElementById("cg-industry-preview-text");
         if (val === "random" || !CG_DATA.industries[val]) {
           preview.style.display = "none";
           return;
         }
         var ind = CG_DATA.industries[val];
-        text.textContent = "💡 " + ind.name + " — " + (ind.intro || "");
+        var icons = { retail: '🛒', healthcare: '💊', tech: '💻', financial: '🏦', energy: '⚡', airlines: '✈️', manufacturing: '🏭', telecom: '📡', nonprofit: '🏛️' };
+        document.getElementById("cg-preview-icon").textContent = icons[val] || '🏭';
+        document.getElementById("cg-preview-name").textContent = ind.name;
+        document.getElementById("cg-preview-intro").textContent = ind.intro || '';
+        document.getElementById("cg-preview-metrics").textContent = ind.metrics || '';
+        document.getElementById("cg-preview-companies").textContent = (ind.companies || []).slice(0, 4).join(', ');
+        document.getElementById("cg-preview-hint").textContent = '💡 ' + (ind.hint || '');
         preview.style.display = "block";
       }
 
