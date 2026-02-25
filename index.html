@@ -3340,18 +3340,18 @@
         <div class="card card-info">
           <h3>💊 Plano para Sexta (Game Day)</h3>
           <ul>
-            <li><strong>Manhã:</strong> Concerta 27mg + pequeno-almoço</li>
-            <li><strong>Almoço:</strong> Rubifen 20mg com almoço leve</li>
+            <li><strong>09:00:</strong> Concerta 27mg + pequeno-almoço</li>
+            <li><strong>12:30:</strong> Rubifen 20mg com almoço leve</li>
             <li>
-              <strong>~14:30-15:00:</strong> Propranolol + Alprazolam — dose
+              <strong>14:00:</strong> Propranolol 20mg + Alprazolam 0,5mg — dose
               conforme teste de Qua <br /><em
                 style="font-size: 0.88em; color: var(--text-muted)"
-                >Prime (20mg + 0,5mg) se combo ok | Min (10mg + 0,25mg) se prime
-                demais</em
+                >⏱️ Peak timing: Prop peak ~15:15 | Alp peak ~15:00-16:00 →
+                ambos no pico às 15:30</em
               >
             </li>
             <li><strong>15:30:</strong> Entrevista BCG 🏆</li>
-            <li><strong>Jantar:</strong> Brintellix 15mg + Aerius</li>
+            <li><strong>21:00:</strong> Britellix 15mg + Aerius</li>
           </ul>
         </div>
 
@@ -3419,11 +3419,12 @@
             <ul style="margin: 6px 0 0 18px; font-size: 0.92em">
               <li>
                 <strong>Combo prime ok →</strong> Usar Propranolol 20mg +
-                Alprazolam 0,5mg às ~14:30 ✅
+                Alprazolam 0,5mg às <strong>14:00</strong> (peak ~15:15-15:30)
+                ✅
               </li>
               <li>
                 <strong>Prime demasiado forte →</strong> Voltar a 10mg + 0,25mg
-                (testados na Terça)
+                (testados na Terça) às 14:00
               </li>
               <li>
                 <strong>Um causou problemas →</strong> Usar só o que funcionou
@@ -3433,6 +3434,16 @@
                 Respiração + confiança.
               </li>
             </ul>
+            <p
+              style="
+                margin-top: 8px;
+                font-size: 0.88em;
+                color: var(--text-muted);
+              "
+            >
+              <strong>⚠️ Quinta = REST DAY (sem SOS)</strong> — não repetir
+              combo para manter sensibilidade ao Alprazolam fresca para sexta.
+            </p>
           </div>
 
           <div
@@ -3623,6 +3634,42 @@
               </button>
               <span
                 id="alprazolam-time"
+                style="
+                  margin-left: 8px;
+                  font-size: 0.88em;
+                  color: var(--text-muted);
+                "
+              ></span>
+            </div>
+            <div
+              style="
+                padding: 10px;
+                border: 2px solid #e91e63;
+                border-radius: 8px;
+                background: rgba(233, 30, 99, 0.05);
+                grid-column: span 2;
+              "
+            >
+              <strong style="color: #e91e63">💊 Britellix 15mg</strong><br />
+              <small>Antidepressivo/OCD — tomar ao jantar (~21h)</small><br />
+              <button
+                onclick="takePill('britellix')"
+                id="btn-britellix"
+                style="
+                  margin-top: 6px;
+                  padding: 6px 16px;
+                  border-radius: 6px;
+                  border: none;
+                  background: #e91e63;
+                  color: white;
+                  cursor: pointer;
+                  font-weight: bold;
+                "
+              >
+                Tomei
+              </button>
+              <span
+                id="britellix-time"
                 style="
                   margin-left: 8px;
                   font-size: 0.88em;
@@ -3830,6 +3877,43 @@
                   >
                     <div
                       id="bar-alprazolam-fill"
+                      style="
+                        position: absolute;
+                        height: 100%;
+                        border-radius: 4px;
+                        cursor: grab;
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="bar-britellix"
+                class="pill-bar"
+                style="display: none; margin-bottom: 6px"
+              >
+                <div style="display: flex; align-items: center; gap: 8px">
+                  <span
+                    style="
+                      font-size: 0.8em;
+                      width: 100px;
+                      color: #e91e63;
+                      font-weight: bold;
+                    "
+                    >Britellix</span
+                  >
+                  <div
+                    style="
+                      flex: 1;
+                      position: relative;
+                      height: 32px;
+                      background: var(--border);
+                      border-radius: 4px;
+                      overflow: visible;
+                    "
+                  >
+                    <div
+                      id="bar-britellix-fill"
                       style="
                         position: absolute;
                         height: 100%;
@@ -5693,6 +5777,69 @@
           🛒 Retail & Consumer Goods / Retalho e Bens de Consumo
         </div>
         <div class="collapsible-content open">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              🛒 Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Retail is about selling products to consumers — think
+              supermarkets, fashion, e-commerce. Key drivers are foot traffic,
+              basket size, and same-store sales growth. Margins are typically
+              thin (2-5% net), so volume and efficiency matter enormously.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Retalho é vender produtos a consumidores — supermercados, moda,
+              e-commerce. Drivers chave: tráfego, dimensão do cabaz, crescimento
+              de vendas mesma loja. Margens tipicamente baixas (2-5% líquida).
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 Net margin: 2-5%</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 SSS, basket size, footfall</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -5803,6 +5950,72 @@
           💊 Healthcare & Pharma / Saúde e Farmacêutica
         </div>
         <div class="collapsible-content">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              💊 Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Healthcare spans hospitals, pharma companies, biotech, and health
+              tech. It's heavily regulated with long product cycles (10+ years
+              for drugs). Key concepts: R&D pipeline, patent cliffs,
+              reimbursement, patient population sizing. Gross margins in pharma
+              are very high (70-90%) but R&D costs are massive.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Saúde abrange hospitais, farmacêuticas, biotech e health tech.
+              Muito regulado com ciclos longos (10+ anos para medicamentos).
+              Conceitos chave: pipeline I&D, patent cliffs, reembolso,
+              dimensionamento de pacientes. Margens brutas 70-90% mas custos de
+              I&D enormes.
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 Gross margin: 70-90%</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 R&D pipeline, patent cliffs, reimbursement</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -5907,6 +6120,71 @@
           💻 Technology / Tecnologia
         </div>
         <div class="collapsible-content">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              💻 Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Tech/SaaS companies sell software subscriptions. The business
+              model is recurring revenue (MRR/ARR) with high gross margins
+              (70-85%). Key metrics: churn rate, LTV:CAC ratio (>3:1 is
+              healthy), net revenue retention. Growth is king — investors value
+              revenue growth over profitability in early stages.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Empresas tech/SaaS vendem subscrições de software. Modelo de
+              receita recorrente (MRR/ARR), margens brutas altas (70-85%).
+              Métricas chave: churn rate, rácio LTV:CAC (>3:1 é saudável),
+              retenção líquida. Crescimento é rei.
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 Gross margin: 70-85%</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 ARR, churn, LTV:CAC >3:1</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -6019,6 +6297,72 @@
           🏦 Financial Services / Serviços Financeiros
         </div>
         <div class="collapsible-content">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              🏦 Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Financial services includes banks, insurance, asset management,
+              and fintech. Banks earn on Net Interest Margin (NIM = interest
+              earned - interest paid). Key metrics: cost-to-income ratio, AUM
+              (assets under management), NPL (non-performing loans). Heavily
+              regulated — capital requirements drive strategy.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Serviços financeiros incluem bancos, seguros, gestão de ativos
+              e fintech. Bancos ganham com NIM (margem de juros líquida).
+              Métricas chave: rácio cost-to-income, AUM, NPL (crédito
+              malparado). Muito regulado — requisitos de capital condicionam a
+              estratégia.
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 NIM-based, regulated</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 Cost-to-income, AUM, NPL</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -6127,6 +6471,72 @@
           ⚡ Energy & Utilities / Energia e Utilities
         </div>
         <div class="collapsible-content">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              ⚡ Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Energy covers oil & gas, renewables, utilities, and energy tech.
+              It's capital-intensive with long investment horizons. Key
+              concepts: LCOE (levelized cost of energy), capacity factor, energy
+              transition, carbon pricing. Currently undergoing massive shift
+              from fossil fuels to renewables.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Energia abrange petróleo, renováveis, utilities e energy tech.
+              Capital-intensiva com horizontes longos. Conceitos chave: LCOE
+              (custo nivelado de energia), fator de capacidade, transição
+              energética, preço do carbono. Em transição massiva de fósseis para
+              renováveis.
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 Capital-intensive, long horizon</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 LCOE, capacity factor, carbon pricing</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -6227,6 +6637,71 @@
           ✈️ Airlines & Transport / Aviação e Transportes
         </div>
         <div class="collapsible-content">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              ✈️ Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Airlines are a notoriously tough industry — high fixed costs, low
+              margins (2-3% net), commodity pricing. Revenue = passengers × avg
+              ticket × load factor. Key metrics: CASK (cost per available seat
+              km), RPK (revenue passenger km), load factor. Fuel is typically
+              25-35% of costs.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Aviação é uma indústria notoriamente difícil — custos fixos
+              altos, margens baixas (2-3% líquida), pricing commodity. Receita =
+              passageiros × bilhete médio × load factor. Métricas chave: CASK,
+              RPK, load factor. Combustível tipicamente 25-35% dos custos.
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 Net margin: 2-3%</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 CASK, RPK, load factor, fuel 25-35%</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -6323,6 +6798,72 @@
           🏭 Manufacturing / Indústria e Manufatura
         </div>
         <div class="collapsible-content">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              🏭 Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Manufacturing is about converting raw materials into products.
+              Think auto parts, chemicals, electronics. Key concepts: OEE
+              (Overall Equipment Effectiveness), capacity utilization,
+              yield/scrap rates, unit costs. Common levers: lean manufacturing,
+              automation, make-vs-buy, reshoring.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Manufatura é converter matérias-primas em produtos. Peças auto,
+              químicos, eletrónica. Conceitos chave: OEE (Eficácia Global do
+              Equipamento), utilização de capacidade, taxas de
+              rendimento/desperdício, custo unitário. Alavancas: lean,
+              automação, make-vs-buy, reshoring.
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 OEE, capacity-driven</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 OEE, utilization, unit cost, yield</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -6423,6 +6964,71 @@
           📡 Telecom & Media / Telecomunicações e Media
         </div>
         <div class="collapsible-content">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              📡 Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Telecom is infrastructure-heavy (towers, fiber, spectrum) with
+              subscription-based revenue. Media is shifting from advertising to
+              subscriptions. Key metrics: ARPU (average revenue per user),
+              churn, capex/revenue ratio. Big themes: 5G rollout, content
+              bundling, OTT competition.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Telecom é intensiva em infraestrutura (torres, fibra, espectro)
+              com receita por subscrição. Media em transição de publicidade para
+              subscrições. Métricas: ARPU, churn, rácio capex/receita. Temas:
+              rollout 5G, bundling de conteúdo, concorrência OTT.
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 ARPU, infrastructure-heavy</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 ARPU, churn, capex/revenue, 5G</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -6521,6 +7127,72 @@
           🏛️ Non-Profit & Public Sector / Sem Fins Lucrativos e Setor Público
         </div>
         <div class="collapsible-content">
+          <div
+            style="
+              background: linear-gradient(135deg, #f8fafe, #eef5ff);
+              border: 1px solid #cde0f5;
+              border-radius: 10px;
+              padding: 14px 18px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-weight: 700;
+                font-size: 0.92em;
+                color: #1565c0;
+                margin-bottom: 6px;
+              "
+            >
+              🏛️ Industry Brief / Contexto da Indústria
+            </div>
+            <div
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 8px;
+              "
+            >
+              Non-profits and public sector optimize for impact rather than
+              profit. Key metrics: cost per beneficiary, impact per dollar
+              spent, overhead ratio. Funding comes from donors, grants, or
+              government budgets. Common cases: resource allocation, scaling
+              programs, public-private partnerships.
+            </div>
+            <div style="font-size: 0.82em; color: #666; line-height: 1.5">
+              🇵🇹 Sem fins lucrativos e setor público otimizam impacto em vez de
+              lucro. Métricas: custo por beneficiário, impacto por euro gasto,
+              rácio de overhead. Financiamento: doadores, subsídios, orçamentos
+              públicos. Casos comuns: alocação de recursos, escalar programas,
+              PPPs.
+            </div>
+            <div
+              style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap"
+            >
+              <span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >📊 Impact/$ optimized</span
+              ><span
+                style="
+                  background: white;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 4px;
+                  padding: 2px 8px;
+                  font-size: 0.75em;
+                  color: #555;
+                "
+                >🔑 Cost/beneficiary, overhead ratio</span
+              >
+            </div>
+          </div>
           <table>
             <thead>
               <tr>
@@ -7051,17 +7723,58 @@
               ></div>
             </div>
             <div
-              id="cg-section-label"
               style="
-                font-size: 0.82em;
-                color: #888;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
                 margin-bottom: 10px;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
               "
             >
-              Section 1 of 3 — Structuring the Problem
+              <div
+                id="cg-section-label"
+                style="
+                  font-size: 0.82em;
+                  color: #888;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                Section 1 of 3 — Structuring the Problem
+              </div>
+              <div
+                id="cg-timer"
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  font-size: 0.82em;
+                  font-weight: 600;
+                  color: #888;
+                "
+              >
+                <span
+                  id="cg-timer-section"
+                  style="
+                    background: #f5f5f5;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    font-family: &quot;Courier New&quot;, monospace;
+                  "
+                  >⏱ 00:00</span
+                >
+                <span
+                  id="cg-timer-total"
+                  style="
+                    background: #e8f5e9;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    font-family: &quot;Courier New&quot;, monospace;
+                    color: #2e7d32;
+                  "
+                  >Total: 00:00</span
+                >
+              </div>
             </div>
 
             <!-- CASE PROMPT (always visible) -->
@@ -7364,6 +8077,270 @@
           <span id="cg-stats" style="color: var(--text-muted); margin-left: 8px"
             >No cases generated yet</span
           >
+        </div>
+      </div>
+
+      <!-- COMPLETION MODAL -->
+      <div
+        id="cg-completion-modal"
+        style="
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.6);
+          z-index: 10000;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(4px);
+        "
+      >
+        <div
+          style="
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 32px;
+          "
+        >
+          <div style="text-align: center; margin-bottom: 24px">
+            <div style="font-size: 3em; margin-bottom: 8px">🎉</div>
+            <div
+              style="font-size: 1.4em; font-weight: 700; color: #1a1a1a"
+              id="cg-complete-title"
+            >
+              Case Complete!
+            </div>
+            <div
+              style="font-size: 0.85em; color: #888; margin-top: 4px"
+              id="cg-complete-subtitle"
+            ></div>
+          </div>
+
+          <!-- Time Summary -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 12px;
+              margin-bottom: 24px;
+            "
+          >
+            <div
+              style="
+                text-align: center;
+                background: #f8fafe;
+                border-radius: 10px;
+                padding: 14px;
+              "
+            >
+              <div
+                style="
+                  font-size: 0.7em;
+                  font-weight: 600;
+                  color: #888;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                Section 1
+              </div>
+              <div
+                id="cg-complete-t1"
+                style="
+                  font-size: 1.2em;
+                  font-weight: 700;
+                  color: #1565c0;
+                  font-family: &quot;Courier New&quot;, monospace;
+                "
+              >
+                --:--
+              </div>
+            </div>
+            <div
+              style="
+                text-align: center;
+                background: #fff8e1;
+                border-radius: 10px;
+                padding: 14px;
+              "
+            >
+              <div
+                style="
+                  font-size: 0.7em;
+                  font-weight: 600;
+                  color: #888;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                Section 2
+              </div>
+              <div
+                id="cg-complete-t2"
+                style="
+                  font-size: 1.2em;
+                  font-weight: 700;
+                  color: #e65100;
+                  font-family: &quot;Courier New&quot;, monospace;
+                "
+              >
+                --:--
+              </div>
+            </div>
+            <div
+              style="
+                text-align: center;
+                background: #e8f5e9;
+                border-radius: 10px;
+                padding: 14px;
+              "
+            >
+              <div
+                style="
+                  font-size: 0.7em;
+                  font-weight: 600;
+                  color: #888;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                "
+              >
+                Section 3
+              </div>
+              <div
+                id="cg-complete-t3"
+                style="
+                  font-size: 1.2em;
+                  font-weight: 700;
+                  color: #2e7d32;
+                  font-family: &quot;Courier New&quot;, monospace;
+                "
+              >
+                --:--
+              </div>
+            </div>
+          </div>
+          <div style="text-align: center; margin-bottom: 20px">
+            <div
+              style="
+                font-size: 0.75em;
+                color: #888;
+                text-transform: uppercase;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+              "
+            >
+              Total Time
+            </div>
+            <div
+              id="cg-complete-total"
+              style="
+                font-size: 1.8em;
+                font-weight: 700;
+                color: #1a1a1a;
+                font-family: &quot;Courier New&quot;, monospace;
+              "
+            >
+              00:00
+            </div>
+          </div>
+
+          <!-- Sections answered -->
+          <div id="cg-complete-sections" style="margin-bottom: 24px"></div>
+
+          <!-- Self-Assessment -->
+          <div
+            style="
+              background: #fafafa;
+              border-radius: 12px;
+              padding: 16px;
+              margin-bottom: 24px;
+            "
+          >
+            <div
+              style="font-weight: 700; font-size: 0.9em; margin-bottom: 12px"
+            >
+              🎯 Self-Assessment / Autoavaliação
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
+              "
+            >
+              <div>
+                <div style="font-size: 0.75em; color: #888; margin-bottom: 4px">
+                  Structure
+                </div>
+                <div
+                  id="cg-rate-structure"
+                  style="display: flex; gap: 4px"
+                ></div>
+              </div>
+              <div>
+                <div style="font-size: 0.75em; color: #888; margin-bottom: 4px">
+                  Math/Analysis
+                </div>
+                <div id="cg-rate-math" style="display: flex; gap: 4px"></div>
+              </div>
+              <div>
+                <div style="font-size: 0.75em; color: #888; margin-bottom: 4px">
+                  Communication
+                </div>
+                <div id="cg-rate-comm" style="display: flex; gap: 4px"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div style="display: flex; gap: 10px">
+            <button
+              onclick="
+                document.getElementById('cg-completion-modal').style.display =
+                  'none'
+              "
+              style="
+                flex: 1;
+                padding: 14px;
+                background: #f5f5f5;
+                border: none;
+                border-radius: 10px;
+                font-size: 0.95em;
+                font-weight: 600;
+                cursor: pointer;
+                color: #555;
+              "
+            >
+              ← Review Sections
+            </button>
+            <button
+              onclick="
+                document.getElementById('cg-completion-modal').style.display =
+                  'none';
+                generateCase(cgState.isPT);
+              "
+              style="
+                flex: 1;
+                padding: 14px;
+                background: var(--bcg-green);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                font-size: 0.95em;
+                font-weight: 600;
+                cursor: pointer;
+              "
+            >
+              🎲 New Case
+            </button>
+          </div>
         </div>
       </div>
 
@@ -11992,6 +12969,13 @@
           peakMin: 75,
           durationMin: 300,
         },
+        britellix: {
+          name: "Britellix 15mg",
+          color: "#e91e63",
+          onsetMin: 120,
+          peakMin: 480,
+          durationMin: 1440,
+        },
       };
       const TIMELINE_START = 6; // 06:00
       const TIMELINE_END = 26; // 02:00 next day (26 = 24+2)
@@ -12154,7 +13138,13 @@
         if (viewDate < minDate) viewDate = new Date(minDate);
         updateDayLabel();
         // Reset button states then reload UI for the viewed day
-        ["concerta", "rubifen", "propranolol", "alprazolam"].forEach((id) => {
+        [
+          "concerta",
+          "rubifen",
+          "propranolol",
+          "alprazolam",
+          "britellix",
+        ].forEach((id) => {
           const btn = document.getElementById("btn-" + id);
           btn.textContent = "Tomei";
           btn.style.background = PILL_DATA[id].color;
@@ -12233,7 +13223,13 @@
         };
 
         // Hide all bars first
-        ["concerta", "rubifen", "propranolol", "alprazolam"].forEach((id) => {
+        [
+          "concerta",
+          "rubifen",
+          "propranolol",
+          "alprazolam",
+          "britellix",
+        ].forEach((id) => {
           document.getElementById("bar-" + id).style.display = "none";
         });
 
@@ -12417,9 +13413,12 @@
         const nowH = nowTZ.fractionalHours;
         const indicator = document.getElementById("now-indicator");
         const log = getPillLog();
+        const expected = getExpectedForDay();
 
-        // Only show NOW marker when viewing today
-        if (isToday(viewDate) && Object.keys(log.pills).length > 0) {
+        // Show NOW marker when viewing today AND there are pills (taken or expected)
+        const hasPills =
+          Object.keys(log.pills).length > 0 || Object.keys(expected).length > 0;
+        if (isToday(viewDate) && hasPills) {
           const pct = hourToPercent(nowH);
           if (pct > 0 && pct < 100) {
             indicator.style.display = "block";
@@ -12577,7 +13576,13 @@
         ) {
           localStorage.removeItem(getDayKey());
           // Reset buttons
-          ["concerta", "rubifen", "propranolol", "alprazolam"].forEach((id) => {
+          [
+            "concerta",
+            "rubifen",
+            "propranolol",
+            "alprazolam",
+            "britellix",
+          ].forEach((id) => {
             const btn = document.getElementById("btn-" + id);
             btn.textContent = "Tomei";
             btn.style.background = PILL_DATA[id].color;
@@ -12703,6 +13708,24 @@
             "Melhor performance",
           ],
         },
+        britellix: {
+          name: "Britellix (Vortioxetina)",
+          individual: [
+            "Náusea/enjoo",
+            "Diarreia",
+            "Dor de cabeça",
+            "Tonturas",
+            "Boca seca",
+            "Comichão/prurido",
+          ],
+          cognitive: ["Sono afetado?", "Humor diferente?"],
+          positive: [
+            "Humor estável",
+            "OCD mais controlado",
+            "Pensamentos mais claros",
+            "Menos ruminação",
+          ],
+        },
       };
 
       // Adaptive expected pills — adjusts based on prior day feedback
@@ -12715,6 +13738,7 @@
             rubifen: { time: "15:30", dose: "20mg" },
             propranolol: { time: "15:30", dose: "10mg" },
             alprazolam: { time: "23:00", dose: "0,25mg" },
+            britellix: { time: "21:00", dose: "15mg" },
           },
           "2026-02-25": {
             // QUARTA — COMBO PRIME DOSE (se Terça correu bem)
@@ -12724,6 +13748,7 @@
             rubifen: { time: "12:30", dose: "20mg" },
             propranolol: { time: "13:00", dose: "20mg" },
             alprazolam: { time: "13:00", dose: "0,5mg" },
+            britellix: { time: "21:00", dose: "15mg" },
           },
           "2026-02-26": {
             // QUINTA — CONSOLIDATION (sem SOS — baseline day)
@@ -12731,6 +13756,7 @@
             // Se quarta combo teve problemas → NÃO repetir
             concerta: { time: "09:30", dose: "27mg" },
             rubifen: { time: "12:30", dose: "20mg" },
+            britellix: { time: "21:00", dose: "15mg" },
           },
           "2026-02-26-night": {
             // QUINTA À NOITE — Aerius para dia seguinte
@@ -12738,11 +13764,12 @@
           },
           "2026-02-27": {
             // SEXTA — GAME DAY 🏆
-            // Doses finais baseadas nos testes de Ter+Qua
-            concerta: { time: "09:30", dose: "27mg" },
+            // Interview at 15:30 — all peaks timed for 15:15-15:45
+            concerta: { time: "09:00", dose: "27mg" },
             rubifen: { time: "12:30", dose: "20mg" },
-            propranolol: { time: "14:30", dose: "20mg" },
-            alprazolam: { time: "14:30", dose: "0,5mg" },
+            propranolol: { time: "14:00", dose: "20mg" },
+            alprazolam: { time: "14:00", dose: "0,5mg" },
+            britellix: { time: "21:00", dose: "15mg" },
           },
         };
 
@@ -13544,12 +14571,24 @@
           "{company} is a {context}. They are considering {action} and want BCG's recommendation. They need to make a decision within {timeframe}. What factors should they consider?",
           "The board of {company}, a {context}, is concerned about {problem}. They want to understand the root causes and develop a plan to {objective}. Where would you start?",
           "{company} ({context}) has an opportunity to {action}. The investment would require ${investment}. They want to know: should they proceed? What's your framework?",
+          "I'm the CEO of {company}. We're a {context}. Over the last {timeframe}, we've experienced {problem}. My board wants me to {objective}. I need BCG's best thinking on this. What's your approach?",
+          "Let me set the context. {company} is a {context}. Last quarter's results revealed {problem}. The leadership team's mandate is to {objective} within {timeframe}. Walk me through how you'd structure this.",
+          "Here's the situation: {company}, a {context}, is at a crossroads. They could {action}, or double down on their current strategy. They have ${investment} available. What would you recommend and why?",
+          "We've been retained by {company} — a {context} — to help think through a critical strategic challenge. They've been dealing with {problem} for {timeframe}. The CEO wants to {objective}. How would you begin your analysis?",
+          "Your team has been staffed on a new BCG engagement. The client: {company}, a {context}. Problem statement: {problem}. Constraint: results needed within {timeframe}. Structure your Day 1 hypotheses and workplan.",
+          "{company} operates as a {context} in a highly competitive landscape. Recent data shows {problem}. They've explored {action} but remain uncertain. The budget is ${investment}. What analysis would you run to give them a clear recommendation?",
         ],
         pt: [
           "O seu cliente é a {company}, uma {context}. Nos últimos {timeframe}, viram {problem}. O CEO contratou a BCG para {objective}. Como abordaria este problema?",
           "A {company} é uma {context}. Estão a considerar {action} e querem a recomendação da BCG. Precisam de decidir em {timeframe}. Que fatores devem considerar?",
           "O board da {company}, uma {context}, está preocupado com {problem}. Querem entender as causas e desenvolver um plano para {objective}. Por onde começaria?",
           "A {company} ({context}) tem uma oportunidade de {action}. O investimento requer €{investment}. Querem saber: devem avançar? Qual é o seu framework?",
+          "Eu sou o CEO da {company}. Somos uma {context}. Nos últimos {timeframe}, enfrentámos {problem}. O meu board quer que eu consiga {objective}. Preciso da melhor análise da BCG. Qual é a sua abordagem?",
+          "Vou contextualizar. A {company} é uma {context}. Os resultados do último trimestre revelaram {problem}. O mandato da liderança é {objective} em {timeframe}. Explique como estruturaria isto.",
+          "A situação é esta: a {company}, uma {context}, está numa encruzilhada. Podem {action}, ou reforçar a estratégia atual. Têm €{investment} disponíveis. O que recomendaria e porquê?",
+          "Fomos contratados pela {company} — uma {context} — para ajudar num desafio estratégico. Há {timeframe} que enfrentam {problem}. O CEO quer {objective}. Como começaria a análise?",
+          "A sua equipa foi alocada a um novo projeto BCG. Cliente: {company}, uma {context}. Problema: {problem}. Restrição: resultados em {timeframe}. Estruture as suas hipóteses de Dia 1.",
+          "A {company} opera como uma {context} num mercado altamente competitivo. Dados recentes mostram {problem}. Exploraram {action} mas continuam incertos. O orçamento é €{investment}. Que análise faria?",
         ],
       };
 
@@ -13722,7 +14761,9 @@
       function pick(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
       }
-      function rand(min, max) { return Math.round(min + Math.random() * (max - min)); }
+      function rand(min, max) {
+        return Math.round(min + Math.random() * (max - min));
+      }
 
       // ═══════════════════════════════════════════════════
       // DATA GENERATOR — creates realistic data sets for Section 2
@@ -13731,7 +14772,7 @@
         var d = {};
         // Generate numbers that make sense for the framework
         switch (fwKey) {
-          case 'profitability':
+          case "profitability":
             d.revenue = rand(80, 500);
             d.revGrowth = rand(-5, 12);
             d.cogs = Math.round(d.revenue * (rand(40, 70) / 100));
@@ -13741,132 +14782,394 @@
             d.sga = rand(10, 40);
             d.netIncome = d.revenue - d.cogs - d.fixedCosts - d.sga;
             d.table = isPT
-              ? '📊 DADOS FINANCEIROS — ' + company + '\n\n' +
-                '┌─────────────────────┬──────────┬──────────┬─────────┐\n' +
-                '│ Metric              │ Ano 1    │ Ano 2    │ Ano 3   │\n' +
-                '├─────────────────────┼──────────┼──────────┼─────────┤\n' +
-                '│ Receita (€M)        │ ' + (d.revenue - rand(30,60)) + '       │ ' + (d.revenue - rand(5,20)) + '       │ ' + d.revenue + '     │\n' +
-                '│ COGS (€M)           │ ' + Math.round(d.cogs*0.8) + '       │ ' + Math.round(d.cogs*0.9) + '       │ ' + d.cogs + '     │\n' +
-                '│ Custos Fixos (€M)   │ ' + d.fixedCosts + '       │ ' + d.fixedCosts + '       │ ' + d.fixedCosts + '     │\n' +
-                '│ SG&A (€M)           │ ' + Math.round(d.sga*0.85) + '       │ ' + d.sga + '       │ ' + Math.round(d.sga*1.1) + '     │\n' +
-                '│ Margem Bruta %      │ ' + (d.grossMargin + rand(3,8)) + '%      │ ' + (d.grossMargin + rand(1,3)) + '%      │ ' + d.grossMargin + '%    │\n' +
-                '└─────────────────────┴──────────┴──────────┴─────────┘\n\n' +
-                '⚠️ A margem bruta caiu de ' + (d.grossMargin + rand(5,10)) + '% para ' + d.grossMargin + '% em 3 anos.'
-              : '📊 FINANCIAL DATA — ' + company + '\n\n' +
-                '┌─────────────────────┬──────────┬──────────┬─────────┐\n' +
-                '│ Metric              │ Year 1   │ Year 2   │ Year 3  │\n' +
-                '├─────────────────────┼──────────┼──────────┼─────────┤\n' +
-                '│ Revenue ($M)        │ ' + (d.revenue - rand(30,60)) + '       │ ' + (d.revenue - rand(5,20)) + '       │ ' + d.revenue + '     │\n' +
-                '│ COGS ($M)           │ ' + Math.round(d.cogs*0.8) + '       │ ' + Math.round(d.cogs*0.9) + '       │ ' + d.cogs + '     │\n' +
-                '│ Fixed Costs ($M)    │ ' + d.fixedCosts + '       │ ' + d.fixedCosts + '       │ ' + d.fixedCosts + '     │\n' +
-                '│ SG&A ($M)           │ ' + Math.round(d.sga*0.85) + '       │ ' + d.sga + '       │ ' + Math.round(d.sga*1.1) + '     │\n' +
-                '│ Gross Margin %      │ ' + (d.grossMargin + rand(3,8)) + '%      │ ' + (d.grossMargin + rand(1,3)) + '%      │ ' + d.grossMargin + '%    │\n' +
-                '└─────────────────────┴──────────┴──────────┴─────────┘\n\n' +
-                '⚠️ Gross margin declined from ' + (d.grossMargin + rand(5,10)) + '% to ' + d.grossMargin + '% over 3 years.';
+              ? "📊 DADOS FINANCEIROS — " +
+                company +
+                "\n\n" +
+                "┌─────────────────────┬──────────┬──────────┬─────────┐\n" +
+                "│ Metric              │ Ano 1    │ Ano 2    │ Ano 3   │\n" +
+                "├─────────────────────┼──────────┼──────────┼─────────┤\n" +
+                "│ Receita (€M)        │ " +
+                (d.revenue - rand(30, 60)) +
+                "       │ " +
+                (d.revenue - rand(5, 20)) +
+                "       │ " +
+                d.revenue +
+                "     │\n" +
+                "│ COGS (€M)           │ " +
+                Math.round(d.cogs * 0.8) +
+                "       │ " +
+                Math.round(d.cogs * 0.9) +
+                "       │ " +
+                d.cogs +
+                "     │\n" +
+                "│ Custos Fixos (€M)   │ " +
+                d.fixedCosts +
+                "       │ " +
+                d.fixedCosts +
+                "       │ " +
+                d.fixedCosts +
+                "     │\n" +
+                "│ SG&A (€M)           │ " +
+                Math.round(d.sga * 0.85) +
+                "       │ " +
+                d.sga +
+                "       │ " +
+                Math.round(d.sga * 1.1) +
+                "     │\n" +
+                "│ Margem Bruta %      │ " +
+                (d.grossMargin + rand(3, 8)) +
+                "%      │ " +
+                (d.grossMargin + rand(1, 3)) +
+                "%      │ " +
+                d.grossMargin +
+                "%    │\n" +
+                "└─────────────────────┴──────────┴──────────┴─────────┘\n\n" +
+                "⚠️ A margem bruta caiu de " +
+                (d.grossMargin + rand(5, 10)) +
+                "% para " +
+                d.grossMargin +
+                "% em 3 anos."
+              : "📊 FINANCIAL DATA — " +
+                company +
+                "\n\n" +
+                "┌─────────────────────┬──────────┬──────────┬─────────┐\n" +
+                "│ Metric              │ Year 1   │ Year 2   │ Year 3  │\n" +
+                "├─────────────────────┼──────────┼──────────┼─────────┤\n" +
+                "│ Revenue ($M)        │ " +
+                (d.revenue - rand(30, 60)) +
+                "       │ " +
+                (d.revenue - rand(5, 20)) +
+                "       │ " +
+                d.revenue +
+                "     │\n" +
+                "│ COGS ($M)           │ " +
+                Math.round(d.cogs * 0.8) +
+                "       │ " +
+                Math.round(d.cogs * 0.9) +
+                "       │ " +
+                d.cogs +
+                "     │\n" +
+                "│ Fixed Costs ($M)    │ " +
+                d.fixedCosts +
+                "       │ " +
+                d.fixedCosts +
+                "       │ " +
+                d.fixedCosts +
+                "     │\n" +
+                "│ SG&A ($M)           │ " +
+                Math.round(d.sga * 0.85) +
+                "       │ " +
+                d.sga +
+                "       │ " +
+                Math.round(d.sga * 1.1) +
+                "     │\n" +
+                "│ Gross Margin %      │ " +
+                (d.grossMargin + rand(3, 8)) +
+                "%      │ " +
+                (d.grossMargin + rand(1, 3)) +
+                "%      │ " +
+                d.grossMargin +
+                "%    │\n" +
+                "└─────────────────────┴──────────┴──────────┴─────────┘\n\n" +
+                "⚠️ Gross margin declined from " +
+                (d.grossMargin + rand(5, 10)) +
+                "% to " +
+                d.grossMargin +
+                "% over 3 years.";
             break;
 
-          case 'market-entry':
+          case "market-entry":
             d.tam = rand(2, 20);
             d.growth = rand(5, 18);
             d.competitors = rand(3, 8);
             d.topShare = rand(20, 45);
             d.investment = rand(30, 200);
-            d.table = (isPT ? '📊 DADOS DE MERCADO\n\n' : '📊 MARKET DATA\n\n') +
-              (isPT ? '• TAM: $' + d.tam + 'B | Crescimento: ' + d.growth + '% CAGR\n' : '• TAM: $' + d.tam + 'B | Growth: ' + d.growth + '% CAGR\n') +
-              (isPT ? '• Nº de concorrentes: ' + d.competitors + ' | Quota do líder: ' + d.topShare + '%\n' : '• # Competitors: ' + d.competitors + ' | Leader share: ' + d.topShare + '%\n') +
-              (isPT ? '• Investimento requerido: $' + d.investment + 'M\n\n' : '• Required investment: $' + d.investment + 'M\n\n') +
-              '┌──────────────────┬────────┬────────┬────────┐\n' +
-              (isPT ? '│ Concorrente       │ Quota  │ Preço  │ NPS    │\n' : '│ Competitor        │ Share  │ Price  │ NPS    │\n') +
-              '├──────────────────┼────────┼────────┼────────┤\n' +
-              '│ Market Leader     │ ' + d.topShare + '%    │ $' + rand(80,200) + '   │ ' + rand(40,70) + '     │\n' +
-              '│ Challenger A      │ ' + rand(10,25) + '%    │ $' + rand(60,150) + '   │ ' + rand(30,60) + '     │\n' +
-              '│ Your Client       │ 0%     │ TBD    │ N/A    │\n' +
-              '└──────────────────┴────────┴────────┴────────┘';
+            d.table =
+              (isPT ? "📊 DADOS DE MERCADO\n\n" : "📊 MARKET DATA\n\n") +
+              (isPT
+                ? "• TAM: $" +
+                  d.tam +
+                  "B | Crescimento: " +
+                  d.growth +
+                  "% CAGR\n"
+                : "• TAM: $" + d.tam + "B | Growth: " + d.growth + "% CAGR\n") +
+              (isPT
+                ? "• Nº de concorrentes: " +
+                  d.competitors +
+                  " | Quota do líder: " +
+                  d.topShare +
+                  "%\n"
+                : "• # Competitors: " +
+                  d.competitors +
+                  " | Leader share: " +
+                  d.topShare +
+                  "%\n") +
+              (isPT
+                ? "• Investimento requerido: $" + d.investment + "M\n\n"
+                : "• Required investment: $" + d.investment + "M\n\n") +
+              "┌──────────────────┬────────┬────────┬────────┐\n" +
+              (isPT
+                ? "│ Concorrente       │ Quota  │ Preço  │ NPS    │\n"
+                : "│ Competitor        │ Share  │ Price  │ NPS    │\n") +
+              "├──────────────────┼────────┼────────┼────────┤\n" +
+              "│ Market Leader     │ " +
+              d.topShare +
+              "%    │ $" +
+              rand(80, 200) +
+              "   │ " +
+              rand(40, 70) +
+              "     │\n" +
+              "│ Challenger A      │ " +
+              rand(10, 25) +
+              "%    │ $" +
+              rand(60, 150) +
+              "   │ " +
+              rand(30, 60) +
+              "     │\n" +
+              "│ Your Client       │ 0%     │ TBD    │ N/A    │\n" +
+              "└──────────────────┴────────┴────────┴────────┘";
             break;
 
-          case 'ma':
+          case "ma":
             d.targetRev = rand(200, 800);
             d.targetEbitda = Math.round(d.targetRev * (rand(10, 25) / 100));
             d.askingPrice = Math.round(d.targetEbitda * rand(8, 14));
-            d.table = (isPT ? '📊 DADOS DO ALVO\n\n' : '📊 TARGET DATA\n\n') +
-              '┌─────────────────────┬───────────┐\n' +
-              (isPT ? '│ Receita             │ $' + d.targetRev + 'M     │\n' : '│ Revenue             │ $' + d.targetRev + 'M     │\n') +
-              '│ EBITDA              │ $' + d.targetEbitda + 'M      │\n' +
-              (isPT ? '│ Margem EBITDA       │ ' + Math.round(d.targetEbitda / d.targetRev * 100) + '%        │\n' : '│ EBITDA Margin       │ ' + Math.round(d.targetEbitda / d.targetRev * 100) + '%        │\n') +
-              (isPT ? '│ Crescimento Receita │ ' + rand(3,15) + '% anual  │\n' : '│ Revenue Growth      │ ' + rand(3,15) + '% annual │\n') +
-              (isPT ? '│ Preço Pedido        │ $' + d.askingPrice + 'M    │\n' : '│ Asking Price        │ $' + d.askingPrice + 'M    │\n') +
-              (isPT ? '│ Múltiplo Implícito  │ ' + (d.askingPrice / d.targetEbitda).toFixed(1) + 'x EBITDA │\n' : '│ Implied Multiple    │ ' + (d.askingPrice / d.targetEbitda).toFixed(1) + 'x EBITDA │\n') +
-              '└─────────────────────┴───────────┘\n\n' +
-              (isPT ? 'Sinergias estimadas: Custo $' + rand(10,40) + 'M/ano | Receita $' + rand(20,60) + 'M/ano\nNº de empregados alvo: ' + rand(500,3000) : 'Est. synergies: Cost $' + rand(10,40) + 'M/yr | Revenue $' + rand(20,60) + 'M/yr\nTarget employees: ' + rand(500,3000));
+            d.table =
+              (isPT ? "📊 DADOS DO ALVO\n\n" : "📊 TARGET DATA\n\n") +
+              "┌─────────────────────┬───────────┐\n" +
+              (isPT
+                ? "│ Receita             │ $" + d.targetRev + "M     │\n"
+                : "│ Revenue             │ $" + d.targetRev + "M     │\n") +
+              "│ EBITDA              │ $" +
+              d.targetEbitda +
+              "M      │\n" +
+              (isPT
+                ? "│ Margem EBITDA       │ " +
+                  Math.round((d.targetEbitda / d.targetRev) * 100) +
+                  "%        │\n"
+                : "│ EBITDA Margin       │ " +
+                  Math.round((d.targetEbitda / d.targetRev) * 100) +
+                  "%        │\n") +
+              (isPT
+                ? "│ Crescimento Receita │ " + rand(3, 15) + "% anual  │\n"
+                : "│ Revenue Growth      │ " + rand(3, 15) + "% annual │\n") +
+              (isPT
+                ? "│ Preço Pedido        │ $" + d.askingPrice + "M    │\n"
+                : "│ Asking Price        │ $" + d.askingPrice + "M    │\n") +
+              (isPT
+                ? "│ Múltiplo Implícito  │ " +
+                  (d.askingPrice / d.targetEbitda).toFixed(1) +
+                  "x EBITDA │\n"
+                : "│ Implied Multiple    │ " +
+                  (d.askingPrice / d.targetEbitda).toFixed(1) +
+                  "x EBITDA │\n") +
+              "└─────────────────────┴───────────┘\n\n" +
+              (isPT
+                ? "Sinergias estimadas: Custo $" +
+                  rand(10, 40) +
+                  "M/ano | Receita $" +
+                  rand(20, 60) +
+                  "M/ano\nNº de empregados alvo: " +
+                  rand(500, 3000)
+                : "Est. synergies: Cost $" +
+                  rand(10, 40) +
+                  "M/yr | Revenue $" +
+                  rand(20, 60) +
+                  "M/yr\nTarget employees: " +
+                  rand(500, 3000));
             break;
 
-          case 'pricing':
+          case "pricing":
             d.unitCost = rand(30, 120);
-            d.compPrice = rand(Math.round(d.unitCost * 1.3), Math.round(d.unitCost * 3));
-            d.wtp = rand(Math.round(d.compPrice * 0.9), Math.round(d.compPrice * 1.4));
-            d.table = (isPT ? '📊 DADOS DE PRICING\n\n' : '📊 PRICING DATA\n\n') +
-              '┌──────────────────────┬───────────┐\n' +
-              (isPT ? '│ Custo variável/und   │ $' + d.unitCost + '      │\n' : '│ Variable cost/unit   │ $' + d.unitCost + '      │\n') +
-              (isPT ? '│ Custos fixos totais  │ $' + rand(5,20) + 'M     │\n' : '│ Total fixed costs    │ $' + rand(5,20) + 'M     │\n') +
-              (isPT ? '│ Volume esperado      │ ' + rand(100,500) + 'K und │\n' : '│ Expected volume      │ ' + rand(100,500) + 'K units│\n') +
-              '└──────────────────────┴───────────┘\n\n' +
-              (isPT ? 'PREÇOS CONCORRENTES:\n' : 'COMPETITOR PRICES:\n') +
-              '• Premium player: $' + Math.round(d.compPrice * 1.3) + '\n' +
-              '• Main competitor: $' + d.compPrice + '\n' +
-              '• Budget option: $' + Math.round(d.compPrice * 0.7) + '\n\n' +
-              (isPT ? 'WTP (pesquisa clientes): $' + d.wtp + ' (mediana)' : 'WTP (customer research): $' + d.wtp + ' (median)');
+            d.compPrice = rand(
+              Math.round(d.unitCost * 1.3),
+              Math.round(d.unitCost * 3),
+            );
+            d.wtp = rand(
+              Math.round(d.compPrice * 0.9),
+              Math.round(d.compPrice * 1.4),
+            );
+            d.table =
+              (isPT ? "📊 DADOS DE PRICING\n\n" : "📊 PRICING DATA\n\n") +
+              "┌──────────────────────┬───────────┐\n" +
+              (isPT
+                ? "│ Custo variável/und   │ $" + d.unitCost + "      │\n"
+                : "│ Variable cost/unit   │ $" + d.unitCost + "      │\n") +
+              (isPT
+                ? "│ Custos fixos totais  │ $" + rand(5, 20) + "M     │\n"
+                : "│ Total fixed costs    │ $" + rand(5, 20) + "M     │\n") +
+              (isPT
+                ? "│ Volume esperado      │ " + rand(100, 500) + "K und │\n"
+                : "│ Expected volume      │ " + rand(100, 500) + "K units│\n") +
+              "└──────────────────────┴───────────┘\n\n" +
+              (isPT ? "PREÇOS CONCORRENTES:\n" : "COMPETITOR PRICES:\n") +
+              "• Premium player: $" +
+              Math.round(d.compPrice * 1.3) +
+              "\n" +
+              "• Main competitor: $" +
+              d.compPrice +
+              "\n" +
+              "• Budget option: $" +
+              Math.round(d.compPrice * 0.7) +
+              "\n\n" +
+              (isPT
+                ? "WTP (pesquisa clientes): $" + d.wtp + " (mediana)"
+                : "WTP (customer research): $" + d.wtp + " (median)");
             break;
 
-          case 'growth':
+          case "growth":
             d.currentRev = rand(100, 600);
             d.churnRate = rand(8, 22);
-            d.table = (isPT ? '📊 DADOS DE CRESCIMENTO — ' + company + '\n\n' : '📊 GROWTH DATA — ' + company + '\n\n') +
-              '┌─────────────────────┬──────────┐\n' +
-              (isPT ? '│ Receita atual       │ $' + d.currentRev + 'M    │\n' : '│ Current revenue     │ $' + d.currentRev + 'M    │\n') +
-              (isPT ? '│ Crescimento (3 anos)│ ' + rand(1,4) + '% anual │\n' : '│ Growth (3yr)        │ ' + rand(1,4) + '% annual│\n') +
-              (isPT ? '│ Taxa de churn       │ ' + d.churnRate + '%       │\n' : '│ Churn rate          │ ' + d.churnRate + '%       │\n') +
-              (isPT ? '│ Crescimento mercado │ ' + rand(6,14) + '% anual │\n' : '│ Market growth       │ ' + rand(6,14) + '% annual│\n') +
-              (isPT ? '│ Quota de mercado    │ ' + rand(8,25) + '%       │\n' : '│ Market share        │ ' + rand(8,25) + '%       │\n') +
-              '└─────────────────────┴──────────┘\n\n' +
-              (isPT ? 'SEGMENTOS DE CLIENTES:\n' : 'CUSTOMER SEGMENTS:\n') +
+            d.table =
               (isPT
-                ? '• Enterprise (30% receita, churn 5%)\n• Mid-market (45% receita, churn ' + d.churnRate + '%)\n• SMB (25% receita, churn ' + (d.churnRate + rand(5,10)) + '%)'
-                : '• Enterprise (30% revenue, churn 5%)\n• Mid-market (45% revenue, churn ' + d.churnRate + '%)\n• SMB (25% revenue, churn ' + (d.churnRate + rand(5,10)) + '%)');
+                ? "📊 DADOS DE CRESCIMENTO — " + company + "\n\n"
+                : "📊 GROWTH DATA — " + company + "\n\n") +
+              "┌─────────────────────┬──────────┐\n" +
+              (isPT
+                ? "│ Receita atual       │ $" + d.currentRev + "M    │\n"
+                : "│ Current revenue     │ $" + d.currentRev + "M    │\n") +
+              (isPT
+                ? "│ Crescimento (3 anos)│ " + rand(1, 4) + "% anual │\n"
+                : "│ Growth (3yr)        │ " + rand(1, 4) + "% annual│\n") +
+              (isPT
+                ? "│ Taxa de churn       │ " + d.churnRate + "%       │\n"
+                : "│ Churn rate          │ " + d.churnRate + "%       │\n") +
+              (isPT
+                ? "│ Crescimento mercado │ " + rand(6, 14) + "% anual │\n"
+                : "│ Market growth       │ " + rand(6, 14) + "% annual│\n") +
+              (isPT
+                ? "│ Quota de mercado    │ " + rand(8, 25) + "%       │\n"
+                : "│ Market share        │ " + rand(8, 25) + "%       │\n") +
+              "└─────────────────────┴──────────┘\n\n" +
+              (isPT ? "SEGMENTOS DE CLIENTES:\n" : "CUSTOMER SEGMENTS:\n") +
+              (isPT
+                ? "• Enterprise (30% receita, churn 5%)\n• Mid-market (45% receita, churn " +
+                  d.churnRate +
+                  "%)\n• SMB (25% receita, churn " +
+                  (d.churnRate + rand(5, 10)) +
+                  "%)"
+                : "• Enterprise (30% revenue, churn 5%)\n• Mid-market (45% revenue, churn " +
+                  d.churnRate +
+                  "%)\n• SMB (25% revenue, churn " +
+                  (d.churnRate + rand(5, 10)) +
+                  "%)");
             break;
 
-          case 'cost-cutting':
+          case "cost-cutting":
             d.totalCost = rand(200, 800);
-            d.personnel = Math.round(d.totalCost * rand(35, 50) / 100);
-            d.materials = Math.round(d.totalCost * rand(15, 30) / 100);
-            d.logistics = Math.round(d.totalCost * rand(8, 18) / 100);
+            d.personnel = Math.round((d.totalCost * rand(35, 50)) / 100);
+            d.materials = Math.round((d.totalCost * rand(15, 30)) / 100);
+            d.logistics = Math.round((d.totalCost * rand(8, 18)) / 100);
             d.other = d.totalCost - d.personnel - d.materials - d.logistics;
-            d.table = (isPT ? '📊 ESTRUTURA DE CUSTOS — ' + company + '\n\n' : '📊 COST STRUCTURE — ' + company + '\n\n') +
-              '┌──────────────────┬─────────┬────────┬──────────────┐\n' +
-              (isPT ? '│ Categoria         │ Valor   │ % Total│ vs Benchmark │\n' : '│ Category          │ Amount  │ % Total│ vs Benchmark │\n') +
-              '├──────────────────┼─────────┼────────┼──────────────┤\n' +
-              (isPT ? '│ Pessoal           │ $' + d.personnel + 'M  │ ' + Math.round(d.personnel/d.totalCost*100) + '%    │ +' + rand(5,20) + '% acima    │\n' : '│ Personnel         │ $' + d.personnel + 'M  │ ' + Math.round(d.personnel/d.totalCost*100) + '%    │ +' + rand(5,20) + '% above    │\n') +
-              (isPT ? '│ Materiais         │ $' + d.materials + 'M  │ ' + Math.round(d.materials/d.totalCost*100) + '%    │ Em linha      │\n' : '│ Materials         │ $' + d.materials + 'M  │ ' + Math.round(d.materials/d.totalCost*100) + '%    │ In line       │\n') +
-              (isPT ? '│ Logística         │ $' + d.logistics + 'M   │ ' + Math.round(d.logistics/d.totalCost*100) + '%    │ +' + rand(8,18) + '% acima    │\n' : '│ Logistics         │ $' + d.logistics + 'M   │ ' + Math.round(d.logistics/d.totalCost*100) + '%    │ +' + rand(8,18) + '% above    │\n') +
-              (isPT ? '│ Outro             │ $' + d.other + 'M   │ ' + Math.round(d.other/d.totalCost*100) + '%    │ Em linha      │\n' : '│ Other             │ $' + d.other + 'M   │ ' + Math.round(d.other/d.totalCost*100) + '%    │ In line       │\n') +
-              '├──────────────────┼─────────┼────────┼──────────────┤\n' +
-              '│ TOTAL             │ $' + d.totalCost + 'M │ 100%   │              │\n' +
-              '└──────────────────┴─────────┴────────┴──────────────┘\n\n' +
-              (isPT ? 'Objetivo: Reduzir custos em 15-20% ($' + Math.round(d.totalCost*0.15) + '-' + Math.round(d.totalCost*0.20) + 'M)' : 'Target: Reduce costs by 15-20% ($' + Math.round(d.totalCost*0.15) + '-' + Math.round(d.totalCost*0.20) + 'M)');
+            d.table =
+              (isPT
+                ? "📊 ESTRUTURA DE CUSTOS — " + company + "\n\n"
+                : "📊 COST STRUCTURE — " + company + "\n\n") +
+              "┌──────────────────┬─────────┬────────┬──────────────┐\n" +
+              (isPT
+                ? "│ Categoria         │ Valor   │ % Total│ vs Benchmark │\n"
+                : "│ Category          │ Amount  │ % Total│ vs Benchmark │\n") +
+              "├──────────────────┼─────────┼────────┼──────────────┤\n" +
+              (isPT
+                ? "│ Pessoal           │ $" +
+                  d.personnel +
+                  "M  │ " +
+                  Math.round((d.personnel / d.totalCost) * 100) +
+                  "%    │ +" +
+                  rand(5, 20) +
+                  "% acima    │\n"
+                : "│ Personnel         │ $" +
+                  d.personnel +
+                  "M  │ " +
+                  Math.round((d.personnel / d.totalCost) * 100) +
+                  "%    │ +" +
+                  rand(5, 20) +
+                  "% above    │\n") +
+              (isPT
+                ? "│ Materiais         │ $" +
+                  d.materials +
+                  "M  │ " +
+                  Math.round((d.materials / d.totalCost) * 100) +
+                  "%    │ Em linha      │\n"
+                : "│ Materials         │ $" +
+                  d.materials +
+                  "M  │ " +
+                  Math.round((d.materials / d.totalCost) * 100) +
+                  "%    │ In line       │\n") +
+              (isPT
+                ? "│ Logística         │ $" +
+                  d.logistics +
+                  "M   │ " +
+                  Math.round((d.logistics / d.totalCost) * 100) +
+                  "%    │ +" +
+                  rand(8, 18) +
+                  "% acima    │\n"
+                : "│ Logistics         │ $" +
+                  d.logistics +
+                  "M   │ " +
+                  Math.round((d.logistics / d.totalCost) * 100) +
+                  "%    │ +" +
+                  rand(8, 18) +
+                  "% above    │\n") +
+              (isPT
+                ? "│ Outro             │ $" +
+                  d.other +
+                  "M   │ " +
+                  Math.round((d.other / d.totalCost) * 100) +
+                  "%    │ Em linha      │\n"
+                : "│ Other             │ $" +
+                  d.other +
+                  "M   │ " +
+                  Math.round((d.other / d.totalCost) * 100) +
+                  "%    │ In line       │\n") +
+              "├──────────────────┼─────────┼────────┼──────────────┤\n" +
+              "│ TOTAL             │ $" +
+              d.totalCost +
+              "M │ 100%   │              │\n" +
+              "└──────────────────┴─────────┴────────┴──────────────┘\n\n" +
+              (isPT
+                ? "Objetivo: Reduzir custos em 15-20% ($" +
+                  Math.round(d.totalCost * 0.15) +
+                  "-" +
+                  Math.round(d.totalCost * 0.2) +
+                  "M)"
+                : "Target: Reduce costs by 15-20% ($" +
+                  Math.round(d.totalCost * 0.15) +
+                  "-" +
+                  Math.round(d.totalCost * 0.2) +
+                  "M)");
             break;
 
           default:
             // Generic data for other frameworks (operations, digital, new-product, investment)
             d.revenue = rand(100, 500);
             d.margin = rand(5, 25);
-            d.table = (isPT ? '📊 DADOS DO CASO\n\n' : '📊 CASE DATA\n\n') +
-              '┌─────────────────────┬───────────┐\n' +
-              (isPT ? '│ Receita             │ $' + d.revenue + 'M     │\n' : '│ Revenue             │ $' + d.revenue + 'M     │\n') +
-              (isPT ? '│ Margem operacional  │ ' + d.margin + '%       │\n' : '│ Operating margin    │ ' + d.margin + '%       │\n') +
-              (isPT ? '│ Crescimento         │ ' + rand(-3,10) + '% anual │\n' : '│ Growth              │ ' + rand(-3,10) + '% annual│\n') +
-              (isPT ? '│ Nº empregados       │ ' + rand(500, 5000) + '      │\n' : '│ Employees           │ ' + rand(500, 5000) + '      │\n') +
-              (isPT ? '│ Capex/Receita       │ ' + rand(5,20) + '%       │\n' : '│ Capex/Revenue       │ ' + rand(5,20) + '%       │\n') +
-              '└─────────────────────┴───────────┘\n\n' +
-              (isPT ? 'O mercado está a crescer ' + rand(5,15) + '% mas a empresa fica para trás.' : 'Market is growing ' + rand(5,15) + '% but the company is falling behind.');
+            d.table =
+              (isPT ? "📊 DADOS DO CASO\n\n" : "📊 CASE DATA\n\n") +
+              "┌─────────────────────┬───────────┐\n" +
+              (isPT
+                ? "│ Receita             │ $" + d.revenue + "M     │\n"
+                : "│ Revenue             │ $" + d.revenue + "M     │\n") +
+              (isPT
+                ? "│ Margem operacional  │ " + d.margin + "%       │\n"
+                : "│ Operating margin    │ " + d.margin + "%       │\n") +
+              (isPT
+                ? "│ Crescimento         │ " + rand(-3, 10) + "% anual │\n"
+                : "│ Growth              │ " + rand(-3, 10) + "% annual│\n") +
+              (isPT
+                ? "│ Nº empregados       │ " + rand(500, 5000) + "      │\n"
+                : "│ Employees           │ " + rand(500, 5000) + "      │\n") +
+              (isPT
+                ? "│ Capex/Receita       │ " + rand(5, 20) + "%       │\n"
+                : "│ Capex/Revenue       │ " + rand(5, 20) + "%       │\n") +
+              "└─────────────────────┴───────────┘\n\n" +
+              (isPT
+                ? "O mercado está a crescer " +
+                  rand(5, 15) +
+                  "% mas a empresa fica para trás."
+                : "Market is growing " +
+                  rand(5, 15) +
+                  "% but the company is falling behind.");
             break;
         }
         return d.table;
@@ -14553,6 +15856,115 @@
         userAnswers: ["", "", ""],
       };
 
+      // ═══════════════════════════════════════════════════
+      // CASE TIMER
+      // ═══════════════════════════════════════════════════
+      var cgTimerInterval = null;
+      var cgTimerSectionStart = 0;
+      var cgTimerTotalStart = 0;
+      var cgTimerSectionTimes = [0, 0, 0]; // ms per section
+
+      function cgStartTimer() {
+        cgTimerTotalStart = Date.now();
+        cgTimerSectionStart = Date.now();
+        cgTimerSectionTimes = [0, 0, 0];
+        if (cgTimerInterval) clearInterval(cgTimerInterval);
+        cgTimerInterval = setInterval(cgUpdateTimer, 1000);
+        cgUpdateTimer();
+      }
+
+      function cgUpdateTimer() {
+        var now = Date.now();
+        var secElapsed = now - cgTimerSectionStart;
+        var totalElapsed = now - cgTimerTotalStart;
+        var secEl = document.getElementById("cg-timer-section");
+        var totEl = document.getElementById("cg-timer-total");
+        if (secEl) secEl.textContent = "⏱ " + cgFormatTime(secElapsed);
+        if (totEl) totEl.textContent = "Total: " + cgFormatTime(totalElapsed);
+        // Color the section timer based on time spent
+        if (secEl) {
+          if (secElapsed > 180000) {
+            secEl.style.color = "#c62828";
+            secEl.style.background = "#ffebee";
+          } else if (secElapsed > 120000) {
+            secEl.style.color = "#e65100";
+            secEl.style.background = "#fff3e0";
+          } else {
+            secEl.style.color = "#888";
+            secEl.style.background = "#f5f5f5";
+          }
+        }
+      }
+
+      function cgFormatTime(ms) {
+        var totalSec = Math.floor(ms / 1000);
+        var min = Math.floor(totalSec / 60);
+        var sec = totalSec % 60;
+        return (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+      }
+
+      function cgSwitchSectionTimer(fromSection, toSection) {
+        var now = Date.now();
+        cgTimerSectionTimes[fromSection - 1] += now - cgTimerSectionStart;
+        cgTimerSectionStart = now;
+      }
+
+      function cgStopTimer() {
+        if (cgTimerInterval) {
+          clearInterval(cgTimerInterval);
+          cgTimerInterval = null;
+        }
+        var now = Date.now();
+        cgTimerSectionTimes[cgState.currentSection - 1] +=
+          now - cgTimerSectionStart;
+      }
+
+      // ═══════════════════════════════════════════════════
+      // INTERVIEWER FOLLOW-UP QUESTIONS
+      // ═══════════════════════════════════════════════════
+      var CG_FOLLOWUPS = {
+        en: [
+          [
+            "That's a good start. Can you be more specific about which branch you'd explore first, and why?",
+            "Interesting structure. What's your hypothesis going in — what do you think is the most likely root cause?",
+            "Before we go deeper, is there anything you'd want to clarify with the client upfront?",
+            "You've outlined the structure. Now, if you only had one week, which 2-3 analyses would you prioritize?",
+          ],
+          [
+            "Good observation. Can you quantify the impact of that finding?",
+            "You've identified the trend. Now, what would you need to confirm before drawing conclusions?",
+            "What's the 'so what' here? How does this change the recommendation?",
+            "Can you do a quick sanity check on that number? Does it pass the smell test?",
+          ],
+          [
+            "Solid recommendation. How would you phase the implementation — what's the 90-day plan?",
+            "The CEO pushes back: 'We tried something similar before and it failed.' How do you respond?",
+            "What are the top 2 risks to your recommendation, and how would you mitigate them?",
+            "If the board gives you only half the budget you asked for, how does your recommendation change?",
+          ],
+        ],
+        pt: [
+          [
+            "Bom começo. Pode ser mais específico sobre qual ramo exploraria primeiro, e porquê?",
+            "Estrutura interessante. Qual é a sua hipótese — qual é a causa raiz mais provável?",
+            "Antes de aprofundar, há algo que gostaria de clarificar com o cliente?",
+            "Já tem a estrutura. Se tivesse só uma semana, quais 2-3 análises priorizaria?",
+          ],
+          [
+            "Boa observação. Consegue quantificar o impacto dessa descoberta?",
+            "Identificou a tendência. O que precisaria confirmar antes de tirar conclusões?",
+            "Qual é o 'e então?' aqui? Como muda a recomendação?",
+            "Faça um quick check nesse número. Faz sentido?",
+          ],
+          [
+            "Recomendação sólida. Como fasearia a implementação — qual é o plano a 90 dias?",
+            "O CEO contrapõe: 'Já tentámos algo parecido e falhou.' Como responde?",
+            "Quais são os 2 maiores riscos e como os mitiga?",
+            "Se o board só aprovar metade do orçamento, como muda a recomendação?",
+          ],
+        ],
+      };
+
       function generateCase(isPT) {
         const lang = isPT ? "pt" : "en";
         var difficulty = document.getElementById("cg-difficulty").value;
@@ -14623,7 +16035,9 @@
 
         // Get solutions for this framework
         var sol = CG_SOLUTIONS[fwKey] || CG_SOLUTIONS["profitability"];
-        var sections = JSON.parse(JSON.stringify(sol.sections[lang] || sol.sections["en"]));
+        var sections = JSON.parse(
+          JSON.stringify(sol.sections[lang] || sol.sections["en"]),
+        );
 
         // Generate real data for Section 2
         var dataTable = cgGenerateData(fwKey, indKey, mathKey, company, isPT);
@@ -14635,16 +16049,44 @@
         // Add per-section hints
         var sectionHints = isPT
           ? [
-              '🧩 Framework: ' + (sol.framework ? sol.framework.name : fwKey) + '\n📐 ' + (isPT ? 'Use a árvore de issues para estruturar' : 'Use the issue tree to structure') + '\n💡 ' + fw.hintPT,
-              '🔢 Matemática: ' + mt.namePT + '\n📐 ' + mt.hintPT + '\n💡 Foque nos números mais importantes primeiro',
-              '🏭 Indústria: ' + ind.namePT + '\n📐 ' + (ind.metrics || '') + '\n💡 Adapte a recomendação ao contexto da indústria'
+              "🧩 Framework: " +
+                (sol.framework ? sol.framework.name : fwKey) +
+                "\n📐 " +
+                (isPT
+                  ? "Use a árvore de issues para estruturar"
+                  : "Use the issue tree to structure") +
+                "\n💡 " +
+                fw.hintPT,
+              "🔢 Matemática: " +
+                mt.namePT +
+                "\n📐 " +
+                mt.hintPT +
+                "\n💡 Foque nos números mais importantes primeiro",
+              "🏭 Indústria: " +
+                ind.namePT +
+                "\n📐 " +
+                (ind.metrics || "") +
+                "\n💡 Adapte a recomendação ao contexto da indústria",
             ]
           : [
-              '🧩 Framework: ' + (sol.framework ? sol.framework.name : fwKey) + '\n📐 Use the issue tree to structure your thinking\n💡 ' + fw.hint,
-              '🔢 Math focus: ' + mt.name + '\n📐 ' + mt.hint + '\n💡 Focus on the most important numbers first',
-              '🏭 Industry: ' + ind.name + '\n📐 ' + (ind.metrics || '') + '\n💡 Tailor your recommendation to the industry context'
+              "🧩 Framework: " +
+                (sol.framework ? sol.framework.name : fwKey) +
+                "\n📐 Use the issue tree to structure your thinking\n💡 " +
+                fw.hint,
+              "🔢 Math focus: " +
+                mt.name +
+                "\n📐 " +
+                mt.hint +
+                "\n💡 Focus on the most important numbers first",
+              "🏭 Industry: " +
+                ind.name +
+                "\n📐 " +
+                (ind.metrics || "") +
+                "\n💡 Tailor your recommendation to the industry context",
             ];
-        sections.forEach(function(s, i) { s.sectionHint = sectionHints[i] || ''; });
+        sections.forEach(function (s, i) {
+          s.sectionHint = sectionHints[i] || "";
+        });
 
         // Store state
         cgState = {
@@ -14818,36 +16260,24 @@
           "</div>";
 
         if (diff === "easy") {
-          // EASY: full guidance, framework tree always visible, coaching hints
-          // Show data table if Section 2
+          // EASY: coaching tips, data tables, but NO framework tree shown (it's behind the hint)
           if (sec.data) {
-            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:14px; border-radius:8px; border:1px solid #e0e0e0;">' + sec.data + '</pre>';
+            promptHTML +=
+              '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:14px; border-radius:8px; border:1px solid #e0e0e0;">' +
+              sec.data +
+              "</pre>";
           }
           promptHTML +=
             '<div style="margin-bottom:12px;">' + sec.prompt + "</div>";
-          // Always show framework tree in easy mode (every section)
-          if (fwInfo) {
-            promptHTML +=
-              '<div style="margin-top:12px; padding:12px; background:#e8f5e9; border-radius:8px; border:1px solid #c8e6c9;">';
-            promptHTML +=
-              '<div style="font-weight:600; font-size:0.85em; color:#2e7d32; margin-bottom:6px;">📐 ' +
-              fwInfo.name +
-              " (shown because Easy mode)</div>";
-            promptHTML +=
-              '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' +
-              fwInfo.tree +
-              "</pre>";
-            promptHTML += "</div>";
-          }
-          // Add coaching tip for this section
+          // Add coaching tip for this section (NOT the framework tree)
           var easyTips = cgState.isPT
             ? [
-                "💡 Dica: Comece por dividir o problema em 2-3 blocos principais. Use a árvore acima como guia.",
+                "💡 Dica: Comece por dividir o problema em 2-3 blocos principais. Que grandes questões precisa responder?",
                 '💡 Dica: Leia os dados com calma. Identifique o número mais importante primeiro. Depois explique o "e então?".',
                 "💡 Dica: Use a estrutura Situação → Diagnóstico → Recomendação. Seja específico com números.",
               ]
             : [
-                "💡 Tip: Start by splitting the problem into 2-3 main buckets. Use the tree above as your guide.",
+                "💡 Tip: Start by splitting the problem into 2-3 main buckets. What big questions do you need to answer?",
                 '💡 Tip: Read the data carefully. Identify the single most important number first. Then explain the "so what?".',
                 "💡 Tip: Use the Situation → Finding → Recommendation structure. Be specific with numbers.",
               ];
@@ -14873,10 +16303,21 @@
               ];
           if (n === 2 && sec.data) {
             // Show data table even in hard mode
-            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:12px; border-radius:8px;">' + sec.data + '</pre>';
-            promptHTML += '<div style="margin-bottom:12px; color:#555;">' + (cgState.isPT ? 'Analise os dados. O que observa?' : 'Analyze the data. What do you observe?') + "</div>";
+            promptHTML +=
+              '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:12px; border-radius:8px;">' +
+              sec.data +
+              "</pre>";
+            promptHTML +=
+              '<div style="margin-bottom:12px; color:#555;">' +
+              (cgState.isPT
+                ? "Analise os dados. O que observa?"
+                : "Analyze the data. What do you observe?") +
+              "</div>";
           } else {
-            promptHTML += '<div style="margin-bottom:12px; color:#555;">' + hardPrompts[n - 1] + "</div>";
+            promptHTML +=
+              '<div style="margin-bottom:12px; color:#555;">' +
+              hardPrompts[n - 1] +
+              "</div>";
           }
           // No framework tree shown in hard mode
           // Close hints panel
@@ -14886,36 +16327,34 @@
           var introEl = document.getElementById("cg-industry-intro");
           if (introEl) introEl.style.display = "none";
         } else {
-          // MEDIUM: standard behavior — framework tree only in Section 1
-          // Show data table if Section 2
+          // MEDIUM: standard behavior — NO framework tree shown (it's behind Show Hint + Show Solution)
           if (sec.data) {
-            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:14px; border-radius:8px; border:1px solid #e0e0e0;">' + sec.data + '</pre>';
+            promptHTML +=
+              '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:14px; border-radius:8px; border:1px solid #e0e0e0;">' +
+              sec.data +
+              "</pre>";
           }
           promptHTML +=
             '<div style="margin-bottom:12px;">' + sec.prompt + "</div>";
-          if (n === 1 && fwInfo) {
-            promptHTML +=
-              '<div style="margin-top:12px; padding:12px; background:white; border-radius:8px; border:1px solid #e0e0e0;">';
-            promptHTML +=
-              '<div style="font-weight:600; font-size:0.85em; color:#555; margin-bottom:6px;">📐 ' +
-              fwInfo.name +
-              "</div>";
-            promptHTML +=
-              '<pre style="font-size:0.82em; color:#333; margin:0; white-space:pre-wrap; font-family:monospace; line-height:1.5;">' +
-              fwInfo.tree +
-              "</pre>";
-            promptHTML += "</div>";
-          }
         }
         document.getElementById("cg-section-prompt").innerHTML = promptHTML;
 
         // Add per-section hint toggle (hidden by default, click to reveal)
-        var sHint = sec.sectionHint || '';
-        if (sHint && diff !== 'hard') {
-          var hintEl = document.createElement('div');
-          hintEl.style.cssText = 'margin-top:8px;';
-          hintEl.innerHTML = '<button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'; this.textContent=this.nextElementSibling.style.display===\'none\'? \'' + (cgState.isPT ? '💡 Mostrar Dica' : '💡 Show Hint') + '\' : \'' + (cgState.isPT ? '💡 Esconder Dica' : '💡 Hide Hint') + '\'" style="background:none;border:1px dashed #ccc;border-radius:6px;padding:6px 14px;font-size:0.82em;color:#888;cursor:pointer;">' + (cgState.isPT ? '💡 Mostrar Dica' : '💡 Show Hint') + '</button>' +
-            '<div style="display:none;margin-top:6px;padding:10px;background:#fffde7;border-radius:8px;border:1px solid #fff9c4;font-size:0.82em;color:#5d4037;white-space:pre-line;line-height:1.5;">' + sHint + '</div>';
+        var sHint = sec.sectionHint || "";
+        if (sHint && diff !== "hard") {
+          var hintEl = document.createElement("div");
+          hintEl.style.cssText = "margin-top:8px;";
+          hintEl.innerHTML =
+            "<button onclick=\"this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'; this.textContent=this.nextElementSibling.style.display==='none'? '" +
+            (cgState.isPT ? "💡 Mostrar Dica" : "💡 Show Hint") +
+            "' : '" +
+            (cgState.isPT ? "💡 Esconder Dica" : "💡 Hide Hint") +
+            '\'" style="background:none;border:1px dashed #ccc;border-radius:6px;padding:6px 14px;font-size:0.82em;color:#888;cursor:pointer;">' +
+            (cgState.isPT ? "💡 Mostrar Dica" : "💡 Show Hint") +
+            "</button>" +
+            '<div style="display:none;margin-top:6px;padding:10px;background:#fffde7;border-radius:8px;border:1px solid #fff9c4;font-size:0.82em;color:#5d4037;white-space:pre-line;line-height:1.5;">' +
+            sHint +
+            "</div>";
           document.getElementById("cg-section-prompt").appendChild(hintEl);
         }
 
@@ -15488,49 +16927,53 @@
       // Attach drag listeners to bar fills (only once per element)
       function attachDragListeners() {
         console.log("[DRAG] attachDragListeners called");
-        ["concerta", "rubifen", "propranolol", "alprazolam"].forEach(
-          (pillId) => {
-            const fillEl = document.getElementById("bar-" + pillId + "-fill");
-            if (fillEl && !fillEl._dragAttached) {
+        [
+          "concerta",
+          "rubifen",
+          "propranolol",
+          "alprazolam",
+          "britellix",
+        ].forEach((pillId) => {
+          const fillEl = document.getElementById("bar-" + pillId + "-fill");
+          if (fillEl && !fillEl._dragAttached) {
+            console.log(
+              "[DRAG] Attaching to",
+              pillId,
+              "fill:",
+              fillEl,
+              "display:",
+              fillEl.parentElement.style.display,
+              "w:",
+              fillEl.style.width,
+              "l:",
+              fillEl.style.left,
+            );
+            fillEl.style.cursor = "grab";
+            fillEl.style.pointerEvents = "auto";
+            fillEl.style.touchAction = "none";
+            fillEl.addEventListener("mousedown", (e) => {
               console.log(
-                "[DRAG] Attaching to",
+                "[DRAG] mousedown on",
                 pillId,
-                "fill:",
-                fillEl,
-                "display:",
-                fillEl.parentElement.style.display,
-                "w:",
-                fillEl.style.width,
-                "l:",
-                fillEl.style.left,
+                "target:",
+                e.target.tagName,
+                e.target.className,
               );
-              fillEl.style.cursor = "grab";
-              fillEl.style.pointerEvents = "auto";
-              fillEl.style.touchAction = "none";
-              fillEl.addEventListener("mousedown", (e) => {
-                console.log(
-                  "[DRAG] mousedown on",
-                  pillId,
-                  "target:",
-                  e.target.tagName,
-                  e.target.className,
-                );
+              startDrag(e, pillId);
+            });
+            fillEl.addEventListener(
+              "touchstart",
+              (e) => {
+                console.log("[DRAG] touchstart on", pillId);
                 startDrag(e, pillId);
-              });
-              fillEl.addEventListener(
-                "touchstart",
-                (e) => {
-                  console.log("[DRAG] touchstart on", pillId);
-                  startDrag(e, pillId);
-                },
-                { passive: false },
-              );
-              fillEl._dragAttached = true;
-            } else if (fillEl && fillEl._dragAttached) {
-              console.log("[DRAG] Already attached to", pillId);
-            }
-          },
-        );
+              },
+              { passive: false },
+            );
+            fillEl._dragAttached = true;
+          } else if (fillEl && fillEl._dragAttached) {
+            console.log("[DRAG] Already attached to", pillId);
+          }
+        });
       }
       attachDragListeners();
 
