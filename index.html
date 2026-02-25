@@ -6755,15 +6755,33 @@
                 "
               >
                 <option value="random">🎲 Random</option>
-                <option value="retail">🛒 Retail — margins 2-5%, volume-driven</option>
-                <option value="healthcare">💊 Healthcare — margins 70-90%, regulated</option>
-                <option value="tech">💻 Tech/SaaS — margins 70-85%, ARR-driven</option>
-                <option value="financial">🏦 Financial — NIM-based, regulated</option>
-                <option value="energy">⚡ Energy — capital-intensive, long horizon</option>
-                <option value="airlines">✈️ Airlines — margins 2-3%, high fixed costs</option>
-                <option value="manufacturing">🏭 Manufacturing — OEE, capacity-driven</option>
-                <option value="telecom">📡 Telecom — ARPU, infrastructure-heavy</option>
-                <option value="nonprofit">🏛️ Non-Profit — impact/$ optimized</option>
+                <option value="retail">
+                  🛒 Retail — margins 2-5%, volume-driven
+                </option>
+                <option value="healthcare">
+                  💊 Healthcare — margins 70-90%, regulated
+                </option>
+                <option value="tech">
+                  💻 Tech/SaaS — margins 70-85%, ARR-driven
+                </option>
+                <option value="financial">
+                  🏦 Financial — NIM-based, regulated
+                </option>
+                <option value="energy">
+                  ⚡ Energy — capital-intensive, long horizon
+                </option>
+                <option value="airlines">
+                  ✈️ Airlines — margins 2-3%, high fixed costs
+                </option>
+                <option value="manufacturing">
+                  🏭 Manufacturing — OEE, capacity-driven
+                </option>
+                <option value="telecom">
+                  📡 Telecom — ARPU, infrastructure-heavy
+                </option>
+                <option value="nonprofit">
+                  🏛️ Non-Profit — impact/$ optimized
+                </option>
               </select>
             </div>
             <!-- FRAMEWORK DROPDOWN -->
@@ -6849,25 +6867,106 @@
               border-radius: 12px;
               padding: 16px 20px;
               margin-bottom: 16px;
-              box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             "
           >
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-              <span id="cg-preview-icon" style="font-size:1.4em;"></span>
-              <span id="cg-preview-name" style="font-weight:700; font-size:1em; color:#1565c0;"></span>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 8px;
+              "
+            >
+              <span id="cg-preview-icon" style="font-size: 1.4em"></span>
+              <span
+                id="cg-preview-name"
+                style="font-weight: 700; font-size: 1em; color: #1565c0"
+              ></span>
             </div>
-            <div id="cg-preview-intro" style="font-size:0.85em; color:#444; line-height:1.55; margin-bottom:10px;"></div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-              <div style="background:white; border-radius:8px; padding:8px 12px; border:1px solid #e8e8e8;">
-                <div style="font-size:0.7em; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:0.5px;">📊 Key Metrics</div>
-                <div id="cg-preview-metrics" style="font-size:0.8em; color:#333; margin-top:3px; line-height:1.4;"></div>
+            <div
+              id="cg-preview-intro"
+              style="
+                font-size: 0.85em;
+                color: #444;
+                line-height: 1.55;
+                margin-bottom: 10px;
+              "
+            ></div>
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px"
+            >
+              <div
+                style="
+                  background: white;
+                  border-radius: 8px;
+                  padding: 8px 12px;
+                  border: 1px solid #e8e8e8;
+                "
+              >
+                <div
+                  style="
+                    font-size: 0.7em;
+                    font-weight: 600;
+                    color: #888;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                  "
+                >
+                  📊 Key Metrics
+                </div>
+                <div
+                  id="cg-preview-metrics"
+                  style="
+                    font-size: 0.8em;
+                    color: #333;
+                    margin-top: 3px;
+                    line-height: 1.4;
+                  "
+                ></div>
               </div>
-              <div style="background:white; border-radius:8px; padding:8px 12px; border:1px solid #e8e8e8;">
-                <div style="font-size:0.7em; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:0.5px;">🏢 Example Companies</div>
-                <div id="cg-preview-companies" style="font-size:0.8em; color:#333; margin-top:3px; line-height:1.4;"></div>
+              <div
+                style="
+                  background: white;
+                  border-radius: 8px;
+                  padding: 8px 12px;
+                  border: 1px solid #e8e8e8;
+                "
+              >
+                <div
+                  style="
+                    font-size: 0.7em;
+                    font-weight: 600;
+                    color: #888;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                  "
+                >
+                  🏢 Example Companies
+                </div>
+                <div
+                  id="cg-preview-companies"
+                  style="
+                    font-size: 0.8em;
+                    color: #333;
+                    margin-top: 3px;
+                    line-height: 1.4;
+                  "
+                ></div>
               </div>
             </div>
-            <div id="cg-preview-hint" style="margin-top:8px; padding:8px 12px; background:#fff8e1; border-radius:6px; font-size:0.78em; color:#795548; line-height:1.4;"></div>
+            <div
+              id="cg-preview-hint"
+              style="
+                margin-top: 8px;
+                padding: 8px 12px;
+                background: #fff8e1;
+                border-radius: 6px;
+                font-size: 0.78em;
+                color: #795548;
+                line-height: 1.4;
+              "
+            ></div>
           </div>
 
           <div style="display: flex; gap: 12px; margin-bottom: 20px">
@@ -7009,22 +7108,47 @@
                 padding: 16px 20px;
                 margin-bottom: 16px;
                 display: none;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
               "
             >
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                <span id="cg-industry-intro-icon" style="font-size:1.3em;"></span>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  margin-bottom: 6px;
+                "
+              >
                 <span
-                  style="font-weight: 700; font-size: 0.92em; color: #1565c0;"
+                  id="cg-industry-intro-icon"
+                  style="font-size: 1.3em"
+                ></span>
+                <span
+                  style="font-weight: 700; font-size: 0.92em; color: #1565c0"
                   id="cg-industry-intro-title"
                 ></span>
               </div>
               <div
-                style="font-size: 0.85em; color: #444; line-height: 1.55; margin-bottom:8px;"
+                style="
+                  font-size: 0.85em;
+                  color: #444;
+                  line-height: 1.55;
+                  margin-bottom: 8px;
+                "
                 id="cg-industry-intro-text"
               ></div>
-              <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <span id="cg-industry-intro-metrics" style="background:white; border:1px solid #e0e0e0; border-radius:6px; padding:4px 10px; font-size:0.75em; color:#555;"></span>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <span
+                  id="cg-industry-intro-metrics"
+                  style="
+                    background: white;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 6px;
+                    padding: 4px 10px;
+                    font-size: 0.75em;
+                    color: #555;
+                  "
+                ></span>
               </div>
             </div>
 
@@ -13598,11 +13722,155 @@
       function pick(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
       }
+      function rand(min, max) { return Math.round(min + Math.random() * (max - min)); }
 
       // ═══════════════════════════════════════════════════
-      // FRAMEWORK SOLUTIONS (from CaseCoach PDFs)
-      // Based on: Top-10 Case Frameworks, Logical Frameworks, Academic Frameworks
+      // DATA GENERATOR — creates realistic data sets for Section 2
       // ═══════════════════════════════════════════════════
+      function cgGenerateData(fwKey, indKey, mathKey, company, isPT) {
+        var d = {};
+        // Generate numbers that make sense for the framework
+        switch (fwKey) {
+          case 'profitability':
+            d.revenue = rand(80, 500);
+            d.revGrowth = rand(-5, 12);
+            d.cogs = Math.round(d.revenue * (rand(40, 70) / 100));
+            d.grossMargin = Math.round((1 - d.cogs / d.revenue) * 100);
+            d.fixedCosts = rand(15, 60);
+            d.varCosts = d.cogs;
+            d.sga = rand(10, 40);
+            d.netIncome = d.revenue - d.cogs - d.fixedCosts - d.sga;
+            d.table = isPT
+              ? '📊 DADOS FINANCEIROS — ' + company + '\n\n' +
+                '┌─────────────────────┬──────────┬──────────┬─────────┐\n' +
+                '│ Metric              │ Ano 1    │ Ano 2    │ Ano 3   │\n' +
+                '├─────────────────────┼──────────┼──────────┼─────────┤\n' +
+                '│ Receita (€M)        │ ' + (d.revenue - rand(30,60)) + '       │ ' + (d.revenue - rand(5,20)) + '       │ ' + d.revenue + '     │\n' +
+                '│ COGS (€M)           │ ' + Math.round(d.cogs*0.8) + '       │ ' + Math.round(d.cogs*0.9) + '       │ ' + d.cogs + '     │\n' +
+                '│ Custos Fixos (€M)   │ ' + d.fixedCosts + '       │ ' + d.fixedCosts + '       │ ' + d.fixedCosts + '     │\n' +
+                '│ SG&A (€M)           │ ' + Math.round(d.sga*0.85) + '       │ ' + d.sga + '       │ ' + Math.round(d.sga*1.1) + '     │\n' +
+                '│ Margem Bruta %      │ ' + (d.grossMargin + rand(3,8)) + '%      │ ' + (d.grossMargin + rand(1,3)) + '%      │ ' + d.grossMargin + '%    │\n' +
+                '└─────────────────────┴──────────┴──────────┴─────────┘\n\n' +
+                '⚠️ A margem bruta caiu de ' + (d.grossMargin + rand(5,10)) + '% para ' + d.grossMargin + '% em 3 anos.'
+              : '📊 FINANCIAL DATA — ' + company + '\n\n' +
+                '┌─────────────────────┬──────────┬──────────┬─────────┐\n' +
+                '│ Metric              │ Year 1   │ Year 2   │ Year 3  │\n' +
+                '├─────────────────────┼──────────┼──────────┼─────────┤\n' +
+                '│ Revenue ($M)        │ ' + (d.revenue - rand(30,60)) + '       │ ' + (d.revenue - rand(5,20)) + '       │ ' + d.revenue + '     │\n' +
+                '│ COGS ($M)           │ ' + Math.round(d.cogs*0.8) + '       │ ' + Math.round(d.cogs*0.9) + '       │ ' + d.cogs + '     │\n' +
+                '│ Fixed Costs ($M)    │ ' + d.fixedCosts + '       │ ' + d.fixedCosts + '       │ ' + d.fixedCosts + '     │\n' +
+                '│ SG&A ($M)           │ ' + Math.round(d.sga*0.85) + '       │ ' + d.sga + '       │ ' + Math.round(d.sga*1.1) + '     │\n' +
+                '│ Gross Margin %      │ ' + (d.grossMargin + rand(3,8)) + '%      │ ' + (d.grossMargin + rand(1,3)) + '%      │ ' + d.grossMargin + '%    │\n' +
+                '└─────────────────────┴──────────┴──────────┴─────────┘\n\n' +
+                '⚠️ Gross margin declined from ' + (d.grossMargin + rand(5,10)) + '% to ' + d.grossMargin + '% over 3 years.';
+            break;
+
+          case 'market-entry':
+            d.tam = rand(2, 20);
+            d.growth = rand(5, 18);
+            d.competitors = rand(3, 8);
+            d.topShare = rand(20, 45);
+            d.investment = rand(30, 200);
+            d.table = (isPT ? '📊 DADOS DE MERCADO\n\n' : '📊 MARKET DATA\n\n') +
+              (isPT ? '• TAM: $' + d.tam + 'B | Crescimento: ' + d.growth + '% CAGR\n' : '• TAM: $' + d.tam + 'B | Growth: ' + d.growth + '% CAGR\n') +
+              (isPT ? '• Nº de concorrentes: ' + d.competitors + ' | Quota do líder: ' + d.topShare + '%\n' : '• # Competitors: ' + d.competitors + ' | Leader share: ' + d.topShare + '%\n') +
+              (isPT ? '• Investimento requerido: $' + d.investment + 'M\n\n' : '• Required investment: $' + d.investment + 'M\n\n') +
+              '┌──────────────────┬────────┬────────┬────────┐\n' +
+              (isPT ? '│ Concorrente       │ Quota  │ Preço  │ NPS    │\n' : '│ Competitor        │ Share  │ Price  │ NPS    │\n') +
+              '├──────────────────┼────────┼────────┼────────┤\n' +
+              '│ Market Leader     │ ' + d.topShare + '%    │ $' + rand(80,200) + '   │ ' + rand(40,70) + '     │\n' +
+              '│ Challenger A      │ ' + rand(10,25) + '%    │ $' + rand(60,150) + '   │ ' + rand(30,60) + '     │\n' +
+              '│ Your Client       │ 0%     │ TBD    │ N/A    │\n' +
+              '└──────────────────┴────────┴────────┴────────┘';
+            break;
+
+          case 'ma':
+            d.targetRev = rand(200, 800);
+            d.targetEbitda = Math.round(d.targetRev * (rand(10, 25) / 100));
+            d.askingPrice = Math.round(d.targetEbitda * rand(8, 14));
+            d.table = (isPT ? '📊 DADOS DO ALVO\n\n' : '📊 TARGET DATA\n\n') +
+              '┌─────────────────────┬───────────┐\n' +
+              (isPT ? '│ Receita             │ $' + d.targetRev + 'M     │\n' : '│ Revenue             │ $' + d.targetRev + 'M     │\n') +
+              '│ EBITDA              │ $' + d.targetEbitda + 'M      │\n' +
+              (isPT ? '│ Margem EBITDA       │ ' + Math.round(d.targetEbitda / d.targetRev * 100) + '%        │\n' : '│ EBITDA Margin       │ ' + Math.round(d.targetEbitda / d.targetRev * 100) + '%        │\n') +
+              (isPT ? '│ Crescimento Receita │ ' + rand(3,15) + '% anual  │\n' : '│ Revenue Growth      │ ' + rand(3,15) + '% annual │\n') +
+              (isPT ? '│ Preço Pedido        │ $' + d.askingPrice + 'M    │\n' : '│ Asking Price        │ $' + d.askingPrice + 'M    │\n') +
+              (isPT ? '│ Múltiplo Implícito  │ ' + (d.askingPrice / d.targetEbitda).toFixed(1) + 'x EBITDA │\n' : '│ Implied Multiple    │ ' + (d.askingPrice / d.targetEbitda).toFixed(1) + 'x EBITDA │\n') +
+              '└─────────────────────┴───────────┘\n\n' +
+              (isPT ? 'Sinergias estimadas: Custo $' + rand(10,40) + 'M/ano | Receita $' + rand(20,60) + 'M/ano\nNº de empregados alvo: ' + rand(500,3000) : 'Est. synergies: Cost $' + rand(10,40) + 'M/yr | Revenue $' + rand(20,60) + 'M/yr\nTarget employees: ' + rand(500,3000));
+            break;
+
+          case 'pricing':
+            d.unitCost = rand(30, 120);
+            d.compPrice = rand(Math.round(d.unitCost * 1.3), Math.round(d.unitCost * 3));
+            d.wtp = rand(Math.round(d.compPrice * 0.9), Math.round(d.compPrice * 1.4));
+            d.table = (isPT ? '📊 DADOS DE PRICING\n\n' : '📊 PRICING DATA\n\n') +
+              '┌──────────────────────┬───────────┐\n' +
+              (isPT ? '│ Custo variável/und   │ $' + d.unitCost + '      │\n' : '│ Variable cost/unit   │ $' + d.unitCost + '      │\n') +
+              (isPT ? '│ Custos fixos totais  │ $' + rand(5,20) + 'M     │\n' : '│ Total fixed costs    │ $' + rand(5,20) + 'M     │\n') +
+              (isPT ? '│ Volume esperado      │ ' + rand(100,500) + 'K und │\n' : '│ Expected volume      │ ' + rand(100,500) + 'K units│\n') +
+              '└──────────────────────┴───────────┘\n\n' +
+              (isPT ? 'PREÇOS CONCORRENTES:\n' : 'COMPETITOR PRICES:\n') +
+              '• Premium player: $' + Math.round(d.compPrice * 1.3) + '\n' +
+              '• Main competitor: $' + d.compPrice + '\n' +
+              '• Budget option: $' + Math.round(d.compPrice * 0.7) + '\n\n' +
+              (isPT ? 'WTP (pesquisa clientes): $' + d.wtp + ' (mediana)' : 'WTP (customer research): $' + d.wtp + ' (median)');
+            break;
+
+          case 'growth':
+            d.currentRev = rand(100, 600);
+            d.churnRate = rand(8, 22);
+            d.table = (isPT ? '📊 DADOS DE CRESCIMENTO — ' + company + '\n\n' : '📊 GROWTH DATA — ' + company + '\n\n') +
+              '┌─────────────────────┬──────────┐\n' +
+              (isPT ? '│ Receita atual       │ $' + d.currentRev + 'M    │\n' : '│ Current revenue     │ $' + d.currentRev + 'M    │\n') +
+              (isPT ? '│ Crescimento (3 anos)│ ' + rand(1,4) + '% anual │\n' : '│ Growth (3yr)        │ ' + rand(1,4) + '% annual│\n') +
+              (isPT ? '│ Taxa de churn       │ ' + d.churnRate + '%       │\n' : '│ Churn rate          │ ' + d.churnRate + '%       │\n') +
+              (isPT ? '│ Crescimento mercado │ ' + rand(6,14) + '% anual │\n' : '│ Market growth       │ ' + rand(6,14) + '% annual│\n') +
+              (isPT ? '│ Quota de mercado    │ ' + rand(8,25) + '%       │\n' : '│ Market share        │ ' + rand(8,25) + '%       │\n') +
+              '└─────────────────────┴──────────┘\n\n' +
+              (isPT ? 'SEGMENTOS DE CLIENTES:\n' : 'CUSTOMER SEGMENTS:\n') +
+              (isPT
+                ? '• Enterprise (30% receita, churn 5%)\n• Mid-market (45% receita, churn ' + d.churnRate + '%)\n• SMB (25% receita, churn ' + (d.churnRate + rand(5,10)) + '%)'
+                : '• Enterprise (30% revenue, churn 5%)\n• Mid-market (45% revenue, churn ' + d.churnRate + '%)\n• SMB (25% revenue, churn ' + (d.churnRate + rand(5,10)) + '%)');
+            break;
+
+          case 'cost-cutting':
+            d.totalCost = rand(200, 800);
+            d.personnel = Math.round(d.totalCost * rand(35, 50) / 100);
+            d.materials = Math.round(d.totalCost * rand(15, 30) / 100);
+            d.logistics = Math.round(d.totalCost * rand(8, 18) / 100);
+            d.other = d.totalCost - d.personnel - d.materials - d.logistics;
+            d.table = (isPT ? '📊 ESTRUTURA DE CUSTOS — ' + company + '\n\n' : '📊 COST STRUCTURE — ' + company + '\n\n') +
+              '┌──────────────────┬─────────┬────────┬──────────────┐\n' +
+              (isPT ? '│ Categoria         │ Valor   │ % Total│ vs Benchmark │\n' : '│ Category          │ Amount  │ % Total│ vs Benchmark │\n') +
+              '├──────────────────┼─────────┼────────┼──────────────┤\n' +
+              (isPT ? '│ Pessoal           │ $' + d.personnel + 'M  │ ' + Math.round(d.personnel/d.totalCost*100) + '%    │ +' + rand(5,20) + '% acima    │\n' : '│ Personnel         │ $' + d.personnel + 'M  │ ' + Math.round(d.personnel/d.totalCost*100) + '%    │ +' + rand(5,20) + '% above    │\n') +
+              (isPT ? '│ Materiais         │ $' + d.materials + 'M  │ ' + Math.round(d.materials/d.totalCost*100) + '%    │ Em linha      │\n' : '│ Materials         │ $' + d.materials + 'M  │ ' + Math.round(d.materials/d.totalCost*100) + '%    │ In line       │\n') +
+              (isPT ? '│ Logística         │ $' + d.logistics + 'M   │ ' + Math.round(d.logistics/d.totalCost*100) + '%    │ +' + rand(8,18) + '% acima    │\n' : '│ Logistics         │ $' + d.logistics + 'M   │ ' + Math.round(d.logistics/d.totalCost*100) + '%    │ +' + rand(8,18) + '% above    │\n') +
+              (isPT ? '│ Outro             │ $' + d.other + 'M   │ ' + Math.round(d.other/d.totalCost*100) + '%    │ Em linha      │\n' : '│ Other             │ $' + d.other + 'M   │ ' + Math.round(d.other/d.totalCost*100) + '%    │ In line       │\n') +
+              '├──────────────────┼─────────┼────────┼──────────────┤\n' +
+              '│ TOTAL             │ $' + d.totalCost + 'M │ 100%   │              │\n' +
+              '└──────────────────┴─────────┴────────┴──────────────┘\n\n' +
+              (isPT ? 'Objetivo: Reduzir custos em 15-20% ($' + Math.round(d.totalCost*0.15) + '-' + Math.round(d.totalCost*0.20) + 'M)' : 'Target: Reduce costs by 15-20% ($' + Math.round(d.totalCost*0.15) + '-' + Math.round(d.totalCost*0.20) + 'M)');
+            break;
+
+          default:
+            // Generic data for other frameworks (operations, digital, new-product, investment)
+            d.revenue = rand(100, 500);
+            d.margin = rand(5, 25);
+            d.table = (isPT ? '📊 DADOS DO CASO\n\n' : '📊 CASE DATA\n\n') +
+              '┌─────────────────────┬───────────┐\n' +
+              (isPT ? '│ Receita             │ $' + d.revenue + 'M     │\n' : '│ Revenue             │ $' + d.revenue + 'M     │\n') +
+              (isPT ? '│ Margem operacional  │ ' + d.margin + '%       │\n' : '│ Operating margin    │ ' + d.margin + '%       │\n') +
+              (isPT ? '│ Crescimento         │ ' + rand(-3,10) + '% anual │\n' : '│ Growth              │ ' + rand(-3,10) + '% annual│\n') +
+              (isPT ? '│ Nº empregados       │ ' + rand(500, 5000) + '      │\n' : '│ Employees           │ ' + rand(500, 5000) + '      │\n') +
+              (isPT ? '│ Capex/Receita       │ ' + rand(5,20) + '%       │\n' : '│ Capex/Revenue       │ ' + rand(5,20) + '%       │\n') +
+              '└─────────────────────┴───────────┘\n\n' +
+              (isPT ? 'O mercado está a crescer ' + rand(5,15) + '% mas a empresa fica para trás.' : 'Market is growing ' + rand(5,15) + '% but the company is falling behind.');
+            break;
+        }
+        return d.table;
+      }
       var CG_SOLUTIONS = {
         profitability: {
           framework: {
@@ -14355,7 +14623,28 @@
 
         // Get solutions for this framework
         var sol = CG_SOLUTIONS[fwKey] || CG_SOLUTIONS["profitability"];
-        var sections = sol.sections[lang] || sol.sections["en"];
+        var sections = JSON.parse(JSON.stringify(sol.sections[lang] || sol.sections["en"]));
+
+        // Generate real data for Section 2
+        var dataTable = cgGenerateData(fwKey, indKey, mathKey, company, isPT);
+        if (sections[1]) {
+          sections[1].data = dataTable;
+          // Keep prompt as-is — data will be rendered as <pre> in cgRenderSection
+        }
+
+        // Add per-section hints
+        var sectionHints = isPT
+          ? [
+              '🧩 Framework: ' + (sol.framework ? sol.framework.name : fwKey) + '\n📐 ' + (isPT ? 'Use a árvore de issues para estruturar' : 'Use the issue tree to structure') + '\n💡 ' + fw.hintPT,
+              '🔢 Matemática: ' + mt.namePT + '\n📐 ' + mt.hintPT + '\n💡 Foque nos números mais importantes primeiro',
+              '🏭 Indústria: ' + ind.namePT + '\n📐 ' + (ind.metrics || '') + '\n💡 Adapte a recomendação ao contexto da indústria'
+            ]
+          : [
+              '🧩 Framework: ' + (sol.framework ? sol.framework.name : fwKey) + '\n📐 Use the issue tree to structure your thinking\n💡 ' + fw.hint,
+              '🔢 Math focus: ' + mt.name + '\n📐 ' + mt.hint + '\n💡 Focus on the most important numbers first',
+              '🏭 Industry: ' + ind.name + '\n📐 ' + (ind.metrics || '') + '\n💡 Tailor your recommendation to the industry context'
+            ];
+        sections.forEach(function(s, i) { s.sectionHint = sectionHints[i] || ''; });
 
         // Store state
         cgState = {
@@ -14383,15 +14672,27 @@
         // Show industry intro card
         var introEl = document.getElementById("cg-industry-intro");
         var introText = isPT ? ind.introPT || ind.intro : ind.intro;
-        var indIcons = { retail: '🛒', healthcare: '💊', tech: '💻', financial: '🏦', energy: '⚡', airlines: '✈️', manufacturing: '🏭', telecom: '📡', nonprofit: '🏛️' };
+        var indIcons = {
+          retail: "🛒",
+          healthcare: "💊",
+          tech: "💻",
+          financial: "🏦",
+          energy: "⚡",
+          airlines: "✈️",
+          manufacturing: "🏭",
+          telecom: "📡",
+          nonprofit: "🏛️",
+        };
         if (introText) {
-          document.getElementById("cg-industry-intro-icon").textContent = indIcons[indKey] || '🏭';
-          document.getElementById("cg-industry-intro-title").textContent =
-            isPT ? ind.namePT : ind.name;
+          document.getElementById("cg-industry-intro-icon").textContent =
+            indIcons[indKey] || "🏭";
+          document.getElementById("cg-industry-intro-title").textContent = isPT
+            ? ind.namePT
+            : ind.name;
           document.getElementById("cg-industry-intro-text").textContent =
             introText;
           document.getElementById("cg-industry-intro-metrics").textContent =
-            '📊 ' + (ind.metrics || '');
+            "📊 " + (ind.metrics || "");
           introEl.style.display = "block";
         } else {
           introEl.style.display = "none";
@@ -14518,6 +14819,10 @@
 
         if (diff === "easy") {
           // EASY: full guidance, framework tree always visible, coaching hints
+          // Show data table if Section 2
+          if (sec.data) {
+            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:14px; border-radius:8px; border:1px solid #e0e0e0;">' + sec.data + '</pre>';
+          }
           promptHTML +=
             '<div style="margin-bottom:12px;">' + sec.prompt + "</div>";
           // Always show framework tree in easy mode (every section)
@@ -14554,22 +14859,25 @@
           var hintsPanel = document.getElementById("cg-hints-panel");
           if (hintsPanel) hintsPanel.setAttribute("open", "");
         } else if (diff === "hard") {
-          // HARD: minimal prompt, no framework tree, no coaching
+          // HARD: minimal prompt, no framework tree, no coaching — but still show data in S2
           var hardPrompts = cgState.isPT
             ? [
                 "O entrevistador descreveu o caso. Estruture a sua abordagem.",
-                "Aqui estão os dados. O que vê?",
+                "",
                 "Qual é a sua recomendação final ao CEO?",
               ]
             : [
                 "The interviewer has described the case. Structure your approach.",
-                "Here is the data. What do you see?",
+                "",
                 "What is your final recommendation to the CEO?",
               ];
-          promptHTML +=
-            '<div style="margin-bottom:12px; color:#555;">' +
-            hardPrompts[n - 1] +
-            "</div>";
+          if (n === 2 && sec.data) {
+            // Show data table even in hard mode
+            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:12px; border-radius:8px;">' + sec.data + '</pre>';
+            promptHTML += '<div style="margin-bottom:12px; color:#555;">' + (cgState.isPT ? 'Analise os dados. O que observa?' : 'Analyze the data. What do you observe?') + "</div>";
+          } else {
+            promptHTML += '<div style="margin-bottom:12px; color:#555;">' + hardPrompts[n - 1] + "</div>";
+          }
           // No framework tree shown in hard mode
           // Close hints panel
           var hintsPanel = document.getElementById("cg-hints-panel");
@@ -14579,6 +14887,10 @@
           if (introEl) introEl.style.display = "none";
         } else {
           // MEDIUM: standard behavior — framework tree only in Section 1
+          // Show data table if Section 2
+          if (sec.data) {
+            promptHTML += '<pre style="font-size:0.82em; color:#333; margin:0 0 12px; white-space:pre-wrap; font-family:monospace; line-height:1.5; background:#f5f5f5; padding:14px; border-radius:8px; border:1px solid #e0e0e0;">' + sec.data + '</pre>';
+          }
           promptHTML +=
             '<div style="margin-bottom:12px;">' + sec.prompt + "</div>";
           if (n === 1 && fwInfo) {
@@ -14596,6 +14908,16 @@
           }
         }
         document.getElementById("cg-section-prompt").innerHTML = promptHTML;
+
+        // Add per-section hint toggle (hidden by default, click to reveal)
+        var sHint = sec.sectionHint || '';
+        if (sHint && diff !== 'hard') {
+          var hintEl = document.createElement('div');
+          hintEl.style.cssText = 'margin-top:8px;';
+          hintEl.innerHTML = '<button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\'; this.textContent=this.nextElementSibling.style.display===\'none\'? \'' + (cgState.isPT ? '💡 Mostrar Dica' : '💡 Show Hint') + '\' : \'' + (cgState.isPT ? '💡 Esconder Dica' : '💡 Hide Hint') + '\'" style="background:none;border:1px dashed #ccc;border-radius:6px;padding:6px 14px;font-size:0.82em;color:#888;cursor:pointer;">' + (cgState.isPT ? '💡 Mostrar Dica' : '💡 Show Hint') + '</button>' +
+            '<div style="display:none;margin-top:6px;padding:10px;background:#fffde7;border-radius:8px;border:1px solid #fff9c4;font-size:0.82em;color:#5d4037;white-space:pre-line;line-height:1.5;">' + sHint + '</div>';
+          document.getElementById("cg-section-prompt").appendChild(hintEl);
+        }
 
         // Restore user answer for this section
         var textarea = document.getElementById("cg-user-answer");
@@ -14818,13 +15140,31 @@
           return;
         }
         var ind = CG_DATA.industries[val];
-        var icons = { retail: '🛒', healthcare: '💊', tech: '💻', financial: '🏦', energy: '⚡', airlines: '✈️', manufacturing: '🏭', telecom: '📡', nonprofit: '🏛️' };
-        document.getElementById("cg-preview-icon").textContent = icons[val] || '🏭';
+        var icons = {
+          retail: "🛒",
+          healthcare: "💊",
+          tech: "💻",
+          financial: "🏦",
+          energy: "⚡",
+          airlines: "✈️",
+          manufacturing: "🏭",
+          telecom: "📡",
+          nonprofit: "🏛️",
+        };
+        document.getElementById("cg-preview-icon").textContent =
+          icons[val] || "🏭";
         document.getElementById("cg-preview-name").textContent = ind.name;
-        document.getElementById("cg-preview-intro").textContent = ind.intro || '';
-        document.getElementById("cg-preview-metrics").textContent = ind.metrics || '';
-        document.getElementById("cg-preview-companies").textContent = (ind.companies || []).slice(0, 4).join(', ');
-        document.getElementById("cg-preview-hint").textContent = '💡 ' + (ind.hint || '');
+        document.getElementById("cg-preview-intro").textContent =
+          ind.intro || "";
+        document.getElementById("cg-preview-metrics").textContent =
+          ind.metrics || "";
+        document.getElementById("cg-preview-companies").textContent = (
+          ind.companies || []
+        )
+          .slice(0, 4)
+          .join(", ");
+        document.getElementById("cg-preview-hint").textContent =
+          "💡 " + (ind.hint || "");
         preview.style.display = "block";
       }
 
