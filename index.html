@@ -1412,6 +1412,9 @@
         >
           <span class="icon">🏭</span> Industries Guide
         </a>
+        <a href="#" onclick="showSection('case-gen')" data-section="case-gen">
+          <span class="icon">🎲</span> Case Generator
+        </a>
         <a href="#" onclick="showSection('drills')" data-section="drills">
           <span class="icon">🧮</span> Drills (50 exercises)
         </a>
@@ -5789,6 +5792,106 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- SECTION: CASE GENERATOR -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <div class="section" id="case-gen">
+        <div class="section-title">🎲 Case Prompt Generator / Gerador de Casos</div>
+        <div class="section-subtitle">Select industry + framework + math focus → get a unique practice case prompt</div>
+
+        <div class="card" style="padding:24px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px">
+            <!-- INDUSTRY DROPDOWN -->
+            <div>
+              <label style="font-weight:600;font-size:0.9em;display:block;margin-bottom:6px">🏭 Industry / Indústria</label>
+              <select id="cg-industry" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e5e5e5;font-size:0.95em;background:#fafafa">
+                <option value="random">🎲 Random</option>
+                <option value="retail">🛒 Retail & Consumer Goods</option>
+                <option value="healthcare">💊 Healthcare & Pharma</option>
+                <option value="tech">💻 Technology / SaaS</option>
+                <option value="financial">🏦 Financial Services</option>
+                <option value="energy">⚡ Energy & Utilities</option>
+                <option value="airlines">✈️ Airlines & Transport</option>
+                <option value="manufacturing">🏭 Manufacturing</option>
+                <option value="telecom">📡 Telecom & Media</option>
+                <option value="nonprofit">🏛️ Non-Profit / Public Sector</option>
+              </select>
+            </div>
+            <!-- FRAMEWORK DROPDOWN -->
+            <div>
+              <label style="font-weight:600;font-size:0.9em;display:block;margin-bottom:6px">🧩 Framework / Estrutura</label>
+              <select id="cg-framework" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e5e5e5;font-size:0.95em;background:#fafafa">
+                <option value="random">🎲 Random</option>
+                <option value="profitability">📉 Profitability</option>
+                <option value="market-entry">🚀 Market Entry</option>
+                <option value="ma">🤝 M&A / Due Diligence</option>
+                <option value="pricing">💰 Pricing Strategy</option>
+                <option value="growth">📈 Revenue Growth</option>
+                <option value="cost-cutting">✂️ Cost Reduction</option>
+                <option value="operations">⚙️ Operations / Process</option>
+                <option value="digital">🔄 Digital Transformation</option>
+                <option value="new-product">🆕 New Product Launch</option>
+                <option value="investment">💎 Investment Decision</option>
+              </select>
+            </div>
+            <!-- MATH DROPDOWN -->
+            <div>
+              <label style="font-weight:600;font-size:0.9em;display:block;margin-bottom:6px">🔢 Math Focus / Foco Matemático</label>
+              <select id="cg-math" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e5e5e5;font-size:0.95em;background:#fafafa">
+                <option value="random">🎲 Random</option>
+                <option value="basic">➕ Basic Arithmetic (%, margins)</option>
+                <option value="market-sizing">📐 Market Sizing</option>
+                <option value="breakeven">⚖️ Breakeven Analysis</option>
+                <option value="growth-cagr">📊 Growth / CAGR</option>
+                <option value="weighted-avg">⚗️ Weighted Averages</option>
+                <option value="probability">🎯 Probability / Expected Value</option>
+                <option value="unit-economics">💵 Unit Economics (LTV, CAC)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;margin-bottom:20px">
+            <button onclick="generateCase()" style="flex:1;padding:14px;background:var(--bcg-green);color:white;border:none;border-radius:8px;font-size:1.05em;font-weight:600;cursor:pointer;transition:transform 0.1s">
+              🎲 Generate Case Prompt
+            </button>
+            <button onclick="generateCase(true)" style="padding:14px 20px;background:#333;color:white;border:none;border-radius:8px;font-size:0.95em;cursor:pointer">
+              🇵🇹 Gerar em PT
+            </button>
+          </div>
+
+          <!-- GENERATED CASE OUTPUT -->
+          <div id="cg-output" style="display:none">
+            <div style="background:#1a1a1a;color:#e0e0e0;border-radius:12px;padding:24px;font-family:'Courier New',monospace;font-size:0.92em;line-height:1.7;position:relative">
+              <button onclick="copyCasePrompt()" style="position:absolute;top:12px;right:12px;background:var(--bcg-green);color:white;border:none;border-radius:6px;padding:6px 12px;font-size:0.8em;cursor:pointer">📋 Copy</button>
+              <div id="cg-case-text"></div>
+            </div>
+            <div style="margin-top:16px;display:flex;gap:12px">
+              <div style="flex:1;padding:12px;background:#f0f7ff;border-radius:8px;font-size:0.85em">
+                <strong>🧩 Expected Structure:</strong>
+                <div id="cg-hint-framework" style="margin-top:4px;color:var(--text-muted)"></div>
+              </div>
+              <div style="flex:1;padding:12px;background:#fff3e0;border-radius:8px;font-size:0.85em">
+                <strong>🔢 Math You'll Need:</strong>
+                <div id="cg-hint-math" style="margin-top:4px;color:var(--text-muted)"></div>
+              </div>
+              <div style="flex:1;padding:12px;background:#f0fff0;border-radius:8px;font-size:0.85em">
+                <strong>🏭 Industry Context:</strong>
+                <div id="cg-hint-industry" style="margin-top:4px;color:var(--text-muted)"></div>
+              </div>
+            </div>
+            <button id="cg-reveal-btn" onclick="document.querySelectorAll('.cg-hint-hidden').forEach(e=>e.style.display='block');this.style.display='none'" style="margin-top:12px;padding:10px 20px;background:#eee;border:none;border-radius:8px;cursor:pointer;font-size:0.9em;width:100%">
+              👁️ Reveal Hints (after attempting your structure)
+            </button>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="card" style="margin-top:16px;padding:16px">
+          <strong>📊 Your Practice Stats:</strong>
+          <span id="cg-stats" style="color:var(--text-muted);margin-left:8px">No cases generated yet</span>
         </div>
       </div>
 
@@ -11348,6 +11451,232 @@
         checkinTimer = setInterval(updateCheckinCountdown, 1000);
         document.getElementById("checkin-countdown").textContent =
           "⏳ adiado 10 min";
+      }
+
+      // ═══════════════════════════════════════════════════
+      // CASE GENERATOR
+      // ═══════════════════════════════════════════════════
+      const CG_DATA = {
+        industries: {
+          retail: {
+            name: "Retail & Consumer Goods", namePT: "Retalho e Bens de Consumo",
+            companies: ["FreshMart", "UrbanWear", "GreenGrocer Co.", "LuxHome", "PetPlanet", "SnackNation"],
+            context: ["chain of 200 supermarkets across Western Europe", "DTC fashion brand with 50 stores and growing e-commerce", "organic grocery chain expanding from urban to suburban markets", "premium home goods retailer facing Amazon competition", "pet food subscription service with 80K subscribers"],
+            contextPT: ["cadeia de 200 supermercados na Europa Ocidental", "marca de moda DTC com 50 lojas e e-commerce crescente", "cadeia de mercearia orgânica a expandir de urbano para suburbano", "retalhista premium de artigos para casa a enfrentar concorrência da Amazon", "serviço de subscrição de comida para animais com 80K subscritores"],
+            metrics: "Same-store sales, basket size, footfall, inventory turnover, gross margin",
+            hint: "Think about: revenue per sqm, SKU rationalization, private label vs branded, omnichannel"
+          },
+          healthcare: {
+            name: "Healthcare & Pharma", namePT: "Saúde e Farmacêutica",
+            companies: ["MedVita Labs", "CureFirst Pharma", "HealthBridge", "BioNova Therapeutics", "CarePlus Hospital Group"],
+            context: ["mid-size pharma company with 3 drugs in Phase III trials", "hospital group operating 12 facilities across the country", "digital health startup with a remote monitoring platform", "generic drug manufacturer facing biosimilar competition", "biotech firm that just received FDA approval for a rare disease drug"],
+            contextPT: ["empresa farmacêutica média com 3 medicamentos em Fase III", "grupo hospitalar com 12 instalações pelo país", "startup de saúde digital com plataforma de monitorização remota", "fabricante de genéricos a enfrentar concorrência de biossimilares", "empresa biotech que recebeu aprovação FDA para doença rara"],
+            metrics: "R&D pipeline success rate (~10%), patent cliff, gross margin (70-90%), patient population × treatment rate × price",
+            hint: "Think about: reimbursement landscape, patient pop sizing, value-based pricing, regulatory timelines"
+          },
+          tech: {
+            name: "Technology / SaaS", namePT: "Tecnologia / SaaS",
+            companies: ["CloudSync", "DataPulse AI", "SecureNet", "AppForge", "StreamFlow", "CodeVault"],
+            context: ["B2B SaaS company with $50M ARR and 15% annual churn", "AI startup offering computer vision for manufacturing QC", "cybersecurity firm targeting mid-market companies", "developer tools platform with 200K free users, 5K paid", "enterprise collaboration tool competing with Slack and Teams"],
+            contextPT: ["empresa SaaS B2B com $50M ARR e 15% churn anual", "startup de IA a oferecer visão computacional para controlo de qualidade", "empresa de cibersegurança focada em empresas médias", "plataforma de ferramentas dev com 200K utilizadores grátis, 5K pagos", "ferramenta de colaboração empresarial a competir com Slack e Teams"],
+            metrics: "MRR/ARR, churn rate, LTV:CAC (>3:1), NRR, gross margin (70-85%), DAU/MAU",
+            hint: "Think about: freemium conversion, net revenue retention, platform economics, network effects"
+          },
+          financial: {
+            name: "Financial Services", namePT: "Serviços Financeiros",
+            companies: ["TrustBank", "InvestPrime", "PayQuick", "InsureAll", "WealthBridge"],
+            context: ["traditional bank with 5M retail customers and rising cost-to-income ratio", "neobank targeting Gen Z with zero-fee accounts", "insurance company seeing rising claims and falling premiums", "asset management firm with $20B AUM considering robo-advisory", "payments fintech processing $2B in annual volume"],
+            contextPT: ["banco tradicional com 5M clientes retalho e rácio cost-to-income crescente", "neobanco a visar Gen Z com contas sem comissões", "seguradora com sinistros crescentes e prémios em queda", "gestora de ativos com $20B AUM a considerar robo-advisory", "fintech de pagamentos a processar $2B em volume anual"],
+            metrics: "NIM, cost-to-income ratio, AUM, NPL ratio, combined ratio (insurance)",
+            hint: "Think about: digital transformation costs, regulatory capital, cross-selling, fintech disruption"
+          },
+          energy: {
+            name: "Energy & Utilities", namePT: "Energia e Utilities",
+            companies: ["SolarFirst", "GridPower", "WindHarvest", "FuelTech", "GreenGrid"],
+            context: ["utility company considering $500M investment in solar farms", "oil & gas company evaluating transition to renewables", "energy retailer losing customers to green energy providers", "battery storage startup seeking Series B funding", "smart grid technology company targeting European utilities"],
+            contextPT: ["empresa de utilities a considerar investimento de $500M em parques solares", "empresa de petróleo a avaliar transição para renováveis", "retalhista de energia a perder clientes para fornecedores verdes", "startup de armazenamento em baterias a procurar Série B", "empresa de smart grid a visar utilities europeias"],
+            metrics: "LCOE, capacity factor, EBITDA/MWh, capex intensity",
+            hint: "Think about: energy transition timeline, carbon pricing, grid stability, regulatory subsidies"
+          },
+          airlines: {
+            name: "Airlines & Transport", namePT: "Aviação e Transportes",
+            companies: ["SkyBridge Airlines", "EuroConnect", "PacificWing", "CargoFast", "UrbanTransit"],
+            context: ["full-service airline with declining load factor on transatlantic routes", "low-cost carrier evaluating entry into long-haul market", "cargo airline seeing rising fuel costs and declining yields", "regional airline considering fleet modernization", "airport operator planning terminal expansion"],
+            contextPT: ["companhia aérea full-service com load factor em declínio nas rotas transatlânticas", "low-cost a avaliar entrada no mercado long-haul", "companhia de carga com custos de combustível crescentes e yields em queda", "companhia regional a considerar modernização da frota", "operador de aeroporto a planear expansão de terminal"],
+            metrics: "RPK, load factor, CASK, yield, revenue = passengers × avg ticket × load factor",
+            hint: "Think about: route profitability, fleet composition, fuel hedging, dynamic pricing"
+          },
+          manufacturing: {
+            name: "Manufacturing", namePT: "Indústria e Manufatura",
+            companies: ["SteelForge", "AutoParts Global", "PackRight", "ChemWorks", "PrecisionTech"],
+            context: ["auto parts manufacturer with 3 plants running at 65% capacity", "packaging company considering automation of 2 production lines", "chemical manufacturer evaluating nearshoring from China to Mexico", "steel producer facing rising energy costs and falling demand", "electronics contract manufacturer losing margin on key client"],
+            contextPT: ["fabricante de peças auto com 3 fábricas a 65% capacidade", "empresa de embalagens a considerar automação de 2 linhas de produção", "fabricante químico a avaliar nearshoring da China para México", "produtor de aço com custos de energia crescentes e procura em queda", "fabricante contratual de eletrónica a perder margem em cliente-chave"],
+            metrics: "OEE, capacity utilization, unit cost, yield/scrap rate, lead time",
+            hint: "Think about: make vs buy, lean/six sigma, reshoring economics, capex vs opex"
+          },
+          telecom: {
+            name: "Telecom & Media", namePT: "Telecomunicações e Media",
+            companies: ["ConnectAll", "StreamVision", "TowerLink", "DataWave", "MediaPulse"],
+            context: ["mobile operator losing subscribers to MVNOs", "streaming service with 2M subscribers and rising content costs", "tower company considering infrastructure sharing deal", "broadband provider evaluating fiber rollout to rural areas", "media company transitioning from advertising to subscription model"],
+            contextPT: ["operadora móvel a perder subscritores para MVNOs", "serviço de streaming com 2M subscritores e custos de conteúdo crescentes", "empresa de torres a considerar acordo de partilha de infraestrutura", "fornecedor de banda larga a avaliar rollout de fibra para áreas rurais", "empresa de media a transicionar de publicidade para modelo de subscrição"],
+            metrics: "ARPU, churn rate, capex/revenue ratio, content cost per subscriber",
+            hint: "Think about: 5G monetization, content bundling, tower economics, OTT competition"
+          },
+          nonprofit: {
+            name: "Non-Profit / Public Sector", namePT: "Sem Fins Lucrativos / Setor Público",
+            companies: ["EduBridge Foundation", "CleanWater Initiative", "HealthForAll NGO", "City of Greenville", "Global Literacy Fund"],
+            context: ["education NGO serving 50K students across 3 countries with flat funding", "public hospital system needing to reduce wait times by 30%", "clean water charity evaluating expansion from 5 to 15 countries", "city government considering PPP for public transport modernization", "global health fund deciding allocation across 4 disease programs"],
+            contextPT: ["ONG de educação a servir 50K alunos em 3 países com financiamento estagnado", "sistema hospitalar público a precisar de reduzir tempos de espera em 30%", "caridade de água limpa a avaliar expansão de 5 para 15 países", "governo municipal a considerar PPP para modernização de transportes", "fundo global de saúde a decidir alocação entre 4 programas"],
+            metrics: "Impact per $ spent, cost per beneficiary, overhead ratio, funding diversification",
+            hint: "Think about: outcome-based funding, stakeholder alignment, scalability, resource allocation"
+          }
+        },
+        frameworks: {
+          "profitability": { name: "Profitability", hint: "Revenue (price × volume) vs Costs (fixed + variable). Identify which lever changed and why.", hintPT: "Receita (preço × volume) vs Custos (fixos + variáveis). Identificar qual alavanca mudou e porquê." },
+          "market-entry": { name: "Market Entry", hint: "Market attractiveness (size, growth, competition) → Company fit (capabilities, synergies) → Entry mode (organic, JV, acquisition) → Risks", hintPT: "Atratividade do mercado (tamanho, crescimento, concorrência) → Fit da empresa → Modo de entrada → Riscos" },
+          "ma": { name: "M&A / Due Diligence", hint: "Strategic rationale → Target valuation → Synergies (revenue + cost) → Integration risks → Go/No-go", hintPT: "Lógica estratégica → Avaliação do alvo → Sinergias → Riscos de integração → Decisão" },
+          "pricing": { name: "Pricing Strategy", hint: "Cost-plus vs Value-based vs Competitive. Price elasticity. Segmentation. Willingness to pay.", hintPT: "Custo-mais vs Baseado em valor vs Competitivo. Elasticidade preço. Segmentação." },
+          "growth": { name: "Revenue Growth", hint: "Organic (new customers, upsell, new products, new markets) vs Inorganic (M&A, partnerships). Prioritize by impact × feasibility.", hintPT: "Orgânico (novos clientes, upsell, novos produtos/mercados) vs Inorgânico. Priorizar por impacto × viabilidade." },
+          "cost-cutting": { name: "Cost Reduction", hint: "Map cost structure → Benchmark vs industry → Identify top 3-5 levers → Quantify savings → Implementation timeline", hintPT: "Mapear estrutura de custos → Benchmarking → Top 3-5 alavancas → Quantificar poupanças → Timeline" },
+          "operations": { name: "Operations / Process", hint: "Map current process → Identify bottlenecks → Root cause analysis → Solutions (automation, lean, outsource) → Impact", hintPT: "Mapear processo atual → Identificar bottlenecks → Análise causa-raiz → Soluções → Impacto" },
+          "digital": { name: "Digital Transformation", hint: "Current state assessment → Digital opportunity sizing → Build vs Buy → Implementation roadmap → Change management", hintPT: "Avaliação estado atual → Dimensionar oportunidade digital → Build vs Buy → Roadmap → Gestão de mudança" },
+          "new-product": { name: "New Product Launch", hint: "Market need → Target segment → Product-market fit → Go-to-market → Financial viability (breakeven, ROI)", hintPT: "Necessidade mercado → Segmento alvo → Product-market fit → Go-to-market → Viabilidade financeira" },
+          "investment": { name: "Investment Decision", hint: "NPV/IRR analysis → Strategic fit → Risk assessment → Alternatives comparison → Recommendation", hintPT: "Análise NPV/IRR → Fit estratégico → Avaliação de risco → Comparar alternativas → Recomendação" }
+        },
+        math: {
+          "basic": { name: "Basic Arithmetic", hint: "Margins, percentages, revenue/cost splits. Quick mental math.", hintPT: "Margens, percentagens, splits receita/custo." },
+          "market-sizing": { name: "Market Sizing", hint: "Top-down or bottom-up. Population × adoption × price. Segment and estimate.", hintPT: "Top-down ou bottom-up. População × adoção × preço." },
+          "breakeven": { name: "Breakeven Analysis", hint: "Fixed costs / (Price - Variable cost per unit). Time to breakeven. Sensitivity.", hintPT: "Custos fixos / (Preço - Custo variável unitário). Tempo para breakeven." },
+          "growth-cagr": { name: "Growth / CAGR", hint: "CAGR = (End/Start)^(1/n) - 1. Rule of 72. Compound growth effects.", hintPT: "CAGR = (Final/Inicial)^(1/n) - 1. Regra do 72." },
+          "weighted-avg": { name: "Weighted Averages", hint: "Σ(value × weight) / Σ(weights). Mix shifts. Segment-level analysis.", hintPT: "Σ(valor × peso) / Σ(pesos). Mudanças de mix. Análise por segmento." },
+          "probability": { name: "Probability / Expected Value", hint: "EV = Σ(outcome × probability). Decision trees. Risk-adjusted returns.", hintPT: "VE = Σ(resultado × probabilidade). Árvores de decisão." },
+          "unit-economics": { name: "Unit Economics", hint: "LTV = ARPU × margin × lifespan. CAC = marketing spend / new customers. LTV:CAC > 3:1.", hintPT: "LTV = ARPU × margem × tempo vida. CAC = gastos marketing / novos clientes." }
+        }
+      };
+
+      // Templates for generating case prompts
+      const CG_TEMPLATES = {
+        en: [
+          "Your client is {company}, a {context}. Over the past {timeframe}, they have seen {problem}. The CEO has hired BCG to {objective}. How would you approach this?",
+          "{company} is a {context}. They are considering {action} and want BCG's recommendation. They need to make a decision within {timeframe}. What factors should they consider?",
+          "The board of {company}, a {context}, is concerned about {problem}. They want to understand the root causes and develop a plan to {objective}. Where would you start?",
+          "{company} ({context}) has an opportunity to {action}. The investment would require ${investment}. They want to know: should they proceed? What's your framework?"
+        ],
+        pt: [
+          "O seu cliente é a {company}, uma {context}. Nos últimos {timeframe}, viram {problem}. O CEO contratou a BCG para {objective}. Como abordaria este problema?",
+          "A {company} é uma {context}. Estão a considerar {action} e querem a recomendação da BCG. Precisam de decidir em {timeframe}. Que fatores devem considerar?",
+          "O board da {company}, uma {context}, está preocupado com {problem}. Querem entender as causas e desenvolver um plano para {objective}. Por onde começaria?",
+          "A {company} ({context}) tem uma oportunidade de {action}. O investimento requer €{investment}. Querem saber: devem avançar? Qual é o seu framework?"
+        ]
+      };
+
+      const CG_PROBLEMS = {
+        "profitability": { en: ["a 15% decline in operating margin", "profits dropping despite revenue growth", "margin erosion across all product lines"], pt: ["um declínio de 15% na margem operacional", "lucros a cair apesar de receita crescente", "erosão de margem em todas as linhas de produto"] },
+        "market-entry": { en: ["an opportunity to enter {market}", "competitors expanding into adjacent markets", "untapped demand in a new geographic region"], pt: ["uma oportunidade de entrar em {market}", "concorrentes a expandir para mercados adjacentes", "procura por explorar numa nova região"] },
+        "ma": { en: ["a potential acquisition target valued at ${investment}", "a merger proposal from a competitor", "consolidation pressure in their industry"], pt: ["um alvo de aquisição avaliado em €{investment}", "uma proposta de fusão de um concorrente", "pressão de consolidação na indústria"] },
+        "pricing": { en: ["pricing pressure from low-cost competitors", "customers complaining about value for money", "inconsistent pricing across channels"], pt: ["pressão de preços de concorrentes low-cost", "clientes a queixar-se do value for money", "preços inconsistentes entre canais"] },
+        "growth": { en: ["stagnating revenue for 3 consecutive quarters", "a saturated core market", "customer acquisition costs rising 20% YoY"], pt: ["receita estagnada há 3 trimestres", "mercado core saturado", "custos de aquisição a subir 20% ao ano"] },
+        "cost-cutting": { en: ["costs growing faster than revenue", "a cost structure 20% above industry average", "rising input costs threatening profitability"], pt: ["custos a crescer mais rápido que receita", "estrutura de custos 20% acima da média", "custos de input a ameaçar rentabilidade"] },
+        "operations": { en: ["operational inefficiencies causing 30% waste", "customer complaints about delivery times", "production bottlenecks limiting growth"], pt: ["ineficiências operacionais a causar 30% desperdício", "queixas de clientes sobre prazos de entrega", "bottlenecks de produção a limitar crescimento"] },
+        "digital": { en: ["digital competitors taking market share", "legacy systems limiting agility", "customers demanding digital-first experiences"], pt: ["concorrentes digitais a ganhar quota", "sistemas legados a limitar agilidade", "clientes a exigir experiências digitais"] },
+        "new-product": { en: ["an R&D breakthrough ready for commercialization", "customer research revealing unmet needs", "a technology platform that could serve new segments"], pt: ["um avanço de I&D pronto para comercialização", "pesquisa de clientes a revelar necessidades não satisfeitas", "uma plataforma tecnológica para novos segmentos"] },
+        "investment": { en: ["a major capex decision worth ${investment}", "competing investment proposals from 3 business units", "a once-in-a-decade investment opportunity"], pt: ["uma decisão de capex de €{investment}", "propostas de investimento concorrentes de 3 unidades", "uma oportunidade de investimento única na década"] }
+      };
+
+      const CG_OBJECTIVES = {
+        "profitability": { en: "improve profitability and return to historical margins", pt: "melhorar rentabilidade e voltar às margens históricas" },
+        "market-entry": { en: "evaluate whether to enter and recommend an entry strategy", pt: "avaliar se devem entrar e recomendar uma estratégia" },
+        "ma": { en: "assess the strategic fit and recommend whether to proceed", pt: "avaliar o fit estratégico e recomendar se devem avançar" },
+        "pricing": { en: "develop an optimal pricing strategy", pt: "desenvolver uma estratégia de pricing ótima" },
+        "growth": { en: "identify and prioritize growth opportunities", pt: "identificar e priorizar oportunidades de crescimento" },
+        "cost-cutting": { en: "reduce costs by 15-20% without impacting quality", pt: "reduzir custos em 15-20% sem impactar qualidade" },
+        "operations": { en: "optimize operations and improve efficiency", pt: "otimizar operações e melhorar eficiência" },
+        "digital": { en: "develop a digital transformation roadmap", pt: "desenvolver um roadmap de transformação digital" },
+        "new-product": { en: "evaluate the new product opportunity and build a launch plan", pt: "avaliar a oportunidade e construir um plano de lançamento" },
+        "investment": { en: "analyze the investment and make a go/no-go recommendation", pt: "analisar o investimento e recomendar avançar ou não" }
+      };
+
+      function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+      function generateCase(isPT) {
+        const lang = isPT ? 'pt' : 'en';
+        let indKey = document.getElementById('cg-industry').value;
+        let fwKey = document.getElementById('cg-framework').value;
+        let mathKey = document.getElementById('cg-math').value;
+
+        // Resolve randoms
+        const indKeys = Object.keys(CG_DATA.industries);
+        const fwKeys = Object.keys(CG_DATA.frameworks);
+        const mathKeys = Object.keys(CG_DATA.math);
+        if (indKey === 'random') indKey = pick(indKeys);
+        if (fwKey === 'random') fwKey = pick(fwKeys);
+        if (mathKey === 'random') mathKey = pick(mathKeys);
+
+        const ind = CG_DATA.industries[indKey];
+        const fw = CG_DATA.frameworks[fwKey];
+        const mt = CG_DATA.math[mathKey];
+
+        const company = pick(ind.companies);
+        const context = isPT ? pick(ind.contextPT) : pick(ind.context);
+        const template = pick(CG_TEMPLATES[lang]);
+        const problems = CG_PROBLEMS[fwKey] || CG_PROBLEMS["profitability"];
+        const objectives = CG_OBJECTIVES[fwKey] || CG_OBJECTIVES["profitability"];
+        const problem = pick(problems[lang]);
+        const objective = objectives[lang];
+
+        const timeframes = isPT ? ["2 anos", "18 meses", "6 meses", "3 anos"] : ["2 years", "18 months", "6 months", "3 years"];
+        const markets = isPT ? ["o mercado europeu", "a Ásia-Pacífico", "a América Latina", "mercados emergentes"] : ["the European market", "Asia-Pacific", "Latin America", "emerging markets"];
+        const actions = isPT ? ["expandir para novos mercados", "adquirir um concorrente", "lançar um novo produto", "reestruturar operações"] : ["expand into new markets", "acquire a competitor", "launch a new product line", "restructure operations"];
+        const investments = ["50M", "100M", "200M", "500M", "1B"];
+
+        let text = template
+          .replace(/{company}/g, company)
+          .replace(/{context}/g, context)
+          .replace(/{timeframe}/g, pick(timeframes))
+          .replace(/{problem}/g, problem)
+          .replace(/{objective}/g, objective)
+          .replace(/{action}/g, pick(actions))
+          .replace(/{market}/g, pick(markets))
+          .replace(/{investment}/g, pick(investments));
+
+        // Add math prompt
+        const mathPrompts = {
+          "basic": { en: "\n\nThe CEO mentions that revenue last year was $850M with a 35% gross margin. Fixed costs are $200M. What was the operating profit?", pt: "\n\nO CEO menciona que a receita do ano passado foi €850M com margem bruta de 35%. Custos fixos são €200M. Qual foi o lucro operacional?" },
+          "market-sizing": { en: "\n\nBefore diving in, could you estimate the total addressable market size for this opportunity?", pt: "\n\nAntes de aprofundar, pode estimar o tamanho total do mercado endereçável para esta oportunidade?" },
+          "breakeven": { en: "\n\nThe project requires an upfront investment of $" + pick(investments) + ". Annual fixed costs would be $30M, with variable costs of $50 per unit and a selling price of $120 per unit. How many units to break even?", pt: "\n\nO projeto requer um investimento inicial de €" + pick(investments) + ". Custos fixos anuais de €30M, custos variáveis de €50/unidade e preço de venda de €120/unidade. Quantas unidades para breakeven?" },
+          "growth-cagr": { en: "\n\nRevenue grew from $200M to $350M over 5 years. What is the CAGR? At this rate, what would revenue be in 3 more years?", pt: "\n\nA receita cresceu de €200M para €350M em 5 anos. Qual é o CAGR? A este ritmo, qual seria a receita em mais 3 anos?" },
+          "weighted-avg": { en: "\n\nThe company has 3 segments: Premium (25% of revenue, 45% margin), Standard (50%, 20% margin), Budget (25%, 5% margin). What's the blended margin? If Premium grows to 40% of revenue, what happens?", pt: "\n\nA empresa tem 3 segmentos: Premium (25% receita, 45% margem), Standard (50%, 20% margem), Budget (25%, 5% margem). Qual a margem combinada? Se Premium crescer para 40%, o que acontece?" },
+          "probability": { en: "\n\nThere are 3 scenarios: Best case (30% probability, $500M NPV), Base case (50%, $200M NPV), Worst case (20%, -$100M NPV). What is the expected value? Should they proceed?", pt: "\n\nHá 3 cenários: Melhor caso (30% prob., €500M NPV), Caso base (50%, €200M NPV), Pior caso (20%, -€100M NPV). Qual o valor esperado? Devem avançar?" },
+          "unit-economics": { en: "\n\nMonthly ARPU is $50, gross margin 70%, average customer lifetime 3 years. CAC is $500. What's the LTV:CAC ratio? Is the business model healthy?", pt: "\n\nARPU mensal é €50, margem bruta 70%, tempo vida médio 3 anos. CAC é €500. Qual o rácio LTV:CAC? O modelo de negócio é saudável?" }
+        };
+        text += (mathPrompts[mathKey] || mathPrompts["basic"])[lang];
+
+        // Display
+        document.getElementById('cg-output').style.display = 'block';
+        document.getElementById('cg-case-text').textContent = text;
+        document.getElementById('cg-hint-framework').innerHTML = '<span class="cg-hint-hidden" style="display:none">' + (isPT ? fw.hintPT : fw.hint) + '</span><em>Click "Reveal Hints" after attempting</em>';
+        document.getElementById('cg-hint-math').innerHTML = '<span class="cg-hint-hidden" style="display:none">' + (isPT ? mt.hintPT : mt.hint) + '</span><em>Click "Reveal Hints" after attempting</em>';
+        document.getElementById('cg-hint-industry').innerHTML = '<span class="cg-hint-hidden" style="display:none">' + ind.metrics + '</span><em>Click "Reveal Hints" after attempting</em>';
+        document.getElementById('cg-reveal-btn').style.display = 'block';
+        document.querySelectorAll('.cg-hint-hidden').forEach(e => e.style.display = 'none');
+
+        // Stats
+        let stats = JSON.parse(localStorage.getItem('cg-stats') || '{"total":0,"industries":{},"frameworks":{},"math":{}}');
+        stats.total++;
+        stats.industries[indKey] = (stats.industries[indKey] || 0) + 1;
+        stats.frameworks[fwKey] = (stats.frameworks[fwKey] || 0) + 1;
+        stats.math[mathKey] = (stats.math[mathKey] || 0) + 1;
+        localStorage.setItem('cg-stats', JSON.stringify(stats));
+        document.getElementById('cg-stats').textContent = stats.total + ' cases generated | Most practiced: ' + Object.entries(stats.frameworks).sort((a,b)=>b[1]-a[1]).map(e=>e[0]).slice(0,3).join(', ');
+      }
+
+      function copyCasePrompt() {
+        const text = document.getElementById('cg-case-text').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.querySelector('#cg-output button');
+          btn.textContent = '✅ Copied!';
+          setTimeout(() => btn.textContent = '📋 Copy', 1500);
+        });
       }
 
       function copyMedPlanForDoctor() {
