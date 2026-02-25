@@ -1482,8 +1482,8 @@
             style="opacity: 0.4; text-decoration: line-through"
             >Seg 23</span
           >
-          <span class="day-tab active" onclick="showDay('tue')">Ter 24 🔥</span>
-          <span class="day-tab" onclick="showDay('wed')">Qua 25</span>
+          <span class="day-tab" onclick="showDay('tue')">Ter 24</span>
+          <span class="day-tab active" onclick="showDay('wed')">Qua 25 🔥</span>
           <span class="day-tab" onclick="showDay('thu')">Qui 26</span>
           <span class="day-tab" onclick="showDay('fri')">Sex 27 🏆</span>
         </div>
@@ -1518,7 +1518,7 @@
           </div>
         </div>
         <!-- TUESDAY -->
-        <div class="day-content active" id="day-tue">
+        <div class="day-content" id="day-tue">
           <div class="card">
             <h3>
               Terça 24 Feb
@@ -1964,7 +1964,7 @@
         </div>
 
         <!-- WEDNESDAY -->
-        <div class="day-content" id="day-wed">
+        <div class="day-content active" id="day-wed">
           <div class="card">
             <h3>
               Quarta 25 Feb
@@ -11224,8 +11224,30 @@
           .querySelectorAll(".day-tab")
           .forEach((t) => t.classList.remove("active"));
         document.getElementById("day-" + day).classList.add("active");
-        event.target.classList.add("active");
+        // Find matching tab and activate
+        document.querySelectorAll(".day-tab").forEach((t) => {
+          if (t.getAttribute("onclick") && t.getAttribute("onclick").includes(day)) t.classList.add("active");
+        });
       }
+
+      // Auto-detect today and show correct day tab on page load
+      (function autoSelectToday() {
+        const now = new Date();
+        const d = now.getDate();
+        const m = now.getMonth(); // 0-indexed
+        if (m !== 1) return; // Only Feb
+        const dayMap = {22:'sun',23:'mon',24:'tue',25:'wed',26:'thu',27:'fri'};
+        const today = dayMap[d];
+        if (today) {
+          document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
+          document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+          const dayEl = document.getElementById('day-' + today);
+          if (dayEl) dayEl.classList.add('active');
+          document.querySelectorAll('.day-tab').forEach(t => {
+            if (t.getAttribute('onclick') && t.getAttribute('onclick').includes(today)) t.classList.add('active');
+          });
+        }
+      })();
 
       // Collapsibles
       function toggleCollapsible(el) {
